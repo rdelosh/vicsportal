@@ -118,7 +118,7 @@
     
     <a href="https://github.com/rdelosh/vicsparty.com">https://github.com/rdelosh/vicsparty.com</a>
     <h2>DEMO:</h2>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/byyg-Qh1ATc" frameborder="0" allowfullscreen></iframe>
+    <iframe class="vicspartydemo" width="560" height="315" src="https://www.youtube.com/embed/byyg-Qh1ATc" frameborder="0" allowfullscreen></iframe>
     <h2>Screenshots</h2>
     <img class="img-responsive" src="../../Content/images/vicsparty homepage.png" />
     
@@ -376,10 +376,10 @@
             });
 
             $(".modal").scrollTop(0);
-            
+
         }
 
-        $("#resumetab").click(function () {
+        $("#resumetab").click(function() {
             displaymodal();
             var $clone = $(".modalcontentforResume").clone(true);
             $clone.css({ display: "block" });
@@ -395,6 +395,12 @@
                 var $clone = $(".modalcontentforvicsparty").clone(true);
                 $clone.css({ display: "block" });
                 $(".modal-content").append($clone);
+
+                console.log($(".modalcontentforvicsparty").width());
+                $(".vicspartydemo").attr("width", "" + $(".modalcontentforvicsparty").width() + "");
+                console.log($(".vicspartydemo").width());
+
+
             } else if ($thisanchor.hasClass("anchorformyshoppingsite")) {
                 var $clone = $(".modalcontentforMyshoppingsite").clone(true);
                 $clone.css({ display: "block" });
@@ -405,9 +411,6 @@
                 $(".modal-content").append($clone);
             }
 
-            
-
-            
 
         });
 
@@ -472,12 +475,26 @@
 
 
         var viewportWidth = $(window).width();
+
+
         if ($(window).width() > 1300) {
             $(".topdiv h1").css({
                 "font-size": "10vw"
             });
             $(".topdiv p").css({
                 "font-size": "2.5vw"
+            });
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "3vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "2vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "3vw"
             });
         } else if ($(window).width() < 1300 && $(window).width() > 1000) {
 
@@ -487,6 +504,18 @@
             $(".topdiv p").css({
                 "font-size": "3vw"
             });
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "3vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "2vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "3vw"
+            });
         } else if ($(window).width() < 1000 && $(window).width() > 800) {
             $(".topdiv h1").css({
                 "font-size": "15vw"
@@ -494,6 +523,19 @@
             $(".topdiv p").css({
                 "font-size": "4.5vw"
             });
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "3vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "2vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "3vw"
+            });
+
         } else if ($(window).width() < 800 && $(window).width() > 600) {
             $(".topdiv h1").css({
                 "font-size": "20vw"
@@ -501,6 +543,19 @@
             $(".topdiv p").css({
                 "font-size": "5vw"
             });
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "5vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "3vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "4vw"
+            });
+
         } else if ($(window).width() < 600 && $(window).width() > 400) {
             $(".topdiv h1").css({
                 "font-size": "20vw"
@@ -508,6 +563,20 @@
             $(".topdiv p").css({
                 "font-size": "5.5vw"
             });
+
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "6vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "9vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "6vw"
+            });
+
         } else if ($(window).width() < 400 && $(window).width() > 0) {
             $(".topdiv h1").css({
                 "font-size": "20vw"
@@ -517,15 +586,45 @@
             $(".topdiv p").css({
                 "font-size": "8.5vw"
             });
+
+            $(".modalcontent h2, .modalcontent a").css({
+                "font-size": "6vw"
+            });
+            $(".modalcontent h1").css({
+                "font-size": "9vw"
+            });
+            $(".modalcontent p").css({
+                "font-size": "4vw"
+            });
+            $(".modalcontent h3").css({
+                "font-size": "6vw"
+            });
         }
 
         $(window).resize(function() {
+            console.log($(".modalcontentforvicsparty").width());
+            $(".vicspartydemo").attr("width", "" + $(".modalcontentforvicsparty").width() + "");
+            console.log($(".vicspartydemo").width());
+
+
             if ($(window).width() > 1300) {
                 $(".topdiv h1").css({
                     "font-size": "10vw"
                 });
                 $(".topdiv p").css({
                     "font-size": "2.5vw"
+                });
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "3vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "2vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "3vw"
                 });
             } else if ($(window).width() < 1300 && $(window).width() > 1000) {
 
@@ -535,6 +634,18 @@
                 $(".topdiv p").css({
                     "font-size": "3vw"
                 });
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "3vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "2vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "3vw"
+                });
             } else if ($(window).width() < 1000 && $(window).width() > 800) {
                 $(".topdiv h1").css({
                     "font-size": "15vw"
@@ -542,6 +653,19 @@
                 $(".topdiv p").css({
                     "font-size": "4.5vw"
                 });
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "3vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "2vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "3vw"
+                });
+
             } else if ($(window).width() < 800 && $(window).width() > 600) {
                 $(".topdiv h1").css({
                     "font-size": "20vw"
@@ -549,6 +673,19 @@
                 $(".topdiv p").css({
                     "font-size": "5vw"
                 });
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "5vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "3vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "4vw"
+                });
+
             } else if ($(window).width() < 600 && $(window).width() > 400) {
                 $(".topdiv h1").css({
                     "font-size": "20vw"
@@ -556,6 +693,20 @@
                 $(".topdiv p").css({
                     "font-size": "5.5vw"
                 });
+
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "6vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "9vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "6vw"
+                });
+
             } else if ($(window).width() < 400 && $(window).width() > 0) {
                 $(".topdiv h1").css({
                     "font-size": "20vw"
@@ -564,6 +715,19 @@
 
                 $(".topdiv p").css({
                     "font-size": "8.5vw"
+                });
+
+                $(".modalcontent h2, .modalcontent a").css({
+                    "font-size": "6vw"
+                });
+                $(".modalcontent h1").css({
+                    "font-size": "9vw"
+                });
+                $(".modalcontent p").css({
+                    "font-size": "4vw"
+                });
+                $(".modalcontent h3").css({
+                    "font-size": "6vw"
                 });
             }
 
