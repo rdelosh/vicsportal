@@ -40,5 +40,10 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+
+        public ActionResult TicTacToe()
+        {
+            return View();
+        }
     }
 }
