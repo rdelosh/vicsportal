@@ -130,16 +130,17 @@ ul.nav li a, .navbar-brand {
 .modalcontent p {
     text-align: justify;
     text-justify: inter-word;
-    font-size: 30px;
+    font-size: 2vw;
 }
 .modalcontent h2, .modalcontent a {
     text-align: left;
     font-family: Jtmw;
-    font-size: 35px;
+    font-size: 2vw;
+    overflow-wrap: break-word;
 }
 .modalcontent h1 {
     font-family: Jtmw;
-    font-size: 65px;
+    font-size: 4vw;
 }
 .modalcontent img {
     margin: auto;
@@ -150,7 +151,7 @@ ul.nav li a, .navbar-brand {
     margin-right: 5%;
 }
 .modalcontent h3{
-    font-size: 45px;
+    font-size: 2vw;
     
 }
 #downloadbutton {

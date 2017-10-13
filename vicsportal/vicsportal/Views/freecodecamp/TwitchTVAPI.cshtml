@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "TwitchTVAPI";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h1>TwitchTVAPI</h1>
+    <div class="contentdiv row">
+        
+    </div>
+</div>
+@section scripts{
+    <script>
+        var datareceived = [];
+        var logos = [];
+        var constructedHTML = "";
+        console.log(datareceived)
+        var channels = [
+            "ESL_SC2",
+            "OgamingSC2",
+            "cretetion",
+            "freecodecamp",
+            "storbeck",
+            "habathcx",
+            "RobotCaleb",
+            "noobs2ninjas"
+        ];
+        channels.forEach(function (element) {
+            var element_data;
+            var element_logo;
+            var ajaxrequest = $.ajax({
+                url: "https://wind-bow.glitch.me/twitch-api/streams/" + element,
+                default: "GET",
+                success: function (data) {
+                    element_data = data;
+                }  
+            })
+            var ajaxrequest2 = $.ajax({
+                url: "https://wind-bow.glitch.me/twitch-api/channels/" + element,
+                default: "GET",
+                success: function (data) {
+                    element_logo = data.logo;
+                }
+            })
+            var check_ajax_status = setInterval(function () {
+                if (ajaxrequest.status === 200 && ajaxrequest2.status === 200) {                
+                    datareceived.push(element_data);
+                    logos.push(element_logo);
+                    constructedHTML = constructedHTML + generateHTML(element_data, element,element_logo);
+                    clearInterval(check_ajax_status);
+                }
+            },500)
+        })
+
+
+        var myInterval = setInterval(function () {
+            console.log("finalization of all channels request")
+            if (datareceived.length===channels.length&&logos.length===channels.length) {
+                console.log("hello world")
+                $(".contentdiv").html(constructedHTML);
+                clearInterval(myInterval);
+            }
+        },1000)
+
+        function generateHTML(data,element,element_logo) {
+            if (data.stream === null) {
+                return "<a href='https://www.twitch.tv/"+element+"'>"+
+                "<div class='row'>" +
+                    "<h2>" + element + "</h2>" +
+                    "<p>" + "OFFLINE" + "</p>" +
+                    "<img src='"+element_logo+"'/>"+
+                    
+                    "</div>" +
+                    "</a>";
+
+
+                    /*
+
+                    "<p>" + + "</p>"+
+
+                    */
+                    
+            } else {
+                return "<a href='https://www.twitch.tv/" + element + "'>" +
+                    "<div class='row'>" +
+                    "<h2>" + data.stream.channel.display_name + "</h2>" +
+                        "<p>" + "LIVE" + "</p>" +
+                    "<p>" + data.stream.channel.status + "</p>" +
+                        
+                        "<img src='"+element_logo+"'/>"+
+                    
+                    
+                    "</div>" +
+                    "</a>"
+                    ;
+            }
+
+        }
+
+    </script>
+}
+

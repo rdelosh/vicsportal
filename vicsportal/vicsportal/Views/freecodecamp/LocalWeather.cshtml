@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "LocalWeather";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h1>LocalWeather</h1>
+    <h2 id="location"></h2>
+    <h3 id="weatherinfo"></h3>
+    <img id="temp_icon" src=""/>
+    <h4 id="temperature"></h4>
+    <button onclick="ConvertTempreature()" id="Convert">Convert to ºF</button>    
+</div>
+
+
+
+@section scripts{
+    
+    <script>
+
+        var latitude;
+        var longitude;
+        var weatherdata;
+        var showCelsius = true;
+        navigator.geolocation.getCurrentPosition(function getPosition(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            console.log(latitude);
+            console.log(longitude);
+        })
+        var myInterval = setInterval(function () {
+            
+            if (latitude) {
+
+                
+                console.log("http://fcc-weather-api.glitch.me/api/current?lat=" + latitude + "&lon=" + longitude);
+
+                $.ajax({
+                    url: "http://fcc-weather-api.glitch.me/api/current?lat=" + latitude + "&lon=" + longitude,
+                    default: "GET",
+                    success: function (data) {
+                        weatherdata = data;
+                        $("#location").text("City: " + data.name);
+                        $("#weatherinfo").text(data.weather[0].description);
+                        $("#temp_icon").attr("src", data.weather[0].icon);
+                        ConvertTempreature()
+                        
+                        console.log(data);
+                    },
+                    failure: function() {
+                        console.log("failiure")
+                
+                    }
+                })
+
+
+                clearInterval(myInterval);
+            }    
+        },200);
+        
+        
+        function ConvertTempreature() {
+            showCelsius = !showCelsius;
+            if (showCelsius) {
+                $("#temperature").text("Temperature in ºC: " + weatherdata.main.temp);
+                $("#Convert").text("Convert to ºF");
+            } else {
+                var far = (weatherdata.main.temp * 1.8) + 32
+                $("#temperature").text("Temperature in ºF: " + far);
+                $("#Convert").text("Convert to ºC");
+            }
+
+        }
+
+
+
+
+
+
+    </script>
+
+    
+
+}

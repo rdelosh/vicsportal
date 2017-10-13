@@ -190,10 +190,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\api\privateroomController.cs" />
+    <Compile Include="Controllers\freecodecampController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\privateroomMVCController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -268,6 +266,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\contact.cshtml" />
     <Content Include="Views\privateroomMVC\privateroomMVC.cshtml" />
+    <Content Include="Views\freecodecamp\RandomQuoteMachine.cshtml" />
+    <Content Include="Views\freecodecamp\LocalWeather.cshtml" />
+    <Content Include="Views\freecodecamp\WikipediaViewer.cshtml" />
+    <Content Include="Views\freecodecamp\TwitchTVAPI.cshtml" />
+    <Content Include="Views\freecodecamp\JavascriptCalculator.cshtml" />
+    <Content Include="Views\freecodecamp\PomodoroClock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "RandomQuoteMachine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RandomQuoteMachine</h2>
+<p class="quote"></p>
+<p class="author"></p>
+<button id="getquote">Get New Quote</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<a id="twittershare" href="#">
+    Share on Twitter
+</a>
+
+<script>
+
+    $("#getquote").click(function() {
+        console.log("cicked");
+        $.ajax({
+            type: "GET",
+            url: "http://quotes.stormconsultancy.co.uk/random.json",
+            success: function(data) {
+                $("#twittershare").attr("href", "https://twitter.com/intent/tweet?text=" + data.quote + " By __"+ data.author);
+                $(".quote").text(data.quote);
+                $(".author").text("__"+data.author)
+            },
+            failure: function() {
+                console.log("failed");
+            }
+        });
+    });
+
+
+</script>

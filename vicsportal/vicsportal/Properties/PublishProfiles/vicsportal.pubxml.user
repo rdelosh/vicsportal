@@ -86,10 +86,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 23:32:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>09/10/2017 04:01:44</publishTime>
+      <publishTime>09/11/2017 03:04:39</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>09/10/2017 04:01:43</publishTime>
+      <publishTime>09/11/2017 03:04:39</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 16:07:42</publishTime>
@@ -239,7 +239,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2017 03:08:33</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>09/10/2017 04:01:21</publishTime>
+      <publishTime>09/10/2017 21:05:45</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>08/18/2017 23:32:05</publishTime>
@@ -263,7 +263,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 23:32:34</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>09/10/2017 04:01:41</publishTime>
+      <publishTime>09/11/2017 03:04:33</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>08/18/2017 23:32:13</publishTime>
@@ -296,7 +296,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/19/2017 11:39:23</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/10/2017 03:55:11</publishTime>
+      <publishTime>09/10/2017 22:49:02</publishTime>
     </File>
     <File Include="Views/privateroomMVC/privateroomMVC.cshtml">
       <publishTime>08/24/2017 17:12:55</publishTime>
