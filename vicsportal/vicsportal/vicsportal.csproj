@@ -273,6 +273,7 @@
     <Content Include="Views\freecodecamp\JavascriptCalculator.cshtml" />
     <Content Include="Views\freecodecamp\PomodoroClock.cshtml" />
     <Content Include="Views\freecodecamp\TicTacToe.cshtml" />
+    <Content Include="Views\freecodecamp\SimonGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

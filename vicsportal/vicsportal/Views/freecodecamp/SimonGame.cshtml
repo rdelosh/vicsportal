@@ -1,0 +1,298 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SimonGame</title>
+    <style>
+        .red {
+            background-color: rgba(255, 0, 0, 0.5);
+            border-top-right-radius: 100%;
+        }
+        .blue {
+            background-color: rgba(0, 0, 255, 0.5);
+            border-bottom-right-radius: 100%;
+        }
+        .green {
+            background-color: rgba(0, 128, 0, 0.5);
+            border-top-left-radius: 100%;
+        }
+        .yellow {
+            background-color: rgba(255, 255, 0 , 0.2);
+            border-bottom-left-radius: 100%;
+        }
+        .color, .centerpart {
+            height: 200px;
+            width: 200px;
+            display: inline-block;
+            border: 10px solid black;
+        }
+        .container {
+            margin:20% 0 0 30%
+        }
+        .centerpart {
+            transform: translate(50%, 150%);
+            z-index: 1;
+            height: 200px;
+            width: 200px;
+            border-radius: 100%;
+            background-color: white;
+        }
+        .centersubdiv {
+            display: inline-block;
+        }
+        .centerlevelone, .centerleveltwo {
+            padding-left: 20%;
+            padding-top: 10%;
+            
+            
+        }
+        .centerlevelone p {
+            text-align: center;
+        }
+        .maindiv {
+            width: 445px;
+            margin: 0 auto;
+            
+            position: relative;
+        }
+        button {
+            border-radius: 25%;
+            background-color: #99ccff;
+            color: #1a1a1a;
+        }
+        * {
+            font-family: arial;
+        }
+    </style>
+</head>
+<body>
+<div class="container maindiv">
+    <div class="centerpart">
+        <div class="row centerlevelone">
+            <div class="count centersubdiv">
+                <p id="counter">--</p>
+                <p>count</p>
+            </div>
+            <div class="start centersubdiv">
+                <button id="startbutton">Start</button>
+            </div>
+            <div class="strict centersubdiv">
+                <button id="strictbutton">Strict</button>
+            </div>
+        </div>
+        <div class="row centerleveltwo">
+            <button id="onoffbutton">On/Off</button>
+        </div>
+        
+        
+    </div>
+    <div class="row">
+        <div id="green" class="green color"></div>
+        <div id="red" class="red color"></div>
+    </div>
+    <div class="row">
+        <div id="yellow" class="yellow color"></div>
+        <div id="blue" class="blue color"></div>
+    </div>
+
+
+</div>
+    
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+    
+    <script>
+        var series = []
+        var input = []
+        var colors = []
+        var strict = false;
+        var steps2victory = 20;
+        var on = false;
+        var newcolor = function (id,name, color,brightcolor,sound) {
+            var newcolor = {
+                id:id,
+                name: name,
+                color: color,
+                brightcolor: brightcolor,
+                sound:sound
+            }
+            return newcolor
+        }
+        colors.push(new newcolor("0","green", "#008000", "#66ff66", "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"))
+        colors.push(new newcolor("1","red", "#990000", "#ff1a1a", "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"))
+        colors.push(new newcolor("2","yellow", "#ffffb3", "#ffff00", "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"))
+        colors.push(new newcolor("3","blue", "#99bbff", "#0000ff", "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"))
+
+        var min = 0;
+        var max = 4;
+
+        function getrandom() {
+            return Math.floor(Math.random() * (max - min));
+        }
+
+        $(".color").click(function () {
+            if (!on) {
+                return
+            }
+            var associatedcolor = associate_color(this.id)
+            enlighten_color(this.id, associatedcolor)
+            input.push(associatedcolor)
+            var lastinput = input.length - 1
+
+
+            if (input[lastinput] !== series[lastinput]) {
+
+                gameover("ERROR")
+                return;
+            }
+            
+            if (series.length - 1 === lastinput) {
+                if (input.length === steps2victory) {
+                    gameover("VICTORY")
+                }
+                setTimeout(function() {
+                    input=[]
+                    addrandomcolor();    
+                },1000)
+                
+            }
+
+        })
+
+        $("#strictbutton").click(function () {
+            if (!on) {
+                return
+            }
+            strict = !strict
+            redrawpanel()
+
+        })
+        $("#onoffbutton").click(function() {
+            on = !on
+            $("#counter").html("--")
+            input = [];
+            series = [];
+            redrawpanel();
+        })
+
+        function gameover(endgame) {
+            $("#counter").html(endgame)
+            colors.forEach(function(color) {
+                $("#" + color.name).css({
+                    "background-color": "black"
+                })
+            });
+            setTimeout(function () {
+                
+                colors.forEach(function(color) {
+                    $("#" + color.name).css({
+                        "background-color": color.color
+                    })
+                });
+                if (!strict) {
+                    if (endgame === "VICTORY") {
+                        series = [];
+                    }
+                    input = [];
+                    loopthroughseries();
+                    
+                } else if(strict) {
+                    input = [];
+                    series = [];
+                    addrandomcolor();
+                }
+                $("#counter").html(series.length)
+            },1000)
+
+
+            
+
+        }
+        function associate_color(id) {
+            for (colorobj in colors) {
+                if (colors[colorobj].name === id) {
+                    return colors[colorobj]
+                }
+            }
+        }
+        function enlighten_color(id, associatedcolor) {
+            $("#"+id).css({
+                "background-color":associatedcolor.brightcolor
+            })
+            var audio = new Audio(associatedcolor.sound);
+                audio.play();
+
+            setTimeout(function() {
+                $("#" + id).css({
+                    "background-color": associatedcolor.color,
+                    
+                })    
+            },700)
+        }
+
+
+        $("#startbutton").click(function () {
+            if (!on) {
+                return
+            }
+            input = [];
+            series = [];
+
+            addrandomcolor()
+
+        })
+        function addrandomcolor() {
+            var randomcolor = colors[getrandom()];
+            series.push(randomcolor);
+            $("#counter").html(series.length)
+            loopthroughseries();
+
+        }
+        function loopthroughseries() {
+            var counter = 0;
+            var seriesInterval = setInterval(function () {
+                if (!on) {
+                    clearInterval(seriesInterval)
+                }
+                enlighten_color(series[counter].name, series[counter])
+                counter++
+                if (counter === series.length) {
+                    clearInterval(seriesInterval)
+                }
+                
+            },900)
+        }
+        function redrawpanel() {
+            if (!on) {
+                strict = false;
+                $("#onoffbutton").css({
+                    "background-color": "#99ccff"
+                })
+            } else {
+                
+                $("#onoffbutton").css({
+                    "background-color": "#ff5c33"
+                })
+            }
+            
+            if (!strict) {
+                $("#strictbutton").css({
+                    "background-color": "#99ccff"
+                })
+            } else {
+                $("#strictbutton").css({
+                    "background-color": "#ff5c33"
+                })
+            }
+        }
+
+
+    </script>
+</body>
+</html>

@@ -45,5 +45,10 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+
+        public ActionResult SimonGame()
+        {
+            return View();
+        }
     }
 }
