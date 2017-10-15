@@ -50,5 +50,10 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+
+        public ActionResult FreeCodeCampMenu()
+        {
+            return View();
+        }
     }
 }

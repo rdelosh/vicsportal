@@ -274,6 +274,7 @@
     <Content Include="Views\freecodecamp\PomodoroClock.cshtml" />
     <Content Include="Views\freecodecamp\TicTacToe.cshtml" />
     <Content Include="Views\freecodecamp\SimonGame.cshtml" />
+    <Content Include="Views\freecodecamp\FreeCodeCampMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
