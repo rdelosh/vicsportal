@@ -1,0 +1,94 @@
+﻿
+@{
+    
+    Layout = null;
+}
+<html>
+<head>
+    <title>RandomQuoteMachine</title>
+    @Styles.Render("~/Content/css")
+    <style>
+        body {
+            background-color: #f2ccff;
+        }
+         .author {
+             text-align: right;
+         }
+        .maincontent {
+            display: none;
+            padding-top: 7%;
+            font-size: 30px;
+            
+            background-color: white;
+            color: black;
+            border-top-left-radius: 25%;
+            border-bottom-left-radius: 25%;
+            border: 10px solid black;
+        }
+        h2 {
+            font-size: 60px;
+        }
+        .buttons {
+            margin-top: 5%;
+            font-size: 30px;
+        }
+            .buttons button {
+                border-radius: 8%;
+                color: azure;
+                background-color: #99ccff
+            }
+        .buttons a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h2>RandomQuoteMachine</h2>
+        <div class="row maincontent">
+            <p class="quote"></p>
+            <p class="author"></p>
+        </div>
+        <div class="buttons">
+            <button id="getquote">Get New Quote</button>
+
+
+            <a id="twittershare" href="#">
+                Share on Twitter
+            </a>
+        </div>
+        
+    </div>
+        
+    
+    
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+
+    $("#getquote").click(function () {
+        $(".maincontent").css({display:"block"})
+        console.log("cicked");
+        $.ajax({
+            type: "GET",
+            url: "http://quotes.stormconsultancy.co.uk/random.json",
+            success: function(data) {
+                $("#twittershare").attr("href", "https://twitter.com/intent/tweet?text=" + data.quote + " By __"+ data.author);
+                $(".quote").text(data.quote);
+                $(".author").text("__"+data.author)
+            },
+            failure: function() {
+                console.log("failed");
+            }
+        });
+    });
+
+
+</script>
+    
+
+</body>
+</html>

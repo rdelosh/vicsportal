@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "WikipediaViewer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h1>WikipediaViewer</h1>    
+    <a href="https://en.wikipedia.org/wiki/Special:Random">Random Page</a>
+    <br />
+    <input id="searchbar" type="text"/>
+    
+    <div class="searchresults row">
+        
+
+    </div>
+</div>
+@section scripts{
+    
+    <script>
+        var querydata;
+
+
+        $("#searchbar").on('input', function () {
+            showfounddata();
+        })
+
+        function showfounddata() {
+            $.ajax({
+                url: "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + $("#searchbar").val() + "&format=json",
+                default: "GET",
+                dataType: 'jsonp',
+                headers: { 'Api-User-Agent': 'Example/1.0' },
+                success: function (data) {
+                    var generatedhtml="";
+                    querydata = data.query.search;
+                    console.log(data.query.search)
+                    data.query.search.forEach(function (element) {
+                        generatedhtml = generatedhtml + generateHTML(element);
+                        $(".searchresults").html(generatedhtml);
+                    })
+                }
+            })
+            
+        }
+        function generateHTML(element) {
+            
+
+            return "<a href=http://en.wikipedia.org/?curid="+element.pageid+"<div class='row'>" +
+                "<h3>" +
+                element.title +
+                "</h3>" +
+                "<p>" +
+                element.snippet +
+                "</p>" +
+                "</div>" +
+                "</a>";
+
+        }
+    </script>
+}

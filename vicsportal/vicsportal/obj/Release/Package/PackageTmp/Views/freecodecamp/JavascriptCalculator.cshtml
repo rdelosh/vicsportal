@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "JavascriptCalculator";
+    Layout = null;
+}
+<html>
+<style>
+    td {
+        background-color: #ccccff;
+        border: 2px red solid;
+        border-radius: 10%;
+        width: 50px;
+        height: 30px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>JavascriptCalculator</h1>
+        <div class="container">
+            <table>
+                <tr>
+                    <td id="calculatorhistory" colspan="4"></td>
+                </tr>
+                <tr>
+                    <td id="finalresult" colspan="4">0</td>
+                </tr>
+                <tr>
+                    <td id="clear" colspan="4">CE</td>
+                </tr>
+                <tr>
+                    <td onclick="pressednumber(7)">7</td>
+                    <td onclick="pressednumber(8)">8</td>
+                    <td onclick="pressednumber(9)">9</td>
+                    <td onclick="pressedoperator('/')">/</td>
+                </tr>
+                <tr>
+                    <td onclick="pressednumber(4)">4</td>
+                    <td onclick="pressednumber(5)">5</td>
+                    <td onclick="pressednumber(6)">6</td>
+                    <td onclick="pressedoperator('x')">x</td>
+                </tr>
+                <tr>
+                    <td onclick="pressednumber(1)">1</td>
+                    <td onclick="pressednumber(2)">2</td>
+                    <td onclick="pressednumber(3)">3</td>
+                    <td onclick="pressedoperator('-')">-</td>
+                </tr>
+                <tr>
+                    <td onclick="pressednumber(0)">0</td>
+                    <td onclick="pressednumber('.')">.</td>
+                    <td onclick="pressedoperator('=')">=</td>
+                    <td onclick="pressedoperator('+')">+</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+<script>
+    var currentnumber = "";
+    var result = "0";
+    var operatorstack = [];
+    var postfixstack = [];
+    var calchistory = [];
+
+    $("#clear").click(function () {
+        
+        result = "0";
+        $("#finalresult").html("0");
+        $("#calculatorhistory").html("");
+        postfixstack = [];
+        operatorstack = [];
+        calchistory = [];
+    })
+
+    function pressednumber(num) {
+        
+        if (result.includes(".") && num === ".") {
+            return;
+        }
+           
+        if (result === "0" && num >= 0 && num < 10) {
+            result = "";
+        }
+
+        calchistory.push(num) 
+
+        result = result + num;
+        console.log(result)
+        console.log(Number(result));
+        $("#finalresult").html(result)
+    }
+    function pressedoperator(operator) {
+        currentnumber = Number(result);
+        postfixstack.push(currentnumber);
+        if (operator === "="&&postfixstack.length<2) {
+            return;
+        }
+        calchistory.push(operator) 
+        $("#finalresult").html(currentnumber);
+       
+        if (operatorstack.length === 0) {
+            operatorstack.push(operator)
+        }
+        else if (operator === "x" || operator === "/") {
+            var lastoperator = operatorstack[operatorstack.length - 1];
+            if (lastoperator === "x" || lastoperator === "/") {
+                cleanpostfixstack()
+                operatorstack.push(operator);
+                perform_calculation()
+            }else {
+                operatorstack.push(operator);    
+            }   
+        }
+        else if (operator === "+" || operator === "-") {
+                cleanpostfixstack()
+                operatorstack.push(operator);
+                perform_calculation()
+        }
+
+
+        if (operator === "=") {
+            cleanpostfixstack()
+            console.log(postfixstack)
+            perform_calculation()
+            postfixstack = [];
+            operatorstack = [];
+            calchistory = [];
+
+
+        }
+
+
+        result = "0"
+        $("#calculatorhistory").html(calchistory.join(""));
+        
+    }
+    function cleanpostfixstack() {
+        while (operatorstack.length > 0) {                
+            postfixstack.push(operatorstack[operatorstack.length - 1]);
+            operatorstack.splice(operatorstack.length - 1, 1);
+        }
+    }
+    function perform_calculation() {
+        for (var key=0; key < postfixstack.length; key++) {
+            if (postfixstack[key]==="x") {
+                postfixstack[key - 2] = postfixstack[key - 2] * postfixstack[key - 1];
+                postfixstack.splice(key, 1);
+                postfixstack.splice(key - 1, 1);
+                key = 0;
+
+            }
+            else if (postfixstack[key] === "/") {
+                postfixstack[key - 2] = postfixstack[key - 2] / postfixstack[key - 1];
+                postfixstack.splice(key, 1);
+                postfixstack.splice(key - 1, 1);
+                key = 0;
+            }
+            else if (postfixstack[key] === "+") {
+                
+                postfixstack[key - 2] = postfixstack[key - 2] + postfixstack[key - 1];
+                postfixstack.splice(key, 1);
+                postfixstack.splice(key - 1, 1);
+                key = 0;
+            }
+            else if (postfixstack[key] === "-") {
+                postfixstack[key - 2] = postfixstack[key - 2] - postfixstack[key - 1];
+                postfixstack.splice(key, 1);
+                postfixstack.splice(key - 1, 1);
+                key = 0;
+            }
+            console.log(operatorstack);
+            console.log(postfixstack);
+        }
+        console.log(postfixstack[0]);
+        $("#finalresult").html(postfixstack[0]);
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PomodoroClock</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <h2>Break Length</h2>
+        <h2 id="Break"></h2>
+        <button onclick="increaseTimer('break')">+</button>
+        <button onclick="decreaseTimer('break')">-</button>
+    </div>
+    <div>
+        <h2>Session Length</h2>
+        <h2 id="Session"></h2>
+        <button onclick="increaseTimer('session')">+</button>
+        <button onclick="decreaseTimer('session')">-</button>
+    </div>
+    <div id="clock">
+        <h2 id="typeofclock"></h2>
+        <p id="minutes"></p>
+        <p id="seconds"></p>
+    </div>
+</div>
+    
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script>
+    var mybreak = 5;
+    var mysession = 1;
+    var currentclock = mysession; 
+    var seconds = 12;
+    var typeofclock = "session";
+    var pause = true;
+
+
+    redrawClocks()
+
+    
+    var clockinterval
+    $("#clock").click(function () {
+        if (typeofclock === "session") {
+            currentclock = mysession;
+        } else if (typeofclock === "break") {
+            currentclock = mybreak;
+        }
+
+
+        pause = !pause;
+        if (pause) {
+            clearInterval(clockinterval);
+        }
+        if (!pause) {
+            clockinterval = setInterval(function () {
+                
+                if (seconds === 0) {
+                    seconds = 60;
+                    if (currentclock === 0) {
+                        if (typeofclock === "break") {
+                            typeofclock="session"
+                            currentclock = mysession
+                            currentclock--;
+
+                        } else if (typeofclock === "session") {
+                            typeofclock="break"
+                            currentclock = mybreak
+                            currentclock--
+                        }
+                    } else {
+                        currentclock--;    
+                    }
+                    
+                }
+                
+                seconds--;
+                redrawClocks()
+                console.log(seconds);
+            }, 1000)
+        }
+    })
+
+
+
+    function increaseTimer(clock) {
+        
+        if (!pause) {
+            return
+        }
+        seconds=0
+        if (clock === "session") {
+            typeofclock="session"
+            mysession++
+            currentclock=mysession
+        } else if (clock === "break") {
+            typeofclock = "break"
+            mybreak++
+            currentclock=mybreak
+        }
+        redrawClocks()
+    }
+    function decreaseTimer(clock) {
+        if (!pause) {
+            return
+        }
+        seconds = 0
+        if (clock === "session") {
+            if (mysession < 2) {
+                return;
+            }
+            typeofclock = "session"
+            mysession--
+            currentclock=mysession
+        } else if (clock === "break") {
+            if (mybreak < 2) {
+                return;
+            }
+            typeofclock = "break"
+            mybreak--
+            currentclock = mybreak;
+        }
+        redrawClocks()
+    }
+    function redrawClocks() {
+        $("#Break").html(mybreak);
+        $("#Session").html(mysession);
+        $("#typeofclock").html(typeofclock)
+        if (seconds < 10 && seconds >= 0) {
+            $("#seconds").html(currentclock + ":0" + seconds);
+        } else {
+            $("#seconds").html(currentclock + ":" + seconds);    
+        }
+        
+
+    }
+</script>
+</body>
+</html>

@@ -17,29 +17,17 @@
 @section scripts{
     
     <script>
-        var key = "AIzaSyDnhzlc-rVg-iOUVvbk9DZgonmhV24pUpo";
+
         var latitude;
         var longitude;
         var weatherdata;
         var showCelsius = true;
-        $.ajax({
-            type:"POST",
-            url: "https://www.googleapis.com/geolocation/v1/geolocate?key="+key,
-            success: function (data) {
-                latitude = data.location.lat
-                longitude= data.location.lng
-                
-            }
-        })
-
-        /*
         navigator.geolocation.getCurrentPosition(function getPosition(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             console.log(latitude);
             console.log(longitude);
         })
-        */
         var myInterval = setInterval(function () {
             
             if (latitude) {

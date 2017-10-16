@@ -1,0 +1,236 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TicTacToe</title>
+    <style>
+        td {
+            background-color: aqua;
+            height: 75px;
+            width: 75px;
+            text-align: center;
+        }
+        .modal {
+            
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Tic Tac Toe</h1>
+    <h2 id="winner"></h2>
+    <table>
+        <tr>
+            <td id="0"></td>
+            <td id="1"></td>
+            <td id="2"></td>
+        </tr>
+        <tr>
+            <td id="3"></td>
+            <td id="4"></td>
+            <td id="5"></td>
+        </tr>
+        <tr>
+            <td id="6"></td>
+            <td id="7"></td>
+            <td id="8"></td>
+        </tr>
+    </table>
+</div>
+
+<div id="mymodal" class="modal">
+    <div class="modal-content">
+        <p>Choose between X or O</p>
+        <button onclick="chosen('X')">X</button>
+        <button onclick="chosen('O')">O</button>
+    </div>
+
+</div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+<script>
+
+    var player = "";
+    var computer = "";
+
+    var spots = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ]
+    var max = 9;
+    var min = 0;
+    var game = {
+        state: 0, //0 start of the game, 1 inprogress, 2 finished
+        places: spots
+    }
+    var counter = 0;
+    redrawspots()
+    
+
+    function random_computer_move() {
+        var randomnumber = getrandom();
+        while (game.places[randomnumber]!=="") {
+            randomnumber = getrandom();
+        }
+        game.places[randomnumber] = computer;
+    }
+
+    function getrandom() {
+        return Math.floor(Math.random() * (max - min));
+    }
+
+    function redrawspots() {
+        $("td").toArray().forEach(function (element) {
+            $("#" + element.id).html(game.places[element.id])
+        });
+    }
+
+
+    $("td").click(function () {
+        
+        if (game.places[this.id] !== "") {
+            return
+        }
+        var winnerobject;
+        game.places[this.id] = player
+
+        
+        random_computer_move()
+
+        counter += 2
+        console.log(counter)
+        redrawspots()
+
+        winnerobject = determinewinner(player)
+        if (winnerobject.victory) {
+            $("#winner").html(winnerobject.Entity + " won last game")
+            alert(winnerobject.Entity+ " won")
+            restartgame()
+            return;
+        }
+        winnerobject = determinewinner(computer)
+        if (winnerobject.victory) {
+            $("#winner").html(winnerobject.Entity + " won last game")
+            alert(winnerobject.Entity + " won")
+            restartgame()
+            return;
+        }
+        if (counter >= 8) {
+            alert("tie")
+            restartgame()
+        }
+        
+    })
+    function restartgame() {
+        game.places = [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+        counter=0
+        redrawspots()
+        random_computer_move()
+        redrawspots()
+    }
+    function determinewinner(entity) {
+        //check horizontals
+        var winnerdata = {
+            victory:false,
+            Entity: entity
+        }
+        if ( checkhorizontals(0,entity)||
+            checkhorizontals(3,entity) ||
+            checkhorizontals(6,entity)) {
+            winnerdata.victory = true;
+            // check verticals
+        } else if (checkverticals(0, entity) ||
+            checkverticals(1, entity) ||
+            checkverticals(2,entity)) {
+            winnerdata.victory = true;
+            //check / diagonal
+        } else if (game.places[2] === entity &&
+            game.places[4] === entity &&
+            game.places[6] === entity) {
+            winnerdata.victory = true;
+            // check \ diagonal
+        } else if (game.places[0] === entity &&
+            game.places[4] === entity &&
+            game.places[8] === entity) {
+            winnerdata.victory = true;
+        }
+        return winnerdata;
+    }
+    function checkhorizontals(num,entity) {
+        if (game.places[num] === entity &&
+            game.places[num + 1] === entity &&
+            game.places[num + 2] === entity) {
+            return true;
+        }
+        return false;
+    }
+    function checkverticals(num,entity) {
+        if (game.places[num] === entity &&
+            game.places[num + 3] === entity &&
+            game.places[num + 6] === entity) {
+            return true;
+        }
+        return false;
+    }
+    function chosen(letter) {
+        if (letter === "X") {
+            player = "X";
+            computer = "O";
+        }else if (letter === "O") {
+            computer = "X";
+            player="O"
+        }
+        
+        $(".modal").css({ display: "none" })
+        random_computer_move()
+        redrawspots()
+    }
+
+
+</script>
+</body>
+</html>
