@@ -8,22 +8,56 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
     <title>PomodoroClock</title>
+    <style>
+        body {
+            background-color: #f2ccff;
+        }
+         .settings *{
+             display: inline-block;
+         }
+        #clock {
+            display: block;
+            margin: auto;
+            width: 250px;
+            height: 250px;
+            padding-top: 50px;
+            border: 10px solid red;
+            text-align: center;
+            border-radius: 100%;
+            font-size: 50px;
+            cursor: pointer;
+        }
+        
+    </style>
 </head>
 <body>
 <div class="container">
-    <div>
-        <h2>Break Length</h2>
-        <h2 id="Break"></h2>
-        <button onclick="increaseTimer('break')">+</button>
-        <button onclick="decreaseTimer('break')">-</button>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Break Length</h2>
+            <div class="settings">
+                
+                <button onclick="increaseTimer('break')">+</button>
+                <h2 id="Break"></h2>
+                <button onclick="decreaseTimer('break')">-</button>    
+            </div>
+            
+        </div>
+        <div class="col-md-6">
+            <h2>Session Length</h2>
+            <div class="settings">
+                
+                <button onclick="increaseTimer('session')">+</button>
+                <h2 id="Session"></h2>
+                <button onclick="decreaseTimer('session')">-</button>    
+                
+            </div>
+            
+        </div>    
     </div>
-    <div>
-        <h2>Session Length</h2>
-        <h2 id="Session"></h2>
-        <button onclick="increaseTimer('session')">+</button>
-        <button onclick="decreaseTimer('session')">-</button>
-    </div>
+    
     <div id="clock">
         <h2 id="typeofclock"></h2>
         <p id="minutes"></p>
@@ -36,9 +70,9 @@
 
 <script>
     var mybreak = 5;
-    var mysession = 1;
+    var mysession = 25;
     var currentclock = mysession; 
-    var seconds = 12;
+    var seconds = 0;
     var typeofclock = "session";
     var pause = true;
 
