@@ -211,6 +211,7 @@
     <Content Include="Content\images\portfoliopic.jpg" />
     <Content Include="Content\images\vicsparty homepage.png" />
     <Content Include="Content\images\vicsportal_initial.PNG" />
+    <Content Include="Content\WikipediaViewerCSS.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

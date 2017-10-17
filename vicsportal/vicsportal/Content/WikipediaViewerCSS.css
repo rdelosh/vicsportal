@@ -1,0 +1,63 @@
+﻿
+h1 {
+    text-align: center;
+}
+
+.randompage {
+    
+    text-align: center;
+    font-size: 25px;
+}
+
+input[type=text] {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    min-width: 100%;
+    height: 50px;
+    font-size: 50px;
+}
+
+a {
+    
+    text-decoration: none !important;
+}
+
+.searchresults {
+    margin-bottom: 80px;
+}
+
+.singleresult {
+    margin-left: 1px;
+    margin-right: 1px;
+    padding: 0;
+    border: 3px solid #002b80;
+    border-radius: 1%;
+    background-color: #80aaff;
+    
+    animation: myanimation 0.5s;
+}
+
+@keyframes myanimation {
+    0% { opacity: 0.3}
+    100%{ opacity: 1.0}
+
+    }
+.singleresult:hover {
+    opacity: 0.5
+}
+
+
+.singleresult * {
+    text-align: left;
+    color: white;
+}
+
+.singleresult p {
+    margin: 0;
+}
+#searchbar {
+    margin-bottom: 50px;
+}
