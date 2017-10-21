@@ -243,13 +243,17 @@
     <Content Include="Content\fonts\High Tide - Demo.ttf" />
     <Content Include="Content\fonts\Just tell me what regular %28Version 2%29.otf" />
     <Content Include="Content\resume\victor_resume_2017.docx" />
+    <Content Include="Scripts\ClientApp\main.js" />
     <None Include="Properties\PublishProfiles\vicsportal.pubxml" />
+    <Content Include="Scripts\.babelrc" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\webpack.config.js" />
+    <Content Include="Scripts\wwwroot\js\bundle.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -276,6 +280,9 @@
     <Content Include="Views\freecodecamp\TicTacToe.cshtml" />
     <Content Include="Views\freecodecamp\SimonGame.cshtml" />
     <Content Include="Views\freecodecamp\FreeCodeCampMenu.cshtml" />
+    <Content Include="Scripts\package.json" />
+    <Content Include="Scripts\package-lock.json" />
+    <Content Include="Views\freecodecamp\MarkdownPreviewer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
