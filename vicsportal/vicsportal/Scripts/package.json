@@ -6,7 +6,7 @@
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
     "watch": "webpack --watch",
-    "webpackd": "webpack-dev-server",
+    "webpackd": "node_modules/.bin/webpack-dev-server",
     "build": "webpack",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",

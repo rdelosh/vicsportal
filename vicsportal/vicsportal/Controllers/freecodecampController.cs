@@ -55,5 +55,10 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+
+        public ActionResult MarkdownPreviewer()
+        {
+            return View();
+        }
     }
 }
