@@ -243,6 +243,8 @@
     <Content Include="Content\fonts\High Tide - Demo.ttf" />
     <Content Include="Content\fonts\Just tell me what regular %28Version 2%29.otf" />
     <Content Include="Content\resume\victor_resume_2017.docx" />
+    <Content Include="Scripts\ClientApp\components\previewer.js" />
+    <Content Include="Scripts\ClientApp\components\textarea.js" />
     <Content Include="Scripts\ClientApp\main.js" />
     <None Include="Properties\PublishProfiles\vicsportal.pubxml" />
     <Content Include="Scripts\.babelrc" />
