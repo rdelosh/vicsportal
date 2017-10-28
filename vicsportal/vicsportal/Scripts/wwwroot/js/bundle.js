@@ -63,7 +63,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _previewer = __webpack_require__(161);
+	var _previewer = __webpack_require__(160);
 
 	var _previewer2 = _interopRequireDefault(_previewer);
 
@@ -82,21 +82,43 @@
 	var MarkedDownPreviewer = function (_Component) {
 	    _inherits(MarkedDownPreviewer, _Component);
 
-	    function MarkedDownPreviewer() {
+	    function MarkedDownPreviewer(props) {
 	        _classCallCheck(this, MarkedDownPreviewer);
 
-	        return _possibleConstructorReturn(this, (MarkedDownPreviewer.__proto__ || Object.getPrototypeOf(MarkedDownPreviewer)).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, (MarkedDownPreviewer.__proto__ || Object.getPrototypeOf(MarkedDownPreviewer)).call(this, props));
+
+	        _this.state = {
+	            text: ""
+	        };
+	        return _this;
 	    }
 
 	    _createClass(MarkedDownPreviewer, [{
+	        key: 'textchange',
+	        value: function textchange(myterm) {
+
+	            this.setState({
+	                text: myterm
+	            }, function () {
+	                console.log(this.state);
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                'wtfino3',
-	                _react2.default.createElement(_textarea2.default, null),
-	                _react2.default.createElement(_previewer2.default, null)
+	                { className: 'container' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    _react2.default.createElement(_textarea2.default, { textchange: function textchange(term) {
+	                            return _this2.textchange(term);
+	                        } }),
+	                    _react2.default.createElement(_previewer2.default, { providedstate: this.state })
+	                )
 	            );
 	        }
 	    }]);
@@ -19858,6 +19880,40 @@
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _marked = __webpack_require__(161);
+
+	var _marked2 = _interopRequireDefault(_marked);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var previewer = function previewer(props) {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-6 mypreviewer' },
+	        _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Preview'
+	        ),
+	        _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: (0, _marked2.default)(props.providedstate.text) } })
+	    );
+	};
+	exports.default = previewer;
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -21045,39 +21101,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 161 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _marked = __webpack_require__(160);
-
-	var _marked2 = _interopRequireDefault(_marked);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var previewer = function previewer() {
-	    return _react2.default.createElement(
-	        'div',
-	        null,
-	        'holi'
-	    );
-	};
-	exports.default = previewer;
-
-/***/ }),
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -21088,10 +21115,6 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _marked = __webpack_require__(160);
-
-	var _marked2 = _interopRequireDefault(_marked);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21107,22 +21130,27 @@
 	    function mytextarea(props) {
 	        _classCallCheck(this, mytextarea);
 
-	        var _this = _possibleConstructorReturn(this, (mytextarea.__proto__ || Object.getPrototypeOf(mytextarea)).call(this, props));
-
-	        _this.state = { term: '' };
-	        return _this;
+	        return _possibleConstructorReturn(this, (mytextarea.__proto__ || Object.getPrototypeOf(mytextarea)).call(this, props));
 	    }
 
 	    _createClass(mytextarea, [{
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
 	            var _this2 = this;
 
-	            return _react2.default.createElement('textarea', { value: this.state.term,
-	                onChange: function onChange(event) {
-	                    _this2.setState({ term: event.target.value });
-	                    //console.log(marked(this.state.term));
-	                } });
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "col-md-6 mytextarea" },
+	                _react2.default.createElement(
+	                    "h1",
+	                    null,
+	                    "MarkDown"
+	                ),
+	                _react2.default.createElement("textarea", {
+	                    onChange: function onChange(event) {
+	                        _this2.props.textchange(event.target.value);
+	                    } })
+	            );
 	        }
 	    }]);
 

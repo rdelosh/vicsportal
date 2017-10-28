@@ -7,21 +7,29 @@ import Mytextarea from './components/textarea';
 class MarkedDownPreviewer extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             text: ""
-        }
-        mycallbackfunction = () =>{
-            
-        }
+        }   
+    }
+
+    textchange(myterm) {
+        
+        this.setState({
+            text: myterm     
+        }, function() {
+            console.log(this.state);    
+        });
+        
     }
 
     render() {
         return (
-            <div>
-                wtfino3
-            <Mytextarea />
-                <Previewer />
+            <div className="container">
+                <div className="row">
+                    <Mytextarea  textchange={term => this.textchange(term)} />
+                    <Previewer providedstate={this.state} />
+                </div>
+            
 
             </div>
         );
