@@ -29,6 +29,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
+    "array-sort": "^0.1.4",
     "axios": "^0.17.0",
     "babel-preset-stage-1": "^6.1.18",
     "lodash": "^3.10.1",
