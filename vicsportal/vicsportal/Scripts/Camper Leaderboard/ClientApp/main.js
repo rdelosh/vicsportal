@@ -20,15 +20,12 @@ class CamperLeaderboard extends React.Component {
         .then(function(response) {
                 thisobject.setState({ users: response.data },
                     function () {
-                        thisobject.sortBy('alltime');
+                        thisobject.sortBy('alltime',true);
                         console.log(thisobject.state.users)                
                 })
             })
 
 
-    }
-    getusers() {
-        return this.state.users;
     }
     sortBy(key,ordering) {
         this.setState(arraySort(this.state.users, key, { reverse: ordering}));

@@ -1,59 +1,74 @@
 ﻿import React from 'react';
 
-const UsersTable =(data)=> {
+class UsersTable extends React.Component{
 
-    let users = data.users;
-    let userordering = false; //false = A-Z ordering, true = Z-A ordering
-    let recentordering = false; //false = A-Z ordering, true = Z-A ordering
-    let alltimeordering = false; //false = A-Z ordering, true = Z-A ordering
-
-
-    if (users === "") {
-        return <div>loading...</div>
+    constructor(props) {
+        super(props)
+        this.state = {
+            userordering: false, //false = A-Z ordering, true = Z-A ordering
+            recentordering: true, //false = A-Z ordering, true = Z-A ordering
+            alltimeordering: false, //false = A-Z ordering, true = Z-A ordering
+        }
     }
-    
-        return (
 
-            <table>
-                    <thead>
-                        <tr>
-                            <th><button onClick={() => {
-                                data.sort("username", userordering);
-                                userordering = !userordering;
-                                console.log(userordering)
-                            }}>Username</button></th>
-                            <th>Recent</th>
-                            <th>All time</th>
+    render() {
+        var thisobject = this;
+        if (this.props.users === "") {
+            return <div>loading...</div>
+        }
 
-                        </tr>
-                    </thead>
-                    {
-                        React.createElement("tbody",
-                            null,
-                            users.map(function (element) {
-                                return (
+    return (
+        <div className="container">
+        <table className="table">
+                <thead>
+                    <tr>
+                        
+                        <th
+                            onClick={() => {
+                                this.props.sort("username", this.state.userordering);
+                                this.setState({ userordering: !this.state.userordering})
+                            }}>Username</th>
+                        <th
+                            onClick={() => {
+                                this.props.sort("recent", this.state.recentordering);
+                                this.setState({ recentordering: !this.state.recentordering })
+                             }}>Recent</th>
+                        <th
+                            onClick={() => {
+                                this.props.sort("alltime", this.state.alltimeordering);
+                                this.setState({ alltimeordering: !this.state.alltimeordering })
+                            }}>All time</th>
 
-                                    <tr>
-                                        <td>
-                                            <p>{element.username} </p>
-                                        </td>
-                                        <td>
-                                            <p>{element.recent} </p>
-                                        </td>
-                                        <td>
-                                            <p>{element.alltime}</p>
-                                        </td>
-                                    </tr>
+                    </tr>
+                </thead>
+                {
+                    React.createElement("tbody",
+                        null,
+                        thisobject.props.users.map(function (element) {
+                            return (
+
+                                <tr>
+                                    <td>
+                                        <img width="50px" height="50px" src={element.img}/><p>{element.username} </p>
+                                    </td>
+                                    <td>
+                                        <p>{element.recent} </p>
+                                    </td>
+                                    <td>
+                                        <p>{element.alltime}</p>
+                                    </td>
+                                </tr>
+                            )
+                        }))
+
+                }
+            </table>
+        </div>
+      )
 
 
-
-                                )
-                            }))
-
-                    }
-                </table>
-
-        )
+    }
+        
     
     
 }

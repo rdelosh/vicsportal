@@ -107,15 +107,10 @@
 
 	            _axios2.default.get("https://fcctop100.herokuapp.com/api/fccusers/top/recent").then(function (response) {
 	                thisobject.setState({ users: response.data }, function () {
-	                    thisobject.sortBy('alltime');
+	                    thisobject.sortBy('alltime', true);
 	                    console.log(thisobject.state.users);
 	                });
 	            });
-	        }
-	    }, {
-	        key: 'getusers',
-	        value: function getusers() {
-	            return this.state.users;
 	        }
 	    }, {
 	        key: 'sortBy',
@@ -21374,99 +21369,134 @@
 	    value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var UsersTable = function UsersTable(data) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	    var users = data.users;
-	    var userordering = false; //false = A-Z ordering, true = Z-A ordering
-	    var recentordering = false; //false = A-Z ordering, true = Z-A ordering
-	    var alltimeordering = false; //false = A-Z ordering, true = Z-A ordering
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	    if (users === "") {
-	        return _react2.default.createElement(
-	            "div",
-	            null,
-	            "loading..."
-	        );
+	var UsersTable = function (_React$Component) {
+	    _inherits(UsersTable, _React$Component);
+
+	    function UsersTable(props) {
+	        _classCallCheck(this, UsersTable);
+
+	        var _this = _possibleConstructorReturn(this, (UsersTable.__proto__ || Object.getPrototypeOf(UsersTable)).call(this, props));
+
+	        _this.state = {
+	            userordering: false, //false = A-Z ordering, true = Z-A ordering
+	            recentordering: true, //false = A-Z ordering, true = Z-A ordering
+	            alltimeordering: false //false = A-Z ordering, true = Z-A ordering
+	        };
+	        return _this;
 	    }
 
-	    return _react2.default.createElement(
-	        "table",
-	        null,
-	        _react2.default.createElement(
-	            "thead",
-	            null,
-	            _react2.default.createElement(
-	                "tr",
-	                null,
-	                _react2.default.createElement(
-	                    "th",
+	    _createClass(UsersTable, [{
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+
+	            var thisobject = this;
+	            if (this.props.users === "") {
+	                return _react2.default.createElement(
+	                    "div",
 	                    null,
-	                    _react2.default.createElement(
-	                        "button",
-	                        { onClick: function onClick() {
-	                                data.sort("username", userordering);
-	                                userordering = !userordering;
-	                                console.log(userordering);
-	                            } },
-	                        "Username"
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "th",
-	                    null,
-	                    "Recent"
-	                ),
-	                _react2.default.createElement(
-	                    "th",
-	                    null,
-	                    "All time"
-	                )
-	            )
-	        ),
-	        _react2.default.createElement("tbody", null, users.map(function (element) {
+	                    "loading..."
+	                );
+	            }
+
 	            return _react2.default.createElement(
-	                "tr",
-	                null,
+	                "div",
+	                { className: "container" },
 	                _react2.default.createElement(
-	                    "td",
-	                    null,
+	                    "table",
+	                    { className: "table" },
 	                    _react2.default.createElement(
-	                        "p",
+	                        "thead",
 	                        null,
-	                        element.username,
-	                        " "
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "td",
-	                    null,
-	                    _react2.default.createElement(
-	                        "p",
-	                        null,
-	                        element.recent,
-	                        " "
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "td",
-	                    null,
-	                    _react2.default.createElement(
-	                        "p",
-	                        null,
-	                        element.alltime
-	                    )
+	                        _react2.default.createElement(
+	                            "tr",
+	                            null,
+	                            _react2.default.createElement(
+	                                "th",
+	                                {
+	                                    onClick: function onClick() {
+	                                        _this2.props.sort("username", _this2.state.userordering);
+	                                        _this2.setState({ userordering: !_this2.state.userordering });
+	                                    } },
+	                                "Username"
+	                            ),
+	                            _react2.default.createElement(
+	                                "th",
+	                                {
+	                                    onClick: function onClick() {
+	                                        _this2.props.sort("recent", _this2.state.recentordering);
+	                                        _this2.setState({ recentordering: !_this2.state.recentordering });
+	                                    } },
+	                                "Recent"
+	                            ),
+	                            _react2.default.createElement(
+	                                "th",
+	                                {
+	                                    onClick: function onClick() {
+	                                        _this2.props.sort("alltime", _this2.state.alltimeordering);
+	                                        _this2.setState({ alltimeordering: !_this2.state.alltimeordering });
+	                                    } },
+	                                "All time"
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement("tbody", null, thisobject.props.users.map(function (element) {
+	                        return _react2.default.createElement(
+	                            "tr",
+	                            null,
+	                            _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement("img", { width: "50px", height: "50px", src: element.img }),
+	                                _react2.default.createElement(
+	                                    "p",
+	                                    null,
+	                                    element.username,
+	                                    " "
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                    "p",
+	                                    null,
+	                                    element.recent,
+	                                    " "
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                    "p",
+	                                    null,
+	                                    element.alltime
+	                                )
+	                            )
+	                        );
+	                    }))
 	                )
 	            );
-	        }))
-	    );
-	};
+	        }
+	    }]);
+
+	    return UsersTable;
+	}(_react2.default.Component);
 
 	exports.default = UsersTable;
 
