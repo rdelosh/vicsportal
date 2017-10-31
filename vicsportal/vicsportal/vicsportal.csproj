@@ -156,6 +156,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Scripts\Camper Leaderboard\wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -243,20 +244,19 @@
     <Content Include="Content\fonts\High Tide - Demo.ttf" />
     <Content Include="Content\fonts\Just tell me what regular %28Version 2%29.otf" />
     <Content Include="Content\resume\victor_resume_2017.docx" />
-    <Content Include="Scripts\ClientApp\components\previewer.js" />
-    <Content Include="Scripts\ClientApp\components\textarea.js" />
-    <Content Include="Scripts\ClientApp\main.js" />
     <None Include="Properties\PublishProfiles\vicsportal.pubxml" />
-    <Content Include="Scripts\.babelrc" />
+    <Content Include="Scripts\Camper Leaderboard\ClientApp\components\UsersTable.js" />
+    <Content Include="Scripts\Camper Leaderboard\ClientApp\main.js" />
+    <Content Include="Scripts\Camper Leaderboard\index.html" />
+    <Content Include="Scripts\Camper Leaderboard\package.json" />
+    <Content Include="Scripts\Camper Leaderboard\.babelrc" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\index.html" />
+    <Content Include="Scripts\Camper Leaderboard\webpack.config.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\webpack.config.js" />
-    <Content Include="Scripts\wwwroot\js\bundle.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -266,7 +266,6 @@
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -283,8 +282,6 @@
     <Content Include="Views\freecodecamp\TicTacToe.cshtml" />
     <Content Include="Views\freecodecamp\SimonGame.cshtml" />
     <Content Include="Views\freecodecamp\FreeCodeCampMenu.cshtml" />
-    <Content Include="Scripts\package.json" />
-    <Content Include="Scripts\package-lock.json" />
     <Content Include="Views\freecodecamp\MarkdownPreviewer.cshtml" />
   </ItemGroup>
   <ItemGroup>
