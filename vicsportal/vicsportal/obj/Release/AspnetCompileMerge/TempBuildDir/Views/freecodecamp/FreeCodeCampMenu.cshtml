@@ -8,45 +8,91 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <title>FreeCodeCampMenu</title>
     <style>
-        * {
-            font-size: 50px;
+
+        ul{
+            list-style:none;
+
+        }
+        h1{
+            font-size:50px;
+            text-align:center;
+        }
+        .fccitem {
+            opacity:.8;
+            margin-bottom: 50px;
+            padding-left: 0;
+            padding-right:0;
+            font-size: 25px;
+            text-align:center;
+            background-color: #33ffad;
+            cursor: pointer;
+            border: 20px solid #fff;
+            border-radius:5%;
+            
+            
+        }
+        .fccitem:hover{
+            opacity: 1;
+            
+        }
+        h1 {
+            margin-top:0px;
+            background-color: #33ffad;
+            color:#000;
         }
     </style>
 </head>
 <body>
+    <h1>FreeCodeCamp Projects</h1>
 <div class="container">
-    <ul>
-        <li>
-            <a href="/freecodecamp/RandomQuoteMachine">Random Quote Machine</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/LocalWeather">Local weather</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/WikipediaViewer">Wikipedia Viewer</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/TwitchTVAPI">TwitchTVAPI</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/JavascriptCalculator">Javascript calculator</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/Pomodoroclock">Pomodoroclock</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/TicTacToe">Tic Tac Toe</a>
-        </li>
-        <li>
-            <a href="/freecodecamp/SimonGame">Simon Game</a>
-        </li>
-        
-        
-        
+    
 
-    </ul>
+    <div class="row">
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/RandomQuoteMachine'">
+            <img class="img-responsive" src="../../Content/images/fccimages/RandomQuoteMachine.png"/>
+            Random Quote Machine
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/LocalWeather'">
+            <img class="img-responsive" src="../../Content/images/fccimages/localweather.png" />
+            Local weather
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/WikipediaViewer'">
+            <img class="img-responsive" src="../../Content/images/fccimages/wikipediaviewer.png" />
+            Wikipedia Viewer
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/TwitchTVAPI'">
+            <img class="img-responsive" src="../../Content/images/fccimages/twitchtvapi.png" />
+            TwitchTVAPI
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/JavascriptCalculator'">
+            <img class="img-responsive" src="../../Content/images/fccimages/javascriptcalculator.png" />
+            Javascript calculator
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/Pomodoroclock'">
+            <img class="img-responsive" src="../../Content/images/fccimages/pomodoroclock.png" />
+            Pomodoroclock
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/TicTacToe'">
+            <img class="img-responsive" src="../../Content/images/fccimages/tictactoe.png" />
+            Tic Tac Toe
+        </div>
+        <div class="fccitem col-md-3" onclick="location.href='/freecodecamp/SimonGame'">
+            <img class="img-responsive" src="../../Content/images/fccimages/simongame.png" />
+            Simon Game
+        </div>
+
+    </div>
+
 </div>
 </body>
 </html>

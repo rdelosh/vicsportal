@@ -49,14 +49,14 @@
                 <h2 class="titleofitem">VicsParty</h2>
             </a>
         </div>
-    
         <div class="col-md-4 projectitem">
-            <a class="itemanchor anchorformyshoppingsite">
-                <img class="img-responsive" src="../../Content/images/myshoppingsite.png"/>
-                <h2 class="titleofitem">MyShoppingSite</h2>
+            <a class="itemanchor anchorforFCCProjects">
+                <img class="img-responsive" src="../../Content/images/fccimages/fccprojects.png" />
+                <h2 class="titleofitem">FCC Projects</h2>
             </a>
-        
+
         </div>
+
     
     
 
@@ -67,8 +67,20 @@
             </a>
         
         </div>
+
     
     
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-4 projectitem">
+            <a class="itemanchor anchorformyshoppingsite">
+                <img class="img-responsive" src="../../Content/images/myshoppingsite.png" />
+                <h2 class="titleofitem">MyShoppingSite</h2>
+            </a>
+
+        </div>
 
 
     </div>
@@ -100,7 +112,27 @@
 </div>
 
 
+<div class="modalcontentforFCCProjects modalcontent" style="display: none">
+    <h1>FreeCodeCamp Projects</h1>
+    <h2>Look at my FreeCodecamp projects here <a href="/freecodecamp/FreeCodeCampMenu">FCCProjects</a></h2>
 
+    <h2>Description of the Project</h2>
+    <p>
+        FCC projects are part of an education program performed at <a href="https://www.freecodecamp.org">www.freecodecamp.org</a>
+    </p>
+
+    <h2>Repository</h2>
+
+    <a href="https://github.com/rdelosh/vicsportal">https://github.com/rdelosh/vicsportal</a>
+    
+    
+    <h2>Screenshots</h2>
+    <a href="/freecodecamp/FreeCodeCampMenu">
+        <img class="img-responsive" src="../../Content/images/fccimages/fccprojects.png" />
+    </a>
+    
+
+</div>
 
 <div class="modalcontentforvicsparty modalcontent" style="display: none">
     <h1>VicsParty</h1>
@@ -388,6 +420,10 @@
                 $(".modal-content").append($clone);
             } else if ($thisanchor.hasClass("anchorformedidata")) {
                 var $clone = $(".modalcontentforMedidata").clone(true);
+                $clone.css({ display: "block" });
+                $(".modal-content").append($clone);
+            } else if ($thisanchor.hasClass("anchorforFCCProjects")) {
+                var $clone = $(".modalcontentforFCCProjects").clone(true);
                 $clone.css({ display: "block" });
                 $(".modal-content").append($clone);
             }

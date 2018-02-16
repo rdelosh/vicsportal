@@ -86,10 +86,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>10/17/2017 12:25:04</publishTime>
+      <publishTime>02/08/2018 01:05:29</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>10/17/2017 12:25:04</publishTime>
+      <publishTime>02/08/2018 01:05:29</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 13:07:42</publishTime>
@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/vicsportal.dll">
-      <publishTime>10/17/2017 12:24:56</publishTime>
+      <publishTime>02/08/2018 01:02:30</publishTime>
     </File>
     <File Include="bin/vicsportal.pdb">
-      <publishTime>10/17/2017 12:24:56</publishTime>
+      <publishTime>02/08/2018 01:02:30</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>09/10/2013 17:28:38</publishTime>
@@ -216,6 +216,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/images/bnwwsize.jpg">
       <publishTime>08/19/2017 11:49:58</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/fccprojects.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/javascriptcalculator.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/localweather.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/pomodoroclock.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/RandomQuoteMachine.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/simongame.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/tictactoe.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/twitchtvapi.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
+    </File>
+    <File Include="Content/images/fccimages/wikipediaviewer.png">
+      <publishTime>02/08/2018 01:01:31</publishTime>
     </File>
     <File Include="Content/images/Medi-Data Poster Final.png">
       <publishTime>09/09/2017 21:17:51</publishTime>
@@ -239,7 +266,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2017 00:08:33</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>09/10/2017 18:05:45</publishTime>
+      <publishTime>02/08/2018 00:11:04</publishTime>
     </File>
     <File Include="Content/WikipediaViewerCSS.css">
       <publishTime>10/17/2017 10:57:33</publishTime>
@@ -266,13 +293,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>10/17/2017 12:25:02</publishTime>
+      <publishTime>02/08/2018 01:05:27</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>08/18/2017 20:32:13</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
       <publishTime>08/18/2017 20:32:13</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/.babelrc">
+      <publishTime>10/28/2017 15:55:28</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/ClientApp/components/UsersTable.js">
+      <publishTime>10/31/2017 06:13:01</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/ClientApp/main.js">
+      <publishTime>10/31/2017 06:12:24</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/index.html">
+      <publishTime>10/31/2017 06:14:55</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/package.json">
+      <publishTime>10/31/2017 02:59:31</publishTime>
+    </File>
+    <File Include="Scripts/Camper Leaderboard/webpack.config.js">
+      <publishTime>10/28/2017 15:54:18</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>08/18/2017 20:32:16</publishTime>
@@ -296,13 +341,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:20</publishTime>
     </File>
     <File Include="Views/freecodecamp/FreeCodeCampMenu.cshtml">
-      <publishTime>10/15/2017 08:20:53</publishTime>
+      <publishTime>02/08/2018 00:08:43</publishTime>
     </File>
     <File Include="Views/freecodecamp/JavascriptCalculator.cshtml">
       <publishTime>10/17/2017 11:35:39</publishTime>
     </File>
     <File Include="Views/freecodecamp/LocalWeather.cshtml">
-      <publishTime>10/16/2017 15:55:43</publishTime>
+      <publishTime>02/07/2018 10:48:00</publishTime>
+    </File>
+    <File Include="Views/freecodecamp/MarkdownPreviewer.cshtml">
+      <publishTime>10/28/2017 15:48:39</publishTime>
     </File>
     <File Include="Views/freecodecamp/PomodoroClock.cshtml">
       <publishTime>10/17/2017 12:07:13</publishTime>
@@ -326,7 +374,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/19/2017 08:39:23</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>09/30/2017 21:16:45</publishTime>
+      <publishTime>02/08/2018 00:49:54</publishTime>
     </File>
     <File Include="Views/privateroomMVC/privateroomMVC.cshtml">
       <publishTime>08/24/2017 14:12:55</publishTime>

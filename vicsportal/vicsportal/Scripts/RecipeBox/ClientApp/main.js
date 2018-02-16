@@ -22,7 +22,7 @@ class RecipeBox extends React.Component{
 	            <div>
 
 	                <Modal modalstate={this.state.modalstate} callbackfunction={()=>this.showRecipeModal()}></Modal>
-	                <ListofRecipes></ListofRecipes>
+	                <ListofRecipes callbackfunction={()=>this.showRecipeModal()}></ListofRecipes>
 	                <button onClick={()=>this.showRecipeModal()}>Add Recipe</button>
 	            </div>
 	        );    

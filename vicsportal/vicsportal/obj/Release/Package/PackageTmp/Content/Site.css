@@ -102,14 +102,15 @@ ul.nav li a, .navbar-brand {
     background: gray;
     padding: 0;
 }
-.itemanchor{
+.itemanchor {
+    
     display: block;
     text-decoration: none !important;
     color: black;
     text-align: center;
-
 }
 .projectitem {
+    
     border: 20px solid white;
     background-color: #33ffad;
     padding: 0;

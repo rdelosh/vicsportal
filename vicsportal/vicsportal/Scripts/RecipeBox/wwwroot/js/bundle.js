@@ -110,7 +110,9 @@
 					_react2.default.createElement(_modal2.default, { modalstate: this.state.modalstate, callbackfunction: function callbackfunction() {
 							return _this2.showRecipeModal();
 						} }),
-					_react2.default.createElement(_listofrecipes2.default, null),
+					_react2.default.createElement(_listofrecipes2.default, { callbackfunction: function callbackfunction() {
+							return _this2.showRecipeModal();
+						} }),
 					_react2.default.createElement(
 						'button',
 						{ onClick: function onClick() {
@@ -19906,10 +19908,16 @@
 	var ListofRecipes = function (_React$Component) {
 		_inherits(ListofRecipes, _React$Component);
 
-		function ListofRecipes() {
+		function ListofRecipes(props) {
 			_classCallCheck(this, ListofRecipes);
 
-			return _possibleConstructorReturn(this, (ListofRecipes.__proto__ || Object.getPrototypeOf(ListofRecipes)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (ListofRecipes.__proto__ || Object.getPrototypeOf(ListofRecipes)).call(this, props));
+
+			_this.state = {
+				callbackfunction: props.callbackfunction
+			};
+
+			return _this;
 		}
 
 		_createClass(ListofRecipes, [{
@@ -19918,7 +19926,7 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(_recipeitem2.default, null)
+					_react2.default.createElement(_recipeitem2.default, { callbackfunction: this.state.callbackfunction })
 				);
 			}
 		}]);
@@ -19932,7 +19940,7 @@
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -19955,27 +19963,44 @@
 	var RecipeItem = function (_React$Component) {
 		_inherits(RecipeItem, _React$Component);
 
-		function RecipeItem() {
+		function RecipeItem(props) {
 			_classCallCheck(this, RecipeItem);
 
-			return _possibleConstructorReturn(this, (RecipeItem.__proto__ || Object.getPrototypeOf(RecipeItem)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (RecipeItem.__proto__ || Object.getPrototypeOf(RecipeItem)).call(this, props));
+
+			_this.state = {
+				callbackfunction: props.callbackfunction
+			};
+
+			return _this;
 		}
 
 		_createClass(RecipeItem, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
-					'div',
+					"div",
 					null,
 					_react2.default.createElement(
-						'h1',
+						"ul",
 						null,
-						'Pizza'
-					),
-					_react2.default.createElement(
-						'p',
-						null,
-						'Ingredients: flour, cheese, tomato, pepperoni'
+						Object.keys(localStorage).map(function (key) {
+							console.log(key + "#" + localStorage[key]);
+							return _react2.default.createElement(
+								"li",
+								{ key: key,
+									style: {
+										backgroundColor: "yellow",
+										marginBottom: "30px"
+
+									}, onClick: _this2.state.callbackfunction
+
+								},
+								key
+							);
+						})
 					)
 				);
 			}
@@ -19996,6 +20021,8 @@
 		value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -20004,66 +20031,140 @@
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-	var Modal = function Modal(props) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-		var modalstate = props.modalstate;
-		var callbackfunction = props.callbackfunction;
-		var invisiblemodal = _defineProperty({
-			display: 'none', /* Hidden by default */
-			position: 'fixed', /* Stay in place */
-			zIndex: '1', /* Sit on top */
-			paddingTop: '100px', /* Location of the box */
-			left: '0',
-			top: '0',
-			width: '100%', /* Full width */
-			height: '100%', /* Full height */
-			overflow: 'auto', /* Enable scroll if needed */
-			backgroundColor: 'rgb(0,0,0)' }, 'backgroundColor', 'rgba(0,0,0,0.4)');
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-		var visiblemodal = _defineProperty({
-			display: 'block', /* Hidden by default */
-			position: 'fixed', /* Stay in place */
-			zIndex: '1', /* Sit on top */
-			paddingTop: '100px', /* Location of the box */
-			left: '0',
-			top: '0',
-			width: '100%', /* Full width */
-			height: '100%', /* Full height */
-			overflow: 'auto', /* Enable scroll if needed */
-			backgroundColor: 'rgb(0,0,0)' }, 'backgroundColor', 'rgba(0,0,0,0.4)');
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-		console.log(modalstate);
-		//console.log(getmodalstyle)
-		return _react2.default.createElement(
-			'div',
-			{ className: 'mymodal', styles: function styles() {
-					{
-						console.log(visiblemodal);
-					}
-					if (modalstate) {
-						return visiblemodal;
-					}
+	var Modal = function (_React$Component) {
+		_inherits(Modal, _React$Component);
+
+		function Modal(props) {
+			_classCallCheck(this, Modal);
+
+			var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+			//localStorage.clear();
+
+
+			console.log(props);
+			_this.state = {
+				modalstate: props.modalstate,
+				callbackfunction: props.callbackfunction,
+				currentRecipe: '',
+				currentIngredients: ''
+			};
+			return _this;
+		}
+
+		_createClass(Modal, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextprops) {
+				this.setState({
+					modalstate: nextprops.modalstate
+				});
+			}
+		}, {
+			key: 'determinemodal',
+			value: function determinemodal() {
+
+				var invisiblemodal = _defineProperty({
+					display: 'none', /* Hidden by default */
+					position: 'fixed', /* Stay in place */
+					zIndex: '1', /* Sit on top */
+					paddingTop: '100px', /* Location of the box */
+					left: '0',
+					top: '0',
+					width: '100%', /* Full width */
+					height: '100%', /* Full height */
+					overflow: 'auto', /* Enable scroll if needed */
+					backgroundColor: 'rgb(0,0,0)' }, 'backgroundColor', 'rgba(0,0,0,0.4)');
+
+				var visiblemodal = _defineProperty({
+					display: 'block', /* Hidden by default */
+					position: 'fixed', /* Stay in place */
+					zIndex: '1', /* Sit on top */
+					paddingTop: '100px', /* Location of the box */
+					left: '0',
+					top: '0',
+					width: '100%', /* Full width */
+					height: '100%', /* Full height */
+					overflow: 'auto', /* Enable scroll if needed */
+					backgroundColor: 'rgb(0,0,0)' }, 'backgroundColor', 'rgba(0,0,0,0.4)');
+
+				if (this.state.modalstate) {
+					console.log("vis");
+					return visiblemodal;
+				} else {
+					console.log("invis");
 					return invisiblemodal;
-				} },
-			_react2.default.createElement(
-				'h2',
-				null,
-				'Recipe'
-			),
-			_react2.default.createElement('input', { type: 'text' }),
-			_react2.default.createElement(
-				'h2',
-				null,
-				'Ingredients'
-			),
-			_react2.default.createElement('textarea', null),
-			_react2.default.createElement(
-				'button',
-				{ onClick: callbackfunction },
-				'close modal'
-			)
-		);
-	};
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'mymodal', style: this.determinemodal() },
+					_react2.default.createElement(
+						'div',
+						{ style: {
+								marginLeft: '25%',
+								marginRight: '25%',
+								padding: '0 5% 2% 5%',
+								borderRadius: '10%',
+								border: '2px solid #000',
+								backgroundColor: '#fff'
+							} },
+						_react2.default.createElement(
+							'h2',
+							null,
+							'Recipe'
+						),
+						_react2.default.createElement('input', { placeholder: 'Enter name of Recipe', type: 'text', onChange: function onChange(event) {
+								_this2.setState({ "currentRecipe": event.target.value });
+							} }),
+						_react2.default.createElement(
+							'h2',
+							null,
+							'Ingredients'
+						),
+						_react2.default.createElement('textarea', { placeholder: 'Enter ingredients', onChange: function onChange(event) {
+								_this2.setState({ "currentIngredients": event.target.value });
+							} }),
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									//console.log()
+
+									if (_this2.state.currentRecipe !== "") {
+
+										localStorage.setItem(_this2.state.currentRecipe, _this2.state.currentIngredients);
+
+										//localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);	
+									}
+								} },
+							'Add Recipe'
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: this.state.callbackfunction },
+							'close modal'
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: console.log(localStorage) },
+							'view localstorage'
+						)
+					)
+				);
+			}
+		}]);
+
+		return Modal;
+	}(_react2.default.Component);
 
 	exports.default = Modal;
 
