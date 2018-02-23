@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AddRecipeForm from './addrecipeform';
 import EditRecipe from './edit_recipeform';
+import { connect } from 'react-redux';
 
 
 
 class Modal extends React.Component{
 	constructor(props){
 		super(props)
+		
 		this.modalstate=false;
 		this.context=null;
 	}
 	
 	componentWillReceiveProps(nextProps){
+		this.selectedRecipe = nextProps.selectedRecipe
 		this.modalstate=nextProps.modalstate.modalstate
 		this.closemodal=nextProps.closemodal
 		this.context = nextProps.modalstate.context
@@ -47,7 +50,7 @@ class Modal extends React.Component{
 					<div className='modalcontainer'>
 						{this.props.children}
 						{(this.context==='CONTEXT_ADDRECIPE') && <AddRecipeForm />}
-						{this.context==='EDIT_RECIPE' && <EditRecipe />}
+						{this.context==='EDIT_RECIPE' && <EditRecipe selectedRecipe={this.selectedRecipe} />}
 						
 
 						<button onClick={this.closemodal}>close modal</button>
@@ -67,5 +70,6 @@ class Modal extends React.Component{
 	}
 	
 }
-	
-export default Modal;
+
+
+export default (Modal);

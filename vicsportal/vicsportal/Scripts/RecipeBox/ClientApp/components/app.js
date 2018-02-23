@@ -8,24 +8,18 @@ import { showModal } from '../actions/index';
 
 
 
+
 class RecipeBox extends React.Component{
-	// constructor(props){
-	// 	super(props)
-	// 	this.state = {
-	// 		context:{
-	// 			addrecipeform:false
-	// 		}
-	// 	}
-		
-	// }
+
 	closemodal(){
 		this.props.showModal(false,null)
 	}
+
 	render(){
 		return(
 			<div id="mymodal">
-			{console.log(this.props.modalstate)}
-				<Modal  modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
+			
+				<Modal  selectedRecipe={this.props.selectedRecipe} modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
 
 				</Modal>
 
@@ -41,16 +35,17 @@ class RecipeBox extends React.Component{
 	}
 }
 
-
 function mapStateToProps(state){
 	return{
-		modalstate:state.modalstate
+		modalstate:state.modalstate,
+		selectedRecipe:state.selectedRecipe
 	}
 }
+
 
 function mapDispatchToProps(dispatch){
 	return bindActionCreators({showModal: showModal}, dispatch)
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeBox);
+export default connect(mapStateToProps,mapDispatchToProps)(RecipeBox);

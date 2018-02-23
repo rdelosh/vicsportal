@@ -1,27 +1,39 @@
+
 import React from 'react';
 
- const editrecipeform = () =>{
- 	return (
- 		<div>
- 				<h2>Edit Recipe</h2>
-				<textarea></textarea>
-				<h2>Ingredients</h2>
-				<textarea placeholder="Enter ingredients"></textarea>
-				<button onClick={()=>{
-					
+ class editrecipeform extends React.Component{
+ 	constructor(props){
+ 		super(props)
+ 		this.state={
+ 			selectedRecipe:props.selectedRecipe
+ 		}
+ 	}
+ 	componentWillReceiveProps(nextProps){
+ 		this.setState({selectedRecipe:nextProps.selectedRecipe})
 
-					
+ 	}
+ 	render(){
+ 		return (
+	 		<div>
+	 				<h2>Edit Recipe</h2>
+					<textarea defaultValue={this.state.selectedRecipe.recipetitle}></textarea>
+					<h2>Ingredients</h2>
+					<textarea defaultValue={this.state.selectedRecipe.ingredients}></textarea>
+					<button onClick={()=>{
+							
+
 						
-						// localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);
+							
+							//localStorage.setItem(this.state.selectedRecipe,this.state.currentIngredients);
+							
+							
 						
 						
-					
-					
-				}}>Add Recipe</button>		
- 		</div>
+					}}>Add Recipe</button>		
+	 		</div>
  		)
-	
+ 	}
+ }
 
-}
+
 export default editrecipeform;	
-	

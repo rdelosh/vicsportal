@@ -19901,6 +19901,8 @@
 
 						onClick: function onClick() {
 							_this2.props.showModal(true, 'EDIT_RECIPE');
+							_this2.props.selectRecipe({ recipeTitle: _this2.state.Recipe, ingredients: _this2.state.Ingredient });
+							console.log(_this2.props.selectedRecipe);
 						}
 					},
 					_react2.default.createElement(
@@ -19922,12 +19924,14 @@
 
 	function mapStateToProps(state) {
 		return {
-			modalstate: state.modalstate
+			modalstate: state.modalstate,
+			selectedRecipe: state.selectedRecipe
+
 		};
 	}
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ showModal: _index.showModal }, dispatch);
+		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, selectRecipe: _index.selectRecipe }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RecipeItem);
@@ -19960,6 +19964,8 @@
 
 	var _edit_recipeform2 = _interopRequireDefault(_edit_recipeform);
 
+	var _reactRedux = __webpack_require__(165);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19984,6 +19990,7 @@
 		_createClass(Modal, [{
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps) {
+				this.selectedRecipe = nextProps.selectedRecipe;
 				this.modalstate = nextProps.modalstate.modalstate;
 				this.closemodal = nextProps.closemodal;
 				this.context = nextProps.modalstate.context;
@@ -20020,7 +20027,7 @@
 						{ className: 'modalcontainer' },
 						this.props.children,
 						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, null),
-						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, null),
+						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { selectedRecipe: this.selectedRecipe }),
 						_react2.default.createElement(
 							'button',
 							{ onClick: this.closemodal },
@@ -22152,11 +22159,16 @@
 
 	var _reducer_modalstate2 = _interopRequireDefault(_reducer_modalstate);
 
+	var _reducer_selectedRecipe = __webpack_require__(212);
+
+	var _reducer_selectedRecipe2 = _interopRequireDefault(_reducer_selectedRecipe);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
 		recipes: _reducer_recipes2.default,
-		modalstate: _reducer_modalstate2.default
+		modalstate: _reducer_modalstate2.default,
+		selectedRecipe: _reducer_selectedRecipe2.default
 	});
 
 	exports.default = rootReducer;
@@ -22235,16 +22247,6 @@
 
 		_createClass(RecipeBox, [{
 			key: 'closemodal',
-
-			// constructor(props){
-			// 	super(props)
-			// 	this.state = {
-			// 		context:{
-			// 			addrecipeform:false
-			// 		}
-			// 	}
-
-			// }
 			value: function closemodal() {
 				this.props.showModal(false, null);
 			}
@@ -22256,8 +22258,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ id: 'mymodal' },
-					console.log(this.props.modalstate),
-					_react2.default.createElement(_modal2.default, { modalstate: this.props.modalstate, closemodal: function closemodal() {
+					_react2.default.createElement(_modal2.default, { selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
 							_this2.closemodal();
 						} }),
 					_react2.default.createElement(_listofrecipes2.default, null),
@@ -22278,7 +22279,8 @@
 
 	function mapStateToProps(state) {
 		return {
-			modalstate: state.modalstate
+			modalstate: state.modalstate,
+			selectedRecipe: state.selectedRecipe
 		};
 	}
 
@@ -22298,10 +22300,24 @@
 		value: true
 	});
 	exports.showModal = showModal;
+	exports.AddorEditRecipes = AddorEditRecipes;
+	exports.selectRecipe = selectRecipe;
 	function showModal(modalstate, context) {
 		return {
 			type: 'MODALSTATE',
-			payload: { modalstate: modalstate, context: context }
+			payload: { modalstate: modalstate, context: context // context.type = ADDRECIPEFORM or EDITRECIPEFORM, context.data = {recipetitle, ingredients}
+			} };
+	}
+	function AddorEditRecipes(changed) {
+		return {
+			type: 'CHANGERECIPES',
+			payload: changed
+		};
+	}
+	function selectRecipe(Recipe) {
+		return {
+			type: 'SELECTEDRECIPE',
+			payload: { recipetitle: Recipe.recipeTitle, ingredients: Recipe.ingredients }
 		};
 	}
 
@@ -22378,11 +22394,13 @@
 /* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
@@ -22390,35 +22408,92 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var editrecipeform = function editrecipeform() {
-		return _react2.default.createElement(
-			"div",
-			null,
-			_react2.default.createElement(
-				"h2",
-				null,
-				"Edit Recipe"
-			),
-			_react2.default.createElement("textarea", null),
-			_react2.default.createElement(
-				"h2",
-				null,
-				"Ingredients"
-			),
-			_react2.default.createElement("textarea", { placeholder: "Enter ingredients" }),
-			_react2.default.createElement(
-				"button",
-				{ onClick: function onClick() {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-						// localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var editrecipeform = function (_React$Component) {
+		_inherits(editrecipeform, _React$Component);
+
+		function editrecipeform(props) {
+			_classCallCheck(this, editrecipeform);
+
+			var _this = _possibleConstructorReturn(this, (editrecipeform.__proto__ || Object.getPrototypeOf(editrecipeform)).call(this, props));
+
+			_this.state = {
+				selectedRecipe: props.selectedRecipe
+			};
+			return _this;
+		}
+
+		_createClass(editrecipeform, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				this.setState({ selectedRecipe: nextProps.selectedRecipe });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Edit Recipe'
+					),
+					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.recipetitle }),
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Ingredients'
+					),
+					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.ingredients }),
+					_react2.default.createElement(
+						'button',
+						{ onClick: function onClick() {
+
+								//localStorage.setItem(this.state.selectedRecipe,this.state.currentIngredients);
 
 
-					} },
-				"Add Recipe"
-			)
-		);
-	};
+							} },
+						'Add Recipe'
+					)
+				);
+			}
+		}]);
+
+		return editrecipeform;
+	}(_react2.default.Component);
+
 	exports.default = editrecipeform;
+
+/***/ }),
+/* 211 */,
+/* 212 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+		var action = arguments[1];
+
+
+		switch (action.type) {
+			case 'SELECTEDRECIPE':
+				// console.log(action);		
+				return action.payload;
+		}
+
+		return state;
+	};
 
 /***/ })
 /******/ ]);
