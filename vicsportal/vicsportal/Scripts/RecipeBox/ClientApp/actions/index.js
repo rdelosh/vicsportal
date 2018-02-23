@@ -1,6 +1,6 @@
-export function showModal(modalstate){
+export function showModal(modalstate,context){
 	return {
 		type: 'MODALSTATE',
-		payload: modalstate
+		payload: {modalstate:modalstate, context:context}
 	}
 }

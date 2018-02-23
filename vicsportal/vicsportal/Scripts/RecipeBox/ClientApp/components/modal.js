@@ -1,15 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
+import AddRecipeForm from './addrecipeform';
+import EditRecipe from './edit_recipeform';
+
+
 
 class Modal extends React.Component{
 	constructor(props){
 		super(props)
 		this.modalstate=false;
+		this.context=null;
 	}
 	
 	componentWillReceiveProps(nextProps){
-		this.modalstate=nextProps.modalstate
+		this.modalstate=nextProps.modalstate.modalstate
 		this.closemodal=nextProps.closemodal
+		this.context = nextProps.modalstate.context
+
 		if(this.modalstate){
 				this.modalTarget = document.createElement('div');
 				this.modalTarget.className = 'modal';
@@ -23,6 +30,7 @@ class Modal extends React.Component{
 	
 	
 	componentWillUpdate(){
+
 		this._render();
 	}
 	componentWillUnmount(){
@@ -30,18 +38,22 @@ class Modal extends React.Component{
 		document.body.removeChild(this.modalTarget)
 	}
 
+	
 	_render(){
-		
-	if(this.modalstate){
 
+		if(this.modalstate){
 
-		ReactDOM.render(
-				<div className='modalcontainer'>
-					{this.props.children}
-					<button onClick={this.closemodal}>close modal</button>
-				</div>, this.modalTarget
+			ReactDOM.render(
+					<div className='modalcontainer'>
+						{this.props.children}
+						{(this.context==='CONTEXT_ADDRECIPE') && <AddRecipeForm />}
+						{this.context==='EDIT_RECIPE' && <EditRecipe />}
+						
 
-			);	
+						<button onClick={this.closemodal}>close modal</button>
+					</div>, this.modalTarget
+
+				);	
 	}
 			
 	

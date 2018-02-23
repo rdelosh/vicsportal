@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { showModal } from '../actions/index';
 
 class RecipeItem extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			callbackfunction:props.callbackfunction,
+			
 			Recipe:props.Recipe,
 			Ingredient:props.Ingredient
 		}
@@ -16,10 +19,13 @@ class RecipeItem extends React.Component{
 					style={
 							{	
 								backgroundColor:"yellow",
-								marginBottom:"30px"
+								marginBottom:"30px",
+								cursor:"pointer"
 
 						}} 
-					onClick={this.state.callbackfunction}>
+					
+					onClick={()=>{this.props.showModal(true,'EDIT_RECIPE')}}
+					>
 
 					<h1>{this.state.Recipe}</h1>
 					<p>{this.state.Ingredient}</p>
@@ -29,4 +35,15 @@ class RecipeItem extends React.Component{
 			);
 	}
 }
-export default RecipeItem;
+function mapStateToProps(state){
+	return{
+		modalstate:state.modalstate
+	}
+}
+
+function mapDispatchToProps(dispatch){
+	return bindActionCreators({showModal: showModal}, dispatch)
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeItem);

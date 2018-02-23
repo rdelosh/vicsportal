@@ -5,34 +5,35 @@ import Modal from './modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showModal } from '../actions/index';
-import AddRecipeForm from './addrecipeform';
+
+
 
 class RecipeBox extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {
-			context:{
-				addrecipeform:false
-			}
-		}
+	// constructor(props){
+	// 	super(props)
+	// 	this.state = {
+	// 		context:{
+	// 			addrecipeform:false
+	// 		}
+	// 	}
 		
-	}
+	// }
 	closemodal(){
-		this.props.showModal(false)
+		this.props.showModal(false,null)
 	}
 	render(){
 		return(
 			<div id="mymodal">
+			{console.log(this.props.modalstate)}
 				<Modal  modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
-
 
 				</Modal>
 
 				<ListofRecipes />
 				<button onClick={()=>{
-					this.setState({context:{addrecipeform:true}});
+					
 
-					this.props.showModal(true)
+					this.props.showModal(true,'CONTEXT_ADDRECIPE')
 
 				}}>Add recipe</button>
 			</div>

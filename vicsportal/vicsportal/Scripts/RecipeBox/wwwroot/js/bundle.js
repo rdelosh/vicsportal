@@ -19841,7 +19841,7 @@
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -19852,6 +19852,12 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(165);
+
+	var _redux = __webpack_require__(171);
+
+	var _index = __webpack_require__(207);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19870,7 +19876,7 @@
 			var _this = _possibleConstructorReturn(this, (RecipeItem.__proto__ || Object.getPrototypeOf(RecipeItem)).call(this, props));
 
 			_this.state = {
-				callbackfunction: props.callbackfunction,
+
 				Recipe: props.Recipe,
 				Ingredient: props.Ingredient
 			};
@@ -19879,24 +19885,31 @@
 		}
 
 		_createClass(RecipeItem, [{
-			key: "render",
+			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
-					"div",
+					'div',
 					{
 						style: {
 							backgroundColor: "yellow",
-							marginBottom: "30px"
+							marginBottom: "30px",
+							cursor: "pointer"
 
 						},
-						onClick: this.state.callbackfunction },
+
+						onClick: function onClick() {
+							_this2.props.showModal(true, 'EDIT_RECIPE');
+						}
+					},
 					_react2.default.createElement(
-						"h1",
+						'h1',
 						null,
 						this.state.Recipe
 					),
 					_react2.default.createElement(
-						"p",
+						'p',
 						null,
 						this.state.Ingredient
 					)
@@ -19907,7 +19920,17 @@
 		return RecipeItem;
 	}(_react2.default.Component);
 
-	exports.default = RecipeItem;
+	function mapStateToProps(state) {
+		return {
+			modalstate: state.modalstate
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ showModal: _index.showModal }, dispatch);
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RecipeItem);
 
 /***/ }),
 /* 162 */
@@ -19929,6 +19952,14 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _addrecipeform = __webpack_require__(209);
+
+	var _addrecipeform2 = _interopRequireDefault(_addrecipeform);
+
+	var _edit_recipeform = __webpack_require__(210);
+
+	var _edit_recipeform2 = _interopRequireDefault(_edit_recipeform);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19946,14 +19977,17 @@
 			var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
 
 			_this.modalstate = false;
+			_this.context = null;
 			return _this;
 		}
 
 		_createClass(Modal, [{
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps) {
-				this.modalstate = nextProps.modalstate;
+				this.modalstate = nextProps.modalstate.modalstate;
 				this.closemodal = nextProps.closemodal;
+				this.context = nextProps.modalstate.context;
+
 				if (this.modalstate) {
 					this.modalTarget = document.createElement('div');
 					this.modalTarget.className = 'modal';
@@ -19966,6 +20000,7 @@
 		}, {
 			key: 'componentWillUpdate',
 			value: function componentWillUpdate() {
+
 				this._render();
 			}
 		}, {
@@ -19984,6 +20019,8 @@
 						'div',
 						{ className: 'modalcontainer' },
 						this.props.children,
+						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, null),
+						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, null),
 						_react2.default.createElement(
 							'button',
 							{ onClick: this.closemodal },
@@ -22179,10 +22216,6 @@
 
 	var _index = __webpack_require__(207);
 
-	var _addrecipeform = __webpack_require__(209);
-
-	var _addrecipeform2 = _interopRequireDefault(_addrecipeform);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22194,24 +22227,26 @@
 	var RecipeBox = function (_React$Component) {
 		_inherits(RecipeBox, _React$Component);
 
-		function RecipeBox(props) {
+		function RecipeBox() {
 			_classCallCheck(this, RecipeBox);
 
-			var _this = _possibleConstructorReturn(this, (RecipeBox.__proto__ || Object.getPrototypeOf(RecipeBox)).call(this, props));
-
-			_this.state = {
-				context: {
-					addrecipeform: false
-				}
-			};
-
-			return _this;
+			return _possibleConstructorReturn(this, (RecipeBox.__proto__ || Object.getPrototypeOf(RecipeBox)).apply(this, arguments));
 		}
 
 		_createClass(RecipeBox, [{
 			key: 'closemodal',
+
+			// constructor(props){
+			// 	super(props)
+			// 	this.state = {
+			// 		context:{
+			// 			addrecipeform:false
+			// 		}
+			// 	}
+
+			// }
 			value: function closemodal() {
-				this.props.showModal(false);
+				this.props.showModal(false, null);
 			}
 		}, {
 			key: 'render',
@@ -22221,6 +22256,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ id: 'mymodal' },
+					console.log(this.props.modalstate),
 					_react2.default.createElement(_modal2.default, { modalstate: this.props.modalstate, closemodal: function closemodal() {
 							_this2.closemodal();
 						} }),
@@ -22228,9 +22264,8 @@
 					_react2.default.createElement(
 						'button',
 						{ onClick: function onClick() {
-								_this2.setState({ context: { addrecipeform: true } });
 
-								_this2.props.showModal(true);
+								_this2.props.showModal(true, 'CONTEXT_ADDRECIPE');
 							} },
 						'Add recipe'
 					)
@@ -22263,10 +22298,10 @@
 		value: true
 	});
 	exports.showModal = showModal;
-	function showModal(modalstate) {
+	function showModal(modalstate, context) {
 		return {
 			type: 'MODALSTATE',
-			payload: modalstate
+			payload: { modalstate: modalstate, context: context }
 		};
 	}
 
@@ -22295,7 +22330,7 @@
 
 /***/ }),
 /* 209 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -22303,24 +22338,29 @@
 		value: true
 	});
 
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var addrecipeform = function addrecipeform() {
-		return React.createElement(
+		return _react2.default.createElement(
 			"div",
 			null,
-			React.createElement(
+			_react2.default.createElement(
 				"h2",
 				null,
-				"Edit Recipe"
+				"Add Recipe"
 			),
-			React.createElement("textarea", null),
-			React.createElement(
+			_react2.default.createElement("textarea", { placeholder: "Enter Recipe Title" }),
+			_react2.default.createElement(
 				"h2",
 				null,
 				"Ingredients"
 			),
-			React.createElement("textarea", { placeholder: "Enter ingredients" }),
-			React.createElement(
+			_react2.default.createElement("textarea", { placeholder: "Enter ingredients" }),
+			_react2.default.createElement(
 				"button",
 				{ onClick: function onClick() {
 
@@ -22333,6 +22373,52 @@
 		);
 	};
 	exports.default = addrecipeform;
+
+/***/ }),
+/* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var editrecipeform = function editrecipeform() {
+		return _react2.default.createElement(
+			"div",
+			null,
+			_react2.default.createElement(
+				"h2",
+				null,
+				"Edit Recipe"
+			),
+			_react2.default.createElement("textarea", null),
+			_react2.default.createElement(
+				"h2",
+				null,
+				"Ingredients"
+			),
+			_react2.default.createElement("textarea", { placeholder: "Enter ingredients" }),
+			_react2.default.createElement(
+				"button",
+				{ onClick: function onClick() {
+
+						// localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);
+
+
+					} },
+				"Add Recipe"
+			)
+		);
+	};
+	exports.default = editrecipeform;
 
 /***/ })
 /******/ ]);

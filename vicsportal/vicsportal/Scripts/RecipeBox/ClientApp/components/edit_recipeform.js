@@ -1,10 +1,10 @@
 import React from 'react';
 
- const addrecipeform = () =>{
+ const editrecipeform = () =>{
  	return (
  		<div>
- 				<h2>Add Recipe</h2>
-				<textarea placeholder="Enter Recipe Title"></textarea>
+ 				<h2>Edit Recipe</h2>
+				<textarea></textarea>
 				<h2>Ingredients</h2>
 				<textarea placeholder="Enter ingredients"></textarea>
 				<button onClick={()=>{
@@ -23,5 +23,5 @@ import React from 'react';
 	
 
 }
-export default addrecipeform;	
+export default editrecipeform;	
 	
