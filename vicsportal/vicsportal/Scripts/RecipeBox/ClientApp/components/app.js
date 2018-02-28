@@ -5,7 +5,7 @@ import Modal from './modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showModal } from '../actions/index';
-
+import { editRecipe } from '../actions/index';
 
 
 
@@ -18,8 +18,14 @@ class RecipeBox extends React.Component{
 	render(){
 		return(
 			<div id="mymodal">
+			{
+
+
+
 			
-				<Modal  selectedRecipe={this.props.selectedRecipe} modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
+			
+			}
+				<Modal  editRecipe={this.props.editRecipe} selectedRecipe={this.props.selectedRecipe} modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
 
 				</Modal>
 
@@ -44,7 +50,7 @@ function mapStateToProps(state){
 
 
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({showModal: showModal}, dispatch)
+	return bindActionCreators({showModal: showModal, editRecipe: editRecipe}, dispatch)
 }
 
 

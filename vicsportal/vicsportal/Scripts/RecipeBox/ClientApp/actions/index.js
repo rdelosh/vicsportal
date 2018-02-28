@@ -4,15 +4,15 @@ export function showModal(modalstate,context){
 		payload: {modalstate:modalstate, context:context}// context.type = ADDRECIPEFORM or EDITRECIPEFORM, context.data = {recipetitle, ingredients}
 	}
 }
-export function AddorEditRecipes(changed){
+export function editRecipe(changedRecipe){
 	return{
-		type: 'CHANGERECIPES',
-		payload: changed
+		type: 'EDITRECIPES',
+		payload: {index: changedRecipe.index,title:changedRecipe.title,ingredient:changedRecipe.ingredient}
 	}
 }
 export function selectRecipe(Recipe){
 	return{
 		type:'SELECTEDRECIPE',
-		payload:{recipetitle:Recipe.recipeTitle, ingredients:Recipe.ingredients}
+		payload:{index: Recipe.index,title:Recipe.title, ingredient:Recipe.ingredient}
 	}
 }

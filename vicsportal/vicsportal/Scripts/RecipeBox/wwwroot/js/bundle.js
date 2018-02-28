@@ -82,9 +82,19 @@
 	//import Modal from './components/modal';
 	//import EditRecipeModal from './components/editrecipemodal';
 
+
+	function initializeRecipes() {
+
+		var arrayofrecipes = [];
+		Object.keys(localStorage).map(function (key, index) {
+			arrayofrecipes.push({ index: index, title: key, ingredient: localStorage[key] });
+		});
+		return arrayofrecipes;
+	}
+
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
-		{ store: (0, _redux.createStore)(_reducers2.default) },
+		{ store: (0, _redux.createStore)(_reducers2.default, { recipes: initializeRecipes() }) },
 		_react2.default.createElement(_app2.default, null)
 	), document.querySelector(".myapp"));
 
@@ -19877,14 +19887,24 @@
 
 			_this.state = {
 
-				Recipe: props.Recipe,
-				Ingredient: props.Ingredient
+				recipe: props.recipe,
+				ingredient: props.ingredient,
+				index: props.index
 			};
 
 			return _this;
 		}
 
 		_createClass(RecipeItem, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				this.setState({
+					recipe: nextProps.recipe,
+					ingredient: nextProps.ingredient,
+					index: nextProps.index
+				});
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
@@ -19900,20 +19920,21 @@
 						},
 
 						onClick: function onClick() {
+							console.log(_this2.state);
 							_this2.props.showModal(true, 'EDIT_RECIPE');
-							_this2.props.selectRecipe({ recipeTitle: _this2.state.Recipe, ingredients: _this2.state.Ingredient });
-							console.log(_this2.props.selectedRecipe);
+							_this2.props.selectRecipe({ index: _this2.state.index, title: _this2.state.recipe, ingredient: _this2.state.ingredient });
+							// console.log(this.props.selectedRecipe)
 						}
 					},
 					_react2.default.createElement(
 						'h1',
 						null,
-						this.state.Recipe
+						this.state.recipe
 					),
 					_react2.default.createElement(
 						'p',
 						null,
-						this.state.Ingredient
+						this.state.ingredient
 					)
 				);
 			}
@@ -19984,6 +20005,7 @@
 
 			_this.modalstate = false;
 			_this.context = null;
+
 			return _this;
 		}
 
@@ -19993,6 +20015,7 @@
 				this.selectedRecipe = nextProps.selectedRecipe;
 				this.modalstate = nextProps.modalstate.modalstate;
 				this.closemodal = nextProps.closemodal;
+				this.editRecipe = nextProps.editRecipe;
 				this.context = nextProps.modalstate.context;
 
 				if (this.modalstate) {
@@ -20027,7 +20050,7 @@
 						{ className: 'modalcontainer' },
 						this.props.children,
 						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, null),
-						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { selectedRecipe: this.selectedRecipe }),
+						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
 						_react2.default.createElement(
 							'button',
 							{ onClick: this.closemodal },
@@ -20095,12 +20118,14 @@
 		_createClass(ListofRecipes, [{
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					null,
-					this.props.recipes.map(function (recipe) {
-
-						return _react2.default.createElement(_recipeitem2.default, { key: recipe.title, Recipe: recipe.title, Ingredient: recipe.Ingredient
+					this.state.recipes.map(function (recipe, index) {
+						console.log(_this2.props.recipes);
+						return _react2.default.createElement(_recipeitem2.default, { key: index, index: index, recipe: recipe.title, ingredient: recipe.ingredient
 						});
 					})
 				);
@@ -22177,18 +22202,51 @@
 /* 205 */
 /***/ (function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
 	exports.default = function () {
-		var arrayofrecipes = [];
-		Object.keys(localStorage).map(function (key) {
-			arrayofrecipes.push({ title: key, Ingredient: localStorage[key] });
-		});
-		return arrayofrecipes;
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case 'EDITRECIPES':
+
+				// let arrayofrecipes=state
+				var arrayofrecipes = Object.assign([], state);
+				console.log(state);
+				console.log(action.payload);
+
+				arrayofrecipes.splice(action.payload.index, 1, action.payload);
+				return arrayofrecipes;
+		}
+		// 	let editedrecipe = arrayofrecipes.map((recipe)=>{
+		// 		if(recipe.equals(action.payload){
+
+		// 		})
+		// 	});
+		// }
+		// console.log(state);
+		return state;
+
+		// localStorage.clear()
+		// localStorage.setItem("pizza","flour, tomato, pepperoni")
+		// localStorage.setItem("spaghetti","pasta,tomato, meat")
+
+
+		//console.log(localStorage);
+
+
+		// var arrayofrecipes = [];
+		// Object.keys(localStorage).map((key)=>{
+		// 	arrayofrecipes.push({title:key,ingredient:localStorage[key]})
+		// })
+
+		// return  state;
+
 
 		// return [{title:"piza",ingredient:"flour, tomato, pepperoni"},
 		// 		{title:"spaghetti",ingredient:"pasta,tomato, meat"}]								
@@ -22258,7 +22316,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ id: 'mymodal' },
-					_react2.default.createElement(_modal2.default, { selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
+					_react2.default.createElement(_modal2.default, { editRecipe: this.props.editRecipe, selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
 							_this2.closemodal();
 						} }),
 					_react2.default.createElement(_listofrecipes2.default, null),
@@ -22285,7 +22343,7 @@
 	}
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ showModal: _index.showModal }, dispatch);
+		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, editRecipe: _index.editRecipe }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RecipeBox);
@@ -22300,7 +22358,7 @@
 		value: true
 	});
 	exports.showModal = showModal;
-	exports.AddorEditRecipes = AddorEditRecipes;
+	exports.editRecipe = editRecipe;
 	exports.selectRecipe = selectRecipe;
 	function showModal(modalstate, context) {
 		return {
@@ -22308,16 +22366,16 @@
 			payload: { modalstate: modalstate, context: context // context.type = ADDRECIPEFORM or EDITRECIPEFORM, context.data = {recipetitle, ingredients}
 			} };
 	}
-	function AddorEditRecipes(changed) {
+	function editRecipe(changedRecipe) {
 		return {
-			type: 'CHANGERECIPES',
-			payload: changed
+			type: 'EDITRECIPES',
+			payload: { index: changedRecipe.index, title: changedRecipe.title, ingredient: changedRecipe.ingredient }
 		};
 	}
 	function selectRecipe(Recipe) {
 		return {
 			type: 'SELECTEDRECIPE',
-			payload: { recipetitle: Recipe.recipeTitle, ingredients: Recipe.ingredients }
+			payload: { index: Recipe.index, title: Recipe.title, ingredient: Recipe.ingredient }
 		};
 	}
 
@@ -22423,7 +22481,8 @@
 			var _this = _possibleConstructorReturn(this, (editrecipeform.__proto__ || Object.getPrototypeOf(editrecipeform)).call(this, props));
 
 			_this.state = {
-				selectedRecipe: props.selectedRecipe
+				selectedRecipe: props.selectedRecipe,
+				editRecipe: props.editRecipe
 			};
 			return _this;
 		}
@@ -22436,6 +22495,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					null,
@@ -22444,19 +22505,26 @@
 						null,
 						'Edit Recipe'
 					),
-					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.recipetitle }),
+					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.title, onChange: function onChange(event) {
+							_this2.state.selectedRecipe.title = event.target.value;
+						} }),
 					_react2.default.createElement(
 						'h2',
 						null,
 						'Ingredients'
 					),
-					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.ingredients }),
+					_react2.default.createElement('textarea', { defaultValue: this.state.selectedRecipe.ingredient, onChange: function onChange(event) {
+							_this2.state.selectedRecipe.ingredient = event.target.value;
+						} }),
 					_react2.default.createElement(
 						'button',
 						{ onClick: function onClick() {
 
-								//localStorage.setItem(this.state.selectedRecipe,this.state.currentIngredients);
+								_this2.state.editRecipe({ index: _this2.state.selectedRecipe.index, title: _this2.state.selectedRecipe.title, ingredient: _this2.state.selectedRecipe.ingredient });
+								// console.log(this.state.selectedRecipe)
 
+
+								//localStorage.setItem(this.state.selectedRecipe,this.state.currentIngredients);
 
 							} },
 						'Add Recipe'

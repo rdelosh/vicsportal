@@ -10,10 +10,18 @@ class RecipeItem extends React.Component{
 		
 		this.state={
 			
-			Recipe:props.Recipe,
-			Ingredient:props.Ingredient
+			recipe:props.recipe,
+			ingredient:props.ingredient,
+			index:props.index
 		}
 	
+	}
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			recipe:nextProps.recipe,
+			ingredient:nextProps.ingredient,
+			index:nextProps.index
+		})
 	}
 	render(){
 		return (
@@ -28,14 +36,15 @@ class RecipeItem extends React.Component{
 					
 					onClick={
 						()=>{
+							console.log(this.state)
 							this.props.showModal(true,'EDIT_RECIPE')
-							this.props.selectRecipe({recipeTitle:this.state.Recipe,ingredients:this.state.Ingredient})
-							console.log(this.props.selectedRecipe)
+							this.props.selectRecipe({index: this.state.index, title:this.state.recipe,ingredient:this.state.ingredient})
+							// console.log(this.props.selectedRecipe)
 						}}
 					>
 
-					<h1>{this.state.Recipe}</h1>
-					<p>{this.state.Ingredient}</p>
+					<h1>{this.state.recipe}</h1>
+					<p>{this.state.ingredient}</p>
 				</div>
 
 				

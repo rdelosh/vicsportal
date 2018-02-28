@@ -12,11 +12,13 @@ class ListofRecipes extends React.Component{
 
 				<div>
 					{
-							this.props.recipes.map((recipe)=>{
-								
+							
+							this.state.recipes.map((recipe,index)=>{
+								console.log(this.props.recipes)	
 								return (
-									<RecipeItem key={recipe.title} Recipe={recipe.title} Ingredient={recipe.Ingredient} 
+									<RecipeItem key={index} index={index} recipe={recipe.title} ingredient={recipe.ingredient} 
 									></RecipeItem>)
+								
 								
 							})
 						}	

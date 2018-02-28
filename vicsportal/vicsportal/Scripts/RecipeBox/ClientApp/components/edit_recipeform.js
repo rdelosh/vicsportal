@@ -5,7 +5,8 @@ import React from 'react';
  	constructor(props){
  		super(props)
  		this.state={
- 			selectedRecipe:props.selectedRecipe
+ 			selectedRecipe:props.selectedRecipe,
+ 			editRecipe:props.editRecipe 			
  		}
  	}
  	componentWillReceiveProps(nextProps){
@@ -16,11 +17,13 @@ import React from 'react';
  		return (
 	 		<div>
 	 				<h2>Edit Recipe</h2>
-					<textarea defaultValue={this.state.selectedRecipe.recipetitle}></textarea>
+					<textarea defaultValue={this.state.selectedRecipe.title} onChange={(event)=>{this.state.selectedRecipe.title=event.target.value}}></textarea>
 					<h2>Ingredients</h2>
-					<textarea defaultValue={this.state.selectedRecipe.ingredients}></textarea>
+					<textarea defaultValue={this.state.selectedRecipe.ingredient} onChange={(event)=>{this.state.selectedRecipe.ingredient=event.target.value}}></textarea>
 					<button onClick={()=>{
-							
+						
+						this.state.editRecipe({index:this.state.selectedRecipe.index,title:this.state.selectedRecipe.title,ingredient:this.state.selectedRecipe.ingredient})
+							// console.log(this.state.selectedRecipe)
 
 						
 							
