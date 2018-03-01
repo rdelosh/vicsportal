@@ -21,6 +21,11 @@ export default function(state=null,action){
 			return arrayofrecipes;
 			break;
 
+		case 'DELETERECIPE':
+			arrayofrecipes = Object.assign([],state)
+			arrayofrecipes.splice(action.payload,1)
+			return arrayofrecipes;
+			break;
 
 	}
 

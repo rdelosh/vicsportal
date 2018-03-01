@@ -20018,6 +20018,7 @@
 				this.editRecipe = nextProps.editRecipe;
 				this.context = nextProps.modalstate.context;
 				this.addRecipe = nextProps.addRecipe;
+				this.deleteRecipe = nextProps.deleteRecipe;
 
 				if (this.modalstate) {
 					this.modalTarget = document.createElement('div');
@@ -20051,7 +20052,7 @@
 						{ className: 'modalcontainer' },
 						this.props.children,
 						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, { addRecipe: this.addRecipe }),
-						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
+						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { deleteRecipe: this.deleteRecipe, editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
 						_react2.default.createElement(
 							'button',
 							{ onClick: this.closemodal },
@@ -22231,6 +22232,12 @@
 				return arrayofrecipes;
 				break;
 
+			case 'DELETERECIPE':
+				arrayofrecipes = Object.assign([], state);
+				arrayofrecipes.splice(action.payload, 1);
+				return arrayofrecipes;
+				break;
+
 		}
 
 		return state;
@@ -22328,7 +22335,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ id: 'mymodal' },
-					_react2.default.createElement(_modal2.default, { addRecipe: this.props.addRecipe, editRecipe: this.props.editRecipe, selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
+					_react2.default.createElement(_modal2.default, { deleteRecipe: this.props.deleteRecipe, addRecipe: this.props.addRecipe, editRecipe: this.props.editRecipe, selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
 							_this2.closemodal();
 						} }),
 					_react2.default.createElement(_listofrecipes2.default, null),
@@ -22355,7 +22362,7 @@
 	}
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, editRecipe: _index.editRecipe, addRecipe: _index.addRecipe }, dispatch);
+		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, editRecipe: _index.editRecipe, addRecipe: _index.addRecipe, deleteRecipe: _index.deleteRecipe }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RecipeBox);
@@ -22373,6 +22380,7 @@
 	exports.editRecipe = editRecipe;
 	exports.selectRecipe = selectRecipe;
 	exports.addRecipe = addRecipe;
+	exports.deleteRecipe = deleteRecipe;
 	function showModal(modalstate, context) {
 		return {
 			type: 'MODALSTATE',
@@ -22395,6 +22403,12 @@
 		return {
 			type: 'ADDRECIPE',
 			payload: { title: Recipe.title, ingredient: Recipe.ingredient }
+		};
+	}
+	function deleteRecipe(index) {
+		return {
+			type: 'DELETERECIPE',
+			payload: index
 		};
 	}
 
@@ -22539,7 +22553,8 @@
 
 			_this.state = {
 				selectedRecipe: props.selectedRecipe,
-				editRecipe: props.editRecipe
+				editRecipe: props.editRecipe,
+				deleteRecipe: props.deleteRecipe
 			};
 			return _this;
 		}
@@ -22584,7 +22599,14 @@
 								//localStorage.setItem(this.state.selectedRecipe,this.state.currentIngredients);
 
 							} },
-						'Add Recipe'
+						'Edit Recipe'
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: function onClick() {
+								_this2.state.deleteRecipe(_this2.state.selectedRecipe.index);
+							} },
+						'Delete'
 					)
 				);
 			}

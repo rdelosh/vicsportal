@@ -22,3 +22,9 @@ export function addRecipe(Recipe){
 		payload:{title:Recipe.title, ingredient:Recipe.ingredient}
 	}
 }
+export function deleteRecipe(index){
+	return{
+		type:'DELETERECIPE',
+		payload:index
+	}
+}

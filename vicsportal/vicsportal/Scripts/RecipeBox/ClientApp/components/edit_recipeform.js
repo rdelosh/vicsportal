@@ -6,7 +6,8 @@ import React from 'react';
  		super(props)
  		this.state={
  			selectedRecipe:props.selectedRecipe,
- 			editRecipe:props.editRecipe 			
+ 			editRecipe:props.editRecipe,
+ 			deleteRecipe:props.deleteRecipe		
  		}
  	}
  	componentWillReceiveProps(nextProps){
@@ -21,7 +22,7 @@ import React from 'react';
 					<h2>Ingredients</h2>
 					<textarea defaultValue={this.state.selectedRecipe.ingredient} onChange={(event)=>{this.state.selectedRecipe.ingredient=event.target.value}}></textarea>
 					<button onClick={()=>{
-						
+
 						this.state.editRecipe({index:this.state.selectedRecipe.index,title:this.state.selectedRecipe.title,ingredient:this.state.selectedRecipe.ingredient})
 							// console.log(this.state.selectedRecipe)
 
@@ -32,7 +33,8 @@ import React from 'react';
 							
 						
 						
-					}}>Add Recipe</button>		
+					}}>Edit Recipe</button>
+					<button onClick={()=>{this.state.deleteRecipe(this.state.selectedRecipe.index)}}>Delete</button>	
 	 		</div>
  		)
  	}
