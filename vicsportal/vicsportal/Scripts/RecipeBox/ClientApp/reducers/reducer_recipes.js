@@ -1,16 +1,38 @@
+
+
 export default function(state=null,action){
+	let arrayofrecipes;
 	switch(action.type){
 		case 'EDITRECIPES': 
 		
-		// let arrayofrecipes=state
-		let arrayofrecipes= Object.assign([],state)
-		console.log(state);
-		console.log(action.payload);
-		
+			
+			
+			console.log(state);
+			console.log(action.payload);
 
-		arrayofrecipes.splice(action.payload.index,1,action.payload);
-		return arrayofrecipes;
+			arrayofrecipes = Object.assign([],state)
+			arrayofrecipes.splice(action.payload.index,1,action.payload);
+			return arrayofrecipes;
+			break;
+		
+		case 'ADDRECIPE':
+			arrayofrecipes = Object.assign([],state)
+			arrayofrecipes.push({index:arrayofrecipes.length,title:action.payload.title,ingredient:action.payload.ingredient});
+			return arrayofrecipes;
+			break;
+
+
 	}
+
+
+	return state
+
+
+
+
+
+
+
 	// 	let editedrecipe = arrayofrecipes.map((recipe)=>{
 	// 		if(recipe.equals(action.payload){
 
@@ -18,7 +40,7 @@ export default function(state=null,action){
 	// 	});
 	// }
 	// console.log(state);
-	return state
+	
 
 	 // localStorage.clear()
 // localStorage.setItem("pizza","flour, tomato, pepperoni")

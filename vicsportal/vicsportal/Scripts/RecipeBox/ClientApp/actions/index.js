@@ -16,3 +16,9 @@ export function selectRecipe(Recipe){
 		payload:{index: Recipe.index,title:Recipe.title, ingredient:Recipe.ingredient}
 	}
 }
+export function addRecipe(Recipe){
+	return{
+		type:'ADDRECIPE',
+		payload:{title:Recipe.title, ingredient:Recipe.ingredient}
+	}
+}

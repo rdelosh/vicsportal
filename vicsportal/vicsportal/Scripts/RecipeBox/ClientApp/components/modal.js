@@ -21,6 +21,7 @@ class Modal extends React.Component{
 		this.closemodal=nextProps.closemodal
 		this.editRecipe = nextProps.editRecipe
 		this.context = nextProps.modalstate.context
+		this.addRecipe = nextProps.addRecipe
 
 		if(this.modalstate){
 				this.modalTarget = document.createElement('div');
@@ -51,7 +52,7 @@ class Modal extends React.Component{
 			ReactDOM.render(
 					<div className='modalcontainer'>
 						{this.props.children}
-						{(this.context==='CONTEXT_ADDRECIPE') && <AddRecipeForm />}
+						{(this.context==='CONTEXT_ADDRECIPE') && <AddRecipeForm addRecipe={this.addRecipe}/>}
 						{this.context==='EDIT_RECIPE' && <EditRecipe editRecipe={this.editRecipe} selectedRecipe={this.selectedRecipe} />}
 						
 

@@ -13,7 +13,7 @@ class ListofRecipes extends React.Component{
 				<div>
 					{
 							
-							this.state.recipes.map((recipe,index)=>{
+							this.props.recipes.map((recipe,index)=>{
 								console.log(this.props.recipes)	
 								return (
 									<RecipeItem key={index} index={index} recipe={recipe.title} ingredient={recipe.ingredient} 

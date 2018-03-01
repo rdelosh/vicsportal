@@ -20017,6 +20017,7 @@
 				this.closemodal = nextProps.closemodal;
 				this.editRecipe = nextProps.editRecipe;
 				this.context = nextProps.modalstate.context;
+				this.addRecipe = nextProps.addRecipe;
 
 				if (this.modalstate) {
 					this.modalTarget = document.createElement('div');
@@ -20049,7 +20050,7 @@
 						'div',
 						{ className: 'modalcontainer' },
 						this.props.children,
-						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, null),
+						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, { addRecipe: this.addRecipe }),
 						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
 						_react2.default.createElement(
 							'button',
@@ -20123,7 +20124,7 @@
 				return _react2.default.createElement(
 					'div',
 					null,
-					this.state.recipes.map(function (recipe, index) {
+					this.props.recipes.map(function (recipe, index) {
 						console.log(_this2.props.recipes);
 						return _react2.default.createElement(_recipeitem2.default, { key: index, index: index, recipe: recipe.title, ingredient: recipe.ingredient
 						});
@@ -22212,17 +22213,28 @@
 		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 		var action = arguments[1];
 
+		var arrayofrecipes = void 0;
 		switch (action.type) {
 			case 'EDITRECIPES':
 
-				// let arrayofrecipes=state
-				var arrayofrecipes = Object.assign([], state);
 				console.log(state);
 				console.log(action.payload);
 
+				arrayofrecipes = Object.assign([], state);
 				arrayofrecipes.splice(action.payload.index, 1, action.payload);
 				return arrayofrecipes;
+				break;
+
+			case 'ADDRECIPE':
+				arrayofrecipes = Object.assign([], state);
+				arrayofrecipes.push({ index: arrayofrecipes.length, title: action.payload.title, ingredient: action.payload.ingredient });
+				return arrayofrecipes;
+				break;
+
 		}
+
+		return state;
+
 		// 	let editedrecipe = arrayofrecipes.map((recipe)=>{
 		// 		if(recipe.equals(action.payload){
 
@@ -22230,7 +22242,7 @@
 		// 	});
 		// }
 		// console.log(state);
-		return state;
+
 
 		// localStorage.clear()
 		// localStorage.setItem("pizza","flour, tomato, pepperoni")
@@ -22316,7 +22328,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ id: 'mymodal' },
-					_react2.default.createElement(_modal2.default, { editRecipe: this.props.editRecipe, selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
+					_react2.default.createElement(_modal2.default, { addRecipe: this.props.addRecipe, editRecipe: this.props.editRecipe, selectedRecipe: this.props.selectedRecipe, modalstate: this.props.modalstate, closemodal: function closemodal() {
 							_this2.closemodal();
 						} }),
 					_react2.default.createElement(_listofrecipes2.default, null),
@@ -22343,7 +22355,7 @@
 	}
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, editRecipe: _index.editRecipe }, dispatch);
+		return (0, _redux.bindActionCreators)({ showModal: _index.showModal, editRecipe: _index.editRecipe, addRecipe: _index.addRecipe }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(RecipeBox);
@@ -22360,6 +22372,7 @@
 	exports.showModal = showModal;
 	exports.editRecipe = editRecipe;
 	exports.selectRecipe = selectRecipe;
+	exports.addRecipe = addRecipe;
 	function showModal(modalstate, context) {
 		return {
 			type: 'MODALSTATE',
@@ -22376,6 +22389,12 @@
 		return {
 			type: 'SELECTEDRECIPE',
 			payload: { index: Recipe.index, title: Recipe.title, ingredient: Recipe.ingredient }
+		};
+	}
+	function addRecipe(Recipe) {
+		return {
+			type: 'ADDRECIPE',
+			payload: { title: Recipe.title, ingredient: Recipe.ingredient }
 		};
 	}
 
@@ -22406,11 +22425,13 @@
 /* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
@@ -22418,34 +22439,70 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var addrecipeform = function addrecipeform() {
-		return _react2.default.createElement(
-			"div",
-			null,
-			_react2.default.createElement(
-				"h2",
-				null,
-				"Add Recipe"
-			),
-			_react2.default.createElement("textarea", { placeholder: "Enter Recipe Title" }),
-			_react2.default.createElement(
-				"h2",
-				null,
-				"Ingredients"
-			),
-			_react2.default.createElement("textarea", { placeholder: "Enter ingredients" }),
-			_react2.default.createElement(
-				"button",
-				{ onClick: function onClick() {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-						// localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-					} },
-				"Add Recipe"
-			)
-		);
-	};
+	var addrecipeform = function (_React$Component) {
+	  _inherits(addrecipeform, _React$Component);
+
+	  function addrecipeform(props) {
+	    _classCallCheck(this, addrecipeform);
+
+	    var _this = _possibleConstructorReturn(this, (addrecipeform.__proto__ || Object.getPrototypeOf(addrecipeform)).call(this, props));
+
+	    _this.addRecipe = props.addRecipe;
+	    _this.state = {
+	      title: '',
+	      ingredient: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(addrecipeform, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Add Recipe'
+	        ),
+	        _react2.default.createElement('textarea', { placeholder: 'Enter Recipe Title', onChange: function onChange(event) {
+	            _this2.setState({ title: event.target.value });
+	          } }),
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Ingredients'
+	        ),
+	        _react2.default.createElement('textarea', { placeholder: 'Enter ingredients', onChange: function onChange(event) {
+	            _this2.setState({ ingredient: event.target.value });
+	          } }),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: function onClick() {
+
+	              _this2.addRecipe({ title: _this2.state.title, ingredient: _this2.state.ingredient });
+
+	              // localStorage.setItem(this.state.currentRecipe,this.state.currentIngredients);
+
+	            } },
+	          'Add Recipe'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return addrecipeform;
+	}(_react2.default.Component);
+
 	exports.default = addrecipeform;
 
 /***/ }),
