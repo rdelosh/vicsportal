@@ -12,18 +12,30 @@ export default function(state=null,action){
 
 			arrayofrecipes = Object.assign([],state)
 			arrayofrecipes.splice(action.payload.index,1,action.payload);
+			localStorage.clear()
+			arrayofrecipes.map((recipe)=>{
+				localStorage.setItem(recipe.title,recipe.ingredienjt)
+			})
 			return arrayofrecipes;
 			break;
 		
 		case 'ADDRECIPE':
 			arrayofrecipes = Object.assign([],state)
 			arrayofrecipes.push({index:arrayofrecipes.length,title:action.payload.title,ingredient:action.payload.ingredient});
+			localStorage.clear()
+			arrayofrecipes.map((recipe)=>{
+				localStorage.setItem(recipe.title,recipe.ingredient)
+			})
 			return arrayofrecipes;
 			break;
 
 		case 'DELETERECIPE':
 			arrayofrecipes = Object.assign([],state)
 			arrayofrecipes.splice(action.payload,1)
+			localStorage.clear()
+			arrayofrecipes.map((recipe)=>{
+				localStorage.setItem(recipe.title,recipe.ingredient)
+			})
 			return arrayofrecipes;
 			break;
 
