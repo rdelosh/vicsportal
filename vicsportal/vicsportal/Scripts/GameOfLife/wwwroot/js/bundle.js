@@ -94,9 +94,9 @@
 		var randomnumber = Math.random();
 		// console.log(randomnumber)
 		if (randomnumber < 0.5) {
-			return false;
+			return 'D';
 		} else {
-			return true;
+			return 'A';
 		}
 	}
 
@@ -20990,10 +20990,15 @@
 
 	var _reducer_cells2 = _interopRequireDefault(_reducer_cells);
 
+	var _reducer_runningconditions = __webpack_require__(205);
+
+	var _reducer_runningconditions2 = _interopRequireDefault(_reducer_runningconditions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-		cells: _reducer_cells2.default
+		cells: _reducer_cells2.default,
+		runningconditions: _reducer_runningconditions2.default
 	});
 
 	exports.default = rootReducer;
@@ -21002,7 +21007,7 @@
 /* 183 */
 /***/ (function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -21012,9 +21017,130 @@
 		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 		var action = arguments[1];
 
-		console.log(state);
+		switch (action.type) {
+			case 'START':
+				var newarray = [];
+				state.array.map(function (cell, index) {
+					// console.log(index)
+					var aliveneighbors = 0;
+					var deadneighbors = 0;
+					recognizeNeighbors(findNeighbors(index, state.WIDTH, state.HEIGHT), index, state).map(function (neighbor) {
+
+						if (neighbor.alive === 'A') {
+							aliveneighbors++;
+						} else if (neighbor.alive === 'D') {
+							deadneighbors++;
+						}
+					});
+					if (cell.alive === 'A') {
+						if (aliveneighbors > 3 || aliveneighbors < 2) {
+							newarray.push({ index: index, alive: 'D' });
+						} else if (aliveneighbors >= 2 && aliveneighbors <= 3) {
+							newarray.push({ index: index, alive: 'A' });
+						}
+					}
+					if (cell.alive === 'D') {
+						if (aliveneighbors === 3) {
+							newarray.push({ index: index, alive: 'A' });
+						} else {
+							newarray.push({ index: index, alive: 'D' });
+						}
+					}
+				});
+				// console.log(newarray)
+				// let testconstant =3430
+				// console.log(state.array[testconstant])
+				// console.log(recognizeNeighbors([3,5,6,7,8],50,state))
+				// console.log(findNeighbors(testconstant,state.WIDTH,state.HEIGHT))
+				// console.log(recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state))
+				// recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state)
+
+
+				// 	let aliveneighbors =0;
+				// 	let deadneighbors = 0;
+				// 	recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state).map((neighbor)=>{
+
+				// 		if(neighbor.alive==='A'){
+				// 			aliveneighbors++
+				// 		}else if(neighbor.alive==='D'){
+				// 			deadneighbors++
+				// 		}
+
+				// 	})
+				// console.log(aliveneighbors)
+				// console.log(deadneighbors)
+				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: newarray };
+		}
 		return state;
+		// console.log(state);
+		// return state
+
 	};
+
+	function findNeighbors(index, WIDTH, HEIGHT) {
+
+		//find if index is at the corner
+		if (index === 0) {
+			//{type:CORNER,location1:UP,location2:LEFT}
+			return [5, 7, 8];
+		} else if (index === WIDTH - 1) {
+			//return {type:CORNER,location1:UP,location2:RIGHT}
+			return [3, 6, 7];
+		} else if (index === WIDTH * HEIGHT - WIDTH) {
+			//return {type:CORNER,location1:DOWN,location2:LEFT}
+			return [1, 2, 5];
+		} else if (index === WIDTH * HEIGHT - 1) {
+			//return{type:CORNER,location1:DOWN,location2:RIGHT}
+			return [0, 1, 3];
+		}
+
+		//find if index is at the edge
+		if (index > 0 && index < WIDTH - 1) {
+			//return {type:EDGE,location1:UP}
+			return [3, 5, 6, 7, 8];
+		} else if (index % WIDTH === 0) {
+			//return {type:EDGE,location1:LEFT}
+			return [1, 2, 5, 7, 8];
+		} else if ((index + 1) % WIDTH === 0) {
+			//return EDGE RIGHT
+			return [0, 1, 3, 6, 7];
+		} else if (index > WIDTH * HEIGHT - WIDTH && index < HEIGHT * WIDTH) {
+			//return {type:EDGE,location1:DOWN}
+			return [0, 1, 2, 3, 5];
+		}
+
+		//if none of the above conditions are met, then cell has 8 neighbors so
+		return [0, 1, 2, 3, 5, 6, 7, 8];
+	}
+	function recognizeNeighbors(arrayofneighborpositions, index, boardstate) {
+		// NeighborPositions
+		// [0 1 2
+		//  3   5
+		//  6 7 8]
+		var neighbors = [];
+
+		arrayofneighborpositions.map(function (position) {
+			if (position === 0) {
+				neighbors.push(boardstate.array[index - boardstate.WIDTH - 1]);
+			} else if (position === 1) {
+				neighbors.push(boardstate.array[index - boardstate.WIDTH]);
+			} else if (position === 2) {
+				neighbors.push(boardstate.array[index - boardstate.WIDTH + 1]);
+			} else if (position === 3) {
+				neighbors.push(boardstate.array[index - 1]);
+			} else if (position === 5) {
+				neighbors.push(boardstate.array[index + 1]);
+			} else if (position === 6) {
+				neighbors.push(boardstate.array[index + boardstate.WIDTH - 1]);
+			} else if (position === 7) {
+				neighbors.push(boardstate.array[index + boardstate.WIDTH]);
+			} else if (position === 8) {
+				neighbors.push(boardstate.array[index + boardstate.WIDTH + 1]);
+			}
+		});
+
+		return neighbors;
+	}
 
 /***/ }),
 /* 184 */
@@ -21987,6 +22113,10 @@
 
 	var _cell2 = _interopRequireDefault(_cell);
 
+	var _redux = __webpack_require__(161);
+
+	var _index = __webpack_require__(204);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22010,25 +22140,43 @@
 		}
 
 		_createClass(ListOfCells, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var _this2 = this;
+
+				if (this.props.runningconditions) {
+					var frameupdate = setInterval(function () {
+						_this2.props.startGame();
+					}, 1000);
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
-				var _this2 = this;
+				var _this3 = this;
 
 				return _react2.default.createElement(
 					'div',
 					null,
 					this.props.cells.array.map(function (cell, index) {
-						if (index % _this2.state.WIDTH === 0 && index >= _this2.state.WIDTH) {
-							console.log(_this2.state.WIDTH + "<-WIDTH -- index-->" + index);
+						if (index % _this3.state.WIDTH === 0 && index >= _this3.state.WIDTH) {
+
 							return _react2.default.createElement(
 								'span',
 								null,
 								_react2.default.createElement('br', null),
-								_react2.default.createElement(_cell2.default, null)
+								_react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive })
 							);
 						}
-						return _react2.default.createElement(_cell2.default, null);
-					})
+						return _react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive });
+					}),
+					_react2.default.createElement(
+						'button',
+						{ onClick: function onClick() {
+								_this3.props.startGame();
+							} },
+						'click me'
+					)
 				);
 			}
 		}]);
@@ -22038,11 +22186,16 @@
 
 	function mapStateToProps(state) {
 		return {
-			cells: state.cells
+			cells: state.cells,
+			runningconditions: state.runningconditions
+
 		};
 	}
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ startGame: _index.startGame }, dispatch);
+	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(ListOfCells);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListOfCells);
 
 /***/ }),
 /* 203 */
@@ -22077,12 +22230,17 @@
 			var _this = _possibleConstructorReturn(this, (Cell.__proto__ || Object.getPrototypeOf(Cell)).call(this, props));
 
 			_this.state = {
-				alive: false
+				alive: props.deadoralive
 			};
 			return _this;
 		}
 
 		_createClass(Cell, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				this.setState({ alive: nextProps.deadoralive });
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -22090,7 +22248,7 @@
 					{ style: { display: 'inline-block',
 							margin: 0
 						} },
-					'o'
+					this.state.alive
 				);
 			}
 		}]);
@@ -22099,6 +22257,47 @@
 	}(_react2.default.Component);
 
 	exports.default = Cell;
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.startGame = startGame;
+	exports.updateFrame = updateFrame;
+	function startGame() {
+		return {
+			type: 'START',
+			payload: true
+		};
+	}
+	function updateFrame() {
+		return {
+			type: 'UPDATE',
+			payload: true
+		};
+	}
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = runningconditions;
+	function runningconditions() {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+		var action = arguments[1];
+
+		return state;
+	}
 
 /***/ })
 /******/ ]);

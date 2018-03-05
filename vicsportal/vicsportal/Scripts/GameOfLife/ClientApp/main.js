@@ -23,9 +23,9 @@ function generateDeaDOrAlive(){
 	let randomnumber = Math.random()
 	// console.log(randomnumber)
 	if(randomnumber<0.5){
-		return false;
+		return 'D';
 	}else{
-		return true;
+		return 'A';
 	}
 	
 	

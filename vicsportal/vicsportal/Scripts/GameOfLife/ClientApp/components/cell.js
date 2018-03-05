@@ -5,8 +5,11 @@ class Cell extends React.Component{
 	constructor(props){
 		super(props)
 		this.state={
-			alive:false
+			alive:props.deadoralive
 		}
+	}
+	componentWillReceiveProps(nextProps){
+		this.setState({alive:nextProps.deadoralive})
 	}
 	render(){
 		return (
@@ -16,7 +19,9 @@ class Cell extends React.Component{
 				 margin: 0
 				}
 			}>
-				o
+				{
+					this.state.alive
+				}
 			</div>
 			)
 	}
