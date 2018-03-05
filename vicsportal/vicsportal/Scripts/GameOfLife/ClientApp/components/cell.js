@@ -11,10 +11,17 @@ class Cell extends React.Component{
 	componentWillReceiveProps(nextProps){
 		this.setState({alive:nextProps.deadoralive})
 	}
+	determineClassName(){
+			if(this.state.alive==='A'){
+				return "alivecell"
+			}else{
+				return "deadcell"
+			}
+	}
 	render(){
 		return (
 
-			<div style={
+			<div className={this.determineClassName()}style={
 				{display:'inline-block',
 				 margin: 0
 				}

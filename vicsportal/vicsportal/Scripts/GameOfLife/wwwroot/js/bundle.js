@@ -22147,7 +22147,7 @@
 				if (this.props.runningconditions) {
 					var frameupdate = setInterval(function () {
 						_this2.props.startGame();
-					}, 1000);
+					}, 50);
 				}
 			}
 		}, {
@@ -22241,11 +22241,20 @@
 				this.setState({ alive: nextProps.deadoralive });
 			}
 		}, {
+			key: 'determineClassName',
+			value: function determineClassName() {
+				if (this.state.alive === 'A') {
+					return "alivecell";
+				} else {
+					return "deadcell";
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ style: { display: 'inline-block',
+					{ className: this.determineClassName(), style: { display: 'inline-block',
 							margin: 0
 						} },
 					this.state.alive

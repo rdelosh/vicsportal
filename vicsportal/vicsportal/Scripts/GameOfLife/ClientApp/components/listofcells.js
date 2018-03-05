@@ -14,7 +14,7 @@ class ListOfCells extends React.Component{
 	}
 	componentDidMount(){
 		if(this.props.runningconditions){
-			const frameupdate = setInterval(()=>{this.props.startGame()},1000)
+			const frameupdate = setInterval(()=>{this.props.startGame()},50)
 		}
 		
 	}
