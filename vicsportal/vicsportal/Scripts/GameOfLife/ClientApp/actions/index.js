@@ -16,3 +16,16 @@ export function clearGame(){
 		payload:null
 	}
 }
+export function newBoard(){
+	return{
+		type:'NEWBOARD',
+		payload:null
+	}
+}
+export function resurrectCell(index){
+
+	return{
+		type:'RESURRECT',
+		payload:index
+	}
+}

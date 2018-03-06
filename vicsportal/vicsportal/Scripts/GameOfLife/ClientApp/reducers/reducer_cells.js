@@ -1,4 +1,6 @@
-export default function(state =null, action){
+import initializeCells from './initializedCells'
+
+export default function(state =initializeCells(), action){
 	switch (action.type){
 		case 'START':
 			let newarray =[]
@@ -37,11 +39,22 @@ export default function(state =null, action){
 
 			return {WIDTH:state.WIDTH,HEIGHT:state.HEIGHT,array:newarray}
 		case 'CLEAR':
+			console.log("clicked clear")
 			let cleararray=[]
 				for(let i=0;i<state.WIDTH*state.HEIGHT;i++){
 					cleararray.push({index:i,alive:'D'})
 				}
 			return {WIDTH:state.WIDTH,HEIGHT:state.HEIGHT,array:cleararray}
+		case 'NEWBOARD':
+			console.log("clicked newboard")
+			return initializeCells();
+		case 'RESURRECT':
+			console.log("clicked resurrect")
+			let resurrectedarray = Object.assign([],state.array)
+			resurrectedarray[action.payload].alive='A';
+			
+			return {WIDTH:state.WIDTH,HEIGHT:state.HEIGHT,array:resurrectedarray}
+
 	}
 	return state
 

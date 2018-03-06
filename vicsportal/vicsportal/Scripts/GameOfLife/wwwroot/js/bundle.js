@@ -80,29 +80,9 @@
 
 
 	// import ListofRecipes from './containers/listofrecipes';
-	function initializeCells() {
-		var WIDTH = 70;
-		var HEIGHT = 50;
-		var initialarrayofcells = [];
-		for (var i = 0; i < WIDTH * HEIGHT; i++) {
-			initialarrayofcells.push({ index: i, alive: generateDeaDOrAlive() });
-		}
-		// console.log(initialarrayofcells);
-		return { WIDTH: WIDTH, HEIGHT: HEIGHT, array: initialarrayofcells };
-	}
-	function generateDeaDOrAlive() {
-		var randomnumber = Math.random();
-		// console.log(randomnumber)
-		if (randomnumber < 0.5) {
-			return 'D';
-		} else {
-			return 'A';
-		}
-	}
-
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
-		{ store: (0, _redux.createStore)(_reducers2.default, { cells: initializeCells() }) },
+		{ store: (0, _redux.createStore)(_reducers2.default) },
 		_react2.default.createElement(_app2.default, null)
 	), document.querySelector(".myapp"));
 
@@ -21005,7 +20985,7 @@
 
 /***/ }),
 /* 183 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -21014,7 +20994,7 @@
 	});
 
 	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _initializedCells2.default)();
 		var action = arguments[1];
 
 		switch (action.type) {
@@ -21050,14 +21030,31 @@
 
 				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: newarray };
 			case 'CLEAR':
+				console.log("clicked clear");
 				var cleararray = [];
 				for (var i = 0; i < state.WIDTH * state.HEIGHT; i++) {
 					cleararray.push({ index: i, alive: 'D' });
 				}
 				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: cleararray };
+			case 'NEWBOARD':
+				console.log("clicked newboard");
+				return (0, _initializedCells2.default)();
+			case 'RESURRECT':
+				console.log("clicked resurrect");
+				var resurrectedarray = Object.assign([], state.array);
+				resurrectedarray[action.payload].alive = 'A';
+
+				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: resurrectedarray };
+
 		}
 		return state;
 	};
+
+	var _initializedCells = __webpack_require__(206);
+
+	var _initializedCells2 = _interopRequireDefault(_initializedCells);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function findNeighbors(index, WIDTH, HEIGHT) {
 
@@ -22118,7 +22115,8 @@
 			_this.state = {
 				WIDTH: _this.props.cells.WIDTH,
 				interval: null,
-				pause: false
+				pause: false,
+				generations: 0
 
 			};
 			return _this;
@@ -22137,9 +22135,15 @@
 				if (this.props.runningconditions) {
 					var frameupdate = setInterval(function () {
 						_this2.props.startGame();
+						_this2.setState({ generations: _this2.state.generations + 1 });
 					}, 50);
 					this.setState({ interval: frameupdate });
 				}
+			}
+		}, {
+			key: 'callbacktoresurrect',
+			value: function callbacktoresurrect(index) {
+				this.props.resurrectCell(index);
 			}
 		}, {
 			key: 'render',
@@ -22151,7 +22155,7 @@
 					null,
 					_react2.default.createElement(
 						'div',
-						null,
+						{ className: 'header' },
 						_react2.default.createElement(
 							'button',
 							{ onClick: function onClick() {
@@ -22170,6 +22174,20 @@
 									_this3.props.clearGame();
 								} },
 							'CLEAR GAME'
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									_this3.props.clearGame();
+									_this3.props.newBoard();
+								} },
+							'Generate New Board'
+						),
+						_react2.default.createElement(
+							'p',
+							{ className: 'generations', style: { display: "inline-block" } },
+							'Generations:',
+							this.state.generations
 						)
 					),
 					this.props.cells.array.map(function (cell, index) {
@@ -22179,10 +22197,14 @@
 								'span',
 								null,
 								_react2.default.createElement('br', null),
-								_react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive })
+								_react2.default.createElement(_cell2.default, { key: index, index: cell.index, deadoralive: cell.alive, resurrectCell: function resurrectCell(index) {
+										_this3.callbacktoresurrect(index);
+									} })
 							);
 						}
-						return _react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive });
+						return _react2.default.createElement(_cell2.default, { key: index, index: cell.index, deadoralive: cell.alive, resurrectCell: function resurrectCell(index) {
+								_this3.callbacktoresurrect(index);
+							} });
 					})
 				);
 			}
@@ -22199,7 +22221,7 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ startGame: _index.startGame, clearGame: _index.clearGame }, dispatch);
+		return (0, _redux.bindActionCreators)({ startGame: _index.startGame, clearGame: _index.clearGame, newBoard: _index.newBoard, resurrectCell: _index.resurrectCell }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListOfCells);
@@ -22259,10 +22281,17 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					{ className: this.determineClassName(), style: { display: 'inline-block',
 							margin: 0
+						},
+						onClick: function onClick() {
+							console.log(_this2.props.index);
+
+							_this2.props.resurrectCell(_this2.props.index);
 						} },
 					this.state.alive
 				);
@@ -22286,6 +22315,8 @@
 	exports.startGame = startGame;
 	exports.updateFrame = updateFrame;
 	exports.clearGame = clearGame;
+	exports.newBoard = newBoard;
+	exports.resurrectCell = resurrectCell;
 	function startGame() {
 		return {
 			type: 'START',
@@ -22304,6 +22335,19 @@
 			payload: null
 		};
 	}
+	function newBoard() {
+		return {
+			type: 'NEWBOARD',
+			payload: null
+		};
+	}
+	function resurrectCell(index) {
+
+		return {
+			type: 'RESURRECT',
+			payload: index
+		};
+	}
 
 /***/ }),
 /* 205 */
@@ -22320,6 +22364,36 @@
 		var action = arguments[1];
 
 		return state;
+	}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = initializeCells;
+	function initializeCells() {
+		var WIDTH = 70;
+		var HEIGHT = 50;
+		var initialarrayofcells = [];
+		for (var i = 0; i < WIDTH * HEIGHT; i++) {
+			initialarrayofcells.push({ index: i, alive: generateDeaDOrAlive() });
+		}
+
+		return { WIDTH: WIDTH, HEIGHT: HEIGHT, array: initialarrayofcells };
+	}
+	function generateDeaDOrAlive() {
+		var randomnumber = Math.random();
+
+		if (randomnumber < 0.5) {
+			return 'D';
+		} else {
+			return 'A';
+		}
 	}
 
 /***/ })

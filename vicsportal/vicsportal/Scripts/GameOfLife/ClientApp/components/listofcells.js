@@ -4,6 +4,8 @@ import Cell from './cell';
 import {bindActionCreators} from 'redux';
 import {startGame} from '../actions/index';
 import {clearGame} from '../actions/index';
+import {newBoard} from '../actions/index';
+import {resurrectCell} from '../actions/index';
 
 
 class ListOfCells extends React.Component{
@@ -12,7 +14,8 @@ class ListOfCells extends React.Component{
 		this.state={
 			WIDTH:this.props.cells.WIDTH,
 			interval:null,
-			pause:false
+			pause:false,
+			generations:0
 
 		}
 	}
@@ -23,16 +26,21 @@ class ListOfCells extends React.Component{
 
 	startInterval(){
 		if(this.props.runningconditions){
-			const frameupdate = setInterval(()=>{this.props.startGame()},50)
+			const frameupdate = setInterval(()=>{
+				this.props.startGame()
+				this.setState({generations:this.state.generations+1})
+			},50)
 			this.setState({interval:frameupdate}) 
 		}
 	}
-
+	callbacktoresurrect(index){
+		this.props.resurrectCell(index)
+	}
 
 	render(){
 		return(
 				<div>
-					<div>
+					<div className="header">
 						<button onClick={()=>{
 								if(this.state.pause){
 									this.startInterval()
@@ -50,6 +58,12 @@ class ListOfCells extends React.Component{
 						<button onClick={()=>{
 								this.props.clearGame()
 						}}>CLEAR GAME</button>
+
+						<button onClick={()=>{
+								this.props.clearGame()
+								this.props.newBoard()
+						}}>Generate New Board</button>
+						<p className="generations" style={{display:"inline-block"}}>Generations:{this.state.generations}</p>
 					</div>
 					
  
@@ -61,10 +75,10 @@ class ListOfCells extends React.Component{
 								return (
 									<span>
 										<br />
-										<Cell key={index} deadoralive={cell.alive}/>
+										<Cell key={index} index={cell.index} deadoralive={cell.alive} resurrectCell={(index)=>{this.callbacktoresurrect(index)}}/>
 									</span>)
 							}
-							return <Cell key={index} deadoralive={cell.alive}/>
+							return <Cell key={index} index={cell.index} deadoralive={cell.alive} resurrectCell={(index)=>{this.callbacktoresurrect(index)}}/>
 							
 					})
 
@@ -83,7 +97,7 @@ function mapStateToProps(state){
 	}
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({startGame:startGame, clearGame:clearGame},dispatch)
+	return bindActionCreators({startGame:startGame, clearGame:clearGame, newBoard:newBoard, resurrectCell:resurrectCell},dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ListOfCells)
