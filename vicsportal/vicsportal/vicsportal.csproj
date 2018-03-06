@@ -156,7 +156,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\Camper Leaderboard\wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -261,9 +260,13 @@
     <Content Include="Scripts\Camper Leaderboard\.babelrc" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Camper Leaderboard\webpack.config.js" />
+    <Content Include="Scripts\Camper Leaderboard\wwwroot\js\bundle.js" />
+    <Content Include="Scripts\GameOfLife\wwwroot\js\bundle.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\MarkDownPreviewer\wwwroot\js\bundle.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\RecipeBox\wwwroot\js\bundle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config" />
@@ -292,6 +295,9 @@
     <Content Include="Views\freecodecamp\SimonGame.cshtml" />
     <Content Include="Views\freecodecamp\FreeCodeCampMenu.cshtml" />
     <Content Include="Views\freecodecamp\MarkdownPreviewer.cshtml" />
+    <Content Include="Views\freecodecamp\CamperLeaderboard.cshtml" />
+    <Content Include="Views\freecodecamp\RecipeBox.cshtml" />
+    <Content Include="Views\freecodecamp\GameOfLife.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

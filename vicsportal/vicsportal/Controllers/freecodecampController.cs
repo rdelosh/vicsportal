@@ -60,5 +60,17 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+        public ActionResult CamperLeaderboard()
+        {
+            return View();
+        }
+        public ActionResult GameOfLife()
+        {
+            return View();
+        }
+        public ActionResult RecipeBox()
+        {
+            return View();
+        }
     }
 }

@@ -86,10 +86,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/08/2018 01:05:29</publishTime>
+      <publishTime>03/05/2018 23:14:53</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/08/2018 01:05:29</publishTime>
+      <publishTime>03/05/2018 23:14:53</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 13:07:42</publishTime>
@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/vicsportal.dll">
-      <publishTime>02/08/2018 01:02:30</publishTime>
+      <publishTime>03/05/2018 23:14:44</publishTime>
     </File>
     <File Include="bin/vicsportal.pdb">
-      <publishTime>02/08/2018 01:02:30</publishTime>
+      <publishTime>03/05/2018 23:14:44</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>09/10/2013 17:28:38</publishTime>
@@ -293,7 +293,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/08/2018 01:05:27</publishTime>
+      <publishTime>03/05/2018 23:14:51</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>08/18/2017 20:32:13</publishTime>
@@ -319,6 +319,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Camper Leaderboard/webpack.config.js">
       <publishTime>10/28/2017 15:54:18</publishTime>
     </File>
+    <File Include="Scripts/Camper Leaderboard/wwwroot/js/bundle.js">
+      <publishTime>10/31/2017 06:13:01</publishTime>
+    </File>
+    <File Include="Scripts/GameOfLife/wwwroot/js/bundle.js">
+      <publishTime>03/05/2018 02:59:59</publishTime>
+    </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>08/18/2017 20:32:16</publishTime>
     </File>
@@ -328,8 +334,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery-1.10.2.min.map">
       <publishTime>08/18/2017 20:32:16</publishTime>
     </File>
+    <File Include="Scripts/MarkDownPreviewer/wwwroot/js/bundle.js">
+      <publishTime>10/28/2017 15:45:49</publishTime>
+    </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>08/18/2017 20:32:19</publishTime>
+    </File>
+    <File Include="Scripts/RecipeBox/wwwroot/js/bundle.js">
+      <publishTime>03/01/2018 00:23:00</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>08/18/2017 20:32:20</publishTime>
@@ -340,8 +352,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/_references.js">
       <publishTime>08/18/2017 20:32:20</publishTime>
     </File>
+    <File Include="Views/freecodecamp/CamperLeaderboard.cshtml">
+      <publishTime>03/05/2018 22:32:46</publishTime>
+    </File>
     <File Include="Views/freecodecamp/FreeCodeCampMenu.cshtml">
-      <publishTime>02/08/2018 00:08:43</publishTime>
+      <publishTime>03/05/2018 23:13:44</publishTime>
+    </File>
+    <File Include="Views/freecodecamp/GameOfLife.cshtml">
+      <publishTime>03/05/2018 23:12:42</publishTime>
     </File>
     <File Include="Views/freecodecamp/JavascriptCalculator.cshtml">
       <publishTime>10/17/2017 11:35:39</publishTime>
@@ -350,13 +368,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/07/2018 10:48:00</publishTime>
     </File>
     <File Include="Views/freecodecamp/MarkdownPreviewer.cshtml">
-      <publishTime>10/28/2017 15:48:39</publishTime>
+      <publishTime>03/05/2018 22:17:54</publishTime>
     </File>
     <File Include="Views/freecodecamp/PomodoroClock.cshtml">
       <publishTime>10/17/2017 12:07:13</publishTime>
     </File>
     <File Include="Views/freecodecamp/RandomQuoteMachine.cshtml">
       <publishTime>10/15/2017 08:54:41</publishTime>
+    </File>
+    <File Include="Views/freecodecamp/RecipeBox.cshtml">
+      <publishTime>03/05/2018 23:11:31</publishTime>
     </File>
     <File Include="Views/freecodecamp/SimonGame.cshtml">
       <publishTime>10/15/2017 08:03:51</publishTime>
