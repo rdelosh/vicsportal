@@ -34,35 +34,16 @@ export default function(state =null, action){
 				
 
 			})
-			// console.log(newarray)
-			// let testconstant =3430
-			// console.log(state.array[testconstant])
-			// console.log(recognizeNeighbors([3,5,6,7,8],50,state))
-			// console.log(findNeighbors(testconstant,state.WIDTH,state.HEIGHT))
-			// console.log(recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state))
-			// recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state)
-				
 
-
-			// 	let aliveneighbors =0;
-			// 	let deadneighbors = 0;
-			// 	recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state).map((neighbor)=>{
-					
-			// 		if(neighbor.alive==='A'){
-			// 			aliveneighbors++
-			// 		}else if(neighbor.alive==='D'){
-			// 			deadneighbors++
-			// 		}
-
-			// 	})
-			// console.log(aliveneighbors)
-			// console.log(deadneighbors)
 			return {WIDTH:state.WIDTH,HEIGHT:state.HEIGHT,array:newarray}
+		case 'CLEAR':
+			let cleararray=[]
+				for(let i=0;i<state.WIDTH*state.HEIGHT;i++){
+					cleararray.push({index:i,alive:'D'})
+				}
+			return {WIDTH:state.WIDTH,HEIGHT:state.HEIGHT,array:cleararray}
 	}
 	return state
-	// console.log(state);
-	// return state
-
 
 
 }

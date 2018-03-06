@@ -3,24 +3,56 @@ import {connect} from 'react-redux';
 import Cell from './cell';
 import {bindActionCreators} from 'redux';
 import {startGame} from '../actions/index';
+import {clearGame} from '../actions/index';
 
 
 class ListOfCells extends React.Component{
 	constructor(props){
 		super(props)
 		this.state={
-			WIDTH:this.props.cells.WIDTH
+			WIDTH:this.props.cells.WIDTH,
+			interval:null,
+			pause:false
+
 		}
 	}
 	componentDidMount(){
-		if(this.props.runningconditions){
-			const frameupdate = setInterval(()=>{this.props.startGame()},50)
-		}
+		this.startInterval()
 		
 	}
+
+	startInterval(){
+		if(this.props.runningconditions){
+			const frameupdate = setInterval(()=>{this.props.startGame()},50)
+			this.setState({interval:frameupdate}) 
+		}
+	}
+
+
 	render(){
 		return(
 				<div>
+					<div>
+						<button onClick={()=>{
+								if(this.state.pause){
+									this.startInterval()
+								}else if(!this.state.pause){
+									clearInterval(this.state.interval)
+								}
+								this.setState({pause:!this.state.pause})	
+							}
+						}>
+
+						{
+							this.state.pause?"START":"STOP"
+						}
+						</button>
+						<button onClick={()=>{
+								this.props.clearGame()
+						}}>CLEAR GAME</button>
+					</div>
+					
+ 
 					{
 						
 						this.props.cells.array.map((cell,index)=>{
@@ -37,7 +69,7 @@ class ListOfCells extends React.Component{
 					})
 
 					}
-					<button onClick={()=>{this.props.startGame()}}>click me</button>
+					
 				</div>
 			)
 	}
@@ -51,7 +83,7 @@ function mapStateToProps(state){
 	}
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({startGame:startGame},dispatch)
+	return bindActionCreators({startGame:startGame, clearGame:clearGame},dispatch)
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ListOfCells)

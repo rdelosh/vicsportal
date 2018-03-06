@@ -10,3 +10,9 @@ export function updateFrame(){
 		payload:true
 	}
 }
+export function clearGame(){
+	return{
+		type:'CLEAR',
+		payload:null
+	}
+}

@@ -21047,34 +21047,16 @@
 						}
 					}
 				});
-				// console.log(newarray)
-				// let testconstant =3430
-				// console.log(state.array[testconstant])
-				// console.log(recognizeNeighbors([3,5,6,7,8],50,state))
-				// console.log(findNeighbors(testconstant,state.WIDTH,state.HEIGHT))
-				// console.log(recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state))
-				// recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state)
 
-
-				// 	let aliveneighbors =0;
-				// 	let deadneighbors = 0;
-				// 	recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state).map((neighbor)=>{
-
-				// 		if(neighbor.alive==='A'){
-				// 			aliveneighbors++
-				// 		}else if(neighbor.alive==='D'){
-				// 			deadneighbors++
-				// 		}
-
-				// 	})
-				// console.log(aliveneighbors)
-				// console.log(deadneighbors)
 				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: newarray };
+			case 'CLEAR':
+				var cleararray = [];
+				for (var i = 0; i < state.WIDTH * state.HEIGHT; i++) {
+					cleararray.push({ index: i, alive: 'D' });
+				}
+				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: cleararray };
 		}
 		return state;
-		// console.log(state);
-		// return state
-
 	};
 
 	function findNeighbors(index, WIDTH, HEIGHT) {
@@ -22134,7 +22116,10 @@
 			var _this = _possibleConstructorReturn(this, (ListOfCells.__proto__ || Object.getPrototypeOf(ListOfCells)).call(this, props));
 
 			_this.state = {
-				WIDTH: _this.props.cells.WIDTH
+				WIDTH: _this.props.cells.WIDTH,
+				interval: null,
+				pause: false
+
 			};
 			return _this;
 		}
@@ -22142,12 +22127,18 @@
 		_createClass(ListOfCells, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
+				this.startInterval();
+			}
+		}, {
+			key: 'startInterval',
+			value: function startInterval() {
 				var _this2 = this;
 
 				if (this.props.runningconditions) {
 					var frameupdate = setInterval(function () {
 						_this2.props.startGame();
 					}, 50);
+					this.setState({ interval: frameupdate });
 				}
 			}
 		}, {
@@ -22158,6 +22149,29 @@
 				return _react2.default.createElement(
 					'div',
 					null,
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									if (_this3.state.pause) {
+										_this3.startInterval();
+									} else if (!_this3.state.pause) {
+										clearInterval(_this3.state.interval);
+									}
+									_this3.setState({ pause: !_this3.state.pause });
+								} },
+							this.state.pause ? "START" : "STOP"
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									_this3.props.clearGame();
+								} },
+							'CLEAR GAME'
+						)
+					),
 					this.props.cells.array.map(function (cell, index) {
 						if (index % _this3.state.WIDTH === 0 && index >= _this3.state.WIDTH) {
 
@@ -22169,14 +22183,7 @@
 							);
 						}
 						return _react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive });
-					}),
-					_react2.default.createElement(
-						'button',
-						{ onClick: function onClick() {
-								_this3.props.startGame();
-							} },
-						'click me'
-					)
+					})
 				);
 			}
 		}]);
@@ -22192,7 +22199,7 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ startGame: _index.startGame }, dispatch);
+		return (0, _redux.bindActionCreators)({ startGame: _index.startGame, clearGame: _index.clearGame }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListOfCells);
@@ -22278,6 +22285,7 @@
 	});
 	exports.startGame = startGame;
 	exports.updateFrame = updateFrame;
+	exports.clearGame = clearGame;
 	function startGame() {
 		return {
 			type: 'START',
@@ -22288,6 +22296,12 @@
 		return {
 			type: 'UPDATE',
 			payload: true
+		};
+	}
+	function clearGame() {
+		return {
+			type: 'CLEAR',
+			payload: null
 		};
 	}
 
