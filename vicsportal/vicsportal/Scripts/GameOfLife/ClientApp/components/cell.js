@@ -23,11 +23,12 @@ class Cell extends React.Component{
 
 			<div className={this.determineClassName()}style={
 				{display:'inline-block',
-				 margin: 0
+				 margin: 0,
+				 cursor:"pointer"
 				}}
 				onClick={()=>{
 					console.log(this.props.index)
-					
+
 					this.props.resurrectCell(this.props.index)
 			}}>
 				{

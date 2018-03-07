@@ -80,29 +80,9 @@
 
 
 	// import ListofRecipes from './containers/listofrecipes';
-	function initializeCells() {
-		var WIDTH = 70;
-		var HEIGHT = 50;
-		var initialarrayofcells = [];
-		for (var i = 0; i < WIDTH * HEIGHT; i++) {
-			initialarrayofcells.push({ index: i, alive: generateDeaDOrAlive() });
-		}
-		// console.log(initialarrayofcells);
-		return { WIDTH: WIDTH, HEIGHT: HEIGHT, array: initialarrayofcells };
-	}
-	function generateDeaDOrAlive() {
-		var randomnumber = Math.random();
-		// console.log(randomnumber)
-		if (randomnumber < 0.5) {
-			return 'D';
-		} else {
-			return 'A';
-		}
-	}
-
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
-		{ store: (0, _redux.createStore)(_reducers2.default, { cells: initializeCells() }) },
+		{ store: (0, _redux.createStore)(_reducers2.default) },
 		_react2.default.createElement(_app2.default, null)
 	), document.querySelector(".myapp"));
 
@@ -21005,7 +20985,7 @@
 
 /***/ }),
 /* 183 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -21014,7 +20994,7 @@
 	});
 
 	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _initializedCells2.default)();
 		var action = arguments[1];
 
 		switch (action.type) {
@@ -21047,35 +21027,34 @@
 						}
 					}
 				});
-				// console.log(newarray)
-				// let testconstant =3430
-				// console.log(state.array[testconstant])
-				// console.log(recognizeNeighbors([3,5,6,7,8],50,state))
-				// console.log(findNeighbors(testconstant,state.WIDTH,state.HEIGHT))
-				// console.log(recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state))
-				// recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state)
 
-
-				// 	let aliveneighbors =0;
-				// 	let deadneighbors = 0;
-				// 	recognizeNeighbors(findNeighbors(testconstant,state.WIDTH,state.HEIGHT),testconstant,state).map((neighbor)=>{
-
-				// 		if(neighbor.alive==='A'){
-				// 			aliveneighbors++
-				// 		}else if(neighbor.alive==='D'){
-				// 			deadneighbors++
-				// 		}
-
-				// 	})
-				// console.log(aliveneighbors)
-				// console.log(deadneighbors)
 				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: newarray };
+			case 'CLEAR':
+				console.log("clicked clear");
+				var cleararray = [];
+				for (var i = 0; i < state.WIDTH * state.HEIGHT; i++) {
+					cleararray.push({ index: i, alive: 'D' });
+				}
+				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: cleararray };
+			case 'NEWBOARD':
+				console.log("clicked newboard");
+				return (0, _initializedCells2.default)();
+			case 'RESURRECT':
+				console.log("clicked resurrect");
+				var resurrectedarray = Object.assign([], state.array);
+				resurrectedarray[action.payload].alive = 'A';
+
+				return { WIDTH: state.WIDTH, HEIGHT: state.HEIGHT, array: resurrectedarray };
+
 		}
 		return state;
-		// console.log(state);
-		// return state
-
 	};
+
+	var _initializedCells = __webpack_require__(206);
+
+	var _initializedCells2 = _interopRequireDefault(_initializedCells);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function findNeighbors(index, WIDTH, HEIGHT) {
 
@@ -22134,7 +22113,11 @@
 			var _this = _possibleConstructorReturn(this, (ListOfCells.__proto__ || Object.getPrototypeOf(ListOfCells)).call(this, props));
 
 			_this.state = {
-				WIDTH: _this.props.cells.WIDTH
+				WIDTH: _this.props.cells.WIDTH,
+				interval: null,
+				pause: false,
+				generations: 0
+
 			};
 			return _this;
 		}
@@ -22142,13 +22125,25 @@
 		_createClass(ListOfCells, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
+				this.startInterval();
+			}
+		}, {
+			key: 'startInterval',
+			value: function startInterval() {
 				var _this2 = this;
 
 				if (this.props.runningconditions) {
 					var frameupdate = setInterval(function () {
 						_this2.props.startGame();
+						_this2.setState({ generations: _this2.state.generations + 1 });
 					}, 50);
+					this.setState({ interval: frameupdate });
 				}
+			}
+		}, {
+			key: 'callbacktoresurrect',
+			value: function callbacktoresurrect(index) {
+				this.props.resurrectCell(index);
 			}
 		}, {
 			key: 'render',
@@ -22158,6 +22153,45 @@
 				return _react2.default.createElement(
 					'div',
 					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'header' },
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									if (_this3.state.pause) {
+										_this3.startInterval();
+									} else if (!_this3.state.pause) {
+										clearInterval(_this3.state.interval);
+									}
+									_this3.setState({ pause: !_this3.state.pause });
+								} },
+							this.state.pause ? "START" : "STOP"
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									_this3.props.clearGame();
+									_this3.setState({ generations: 0 });
+								} },
+							'CLEAR GAME'
+						),
+						_react2.default.createElement(
+							'button',
+							{ onClick: function onClick() {
+									_this3.props.clearGame();
+									_this3.props.newBoard();
+									_this3.setState({ generations: 0 });
+								} },
+							'Generate New Board'
+						),
+						_react2.default.createElement(
+							'p',
+							{ className: 'generations', style: { display: "inline-block" } },
+							'Generations:',
+							this.state.generations
+						)
+					),
 					this.props.cells.array.map(function (cell, index) {
 						if (index % _this3.state.WIDTH === 0 && index >= _this3.state.WIDTH) {
 
@@ -22165,18 +22199,15 @@
 								'span',
 								null,
 								_react2.default.createElement('br', null),
-								_react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive })
+								_react2.default.createElement(_cell2.default, { key: index, index: cell.index, deadoralive: cell.alive, resurrectCell: function resurrectCell(index) {
+										_this3.callbacktoresurrect(index);
+									} })
 							);
 						}
-						return _react2.default.createElement(_cell2.default, { key: index, deadoralive: cell.alive });
-					}),
-					_react2.default.createElement(
-						'button',
-						{ onClick: function onClick() {
-								_this3.props.startGame();
-							} },
-						'click me'
-					)
+						return _react2.default.createElement(_cell2.default, { key: index, index: cell.index, deadoralive: cell.alive, resurrectCell: function resurrectCell(index) {
+								_this3.callbacktoresurrect(index);
+							} });
+					})
 				);
 			}
 		}]);
@@ -22192,7 +22223,7 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ startGame: _index.startGame }, dispatch);
+		return (0, _redux.bindActionCreators)({ startGame: _index.startGame, clearGame: _index.clearGame, newBoard: _index.newBoard, resurrectCell: _index.resurrectCell }, dispatch);
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ListOfCells);
@@ -22252,10 +22283,18 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					{ className: this.determineClassName(), style: { display: 'inline-block',
-							margin: 0
+							margin: 0,
+							cursor: "pointer"
+						},
+						onClick: function onClick() {
+							console.log(_this2.props.index);
+
+							_this2.props.resurrectCell(_this2.props.index);
 						} },
 					this.state.alive
 				);
@@ -22278,6 +22317,9 @@
 	});
 	exports.startGame = startGame;
 	exports.updateFrame = updateFrame;
+	exports.clearGame = clearGame;
+	exports.newBoard = newBoard;
+	exports.resurrectCell = resurrectCell;
 	function startGame() {
 		return {
 			type: 'START',
@@ -22288,6 +22330,25 @@
 		return {
 			type: 'UPDATE',
 			payload: true
+		};
+	}
+	function clearGame() {
+		return {
+			type: 'CLEAR',
+			payload: null
+		};
+	}
+	function newBoard() {
+		return {
+			type: 'NEWBOARD',
+			payload: null
+		};
+	}
+	function resurrectCell(index) {
+
+		return {
+			type: 'RESURRECT',
+			payload: index
 		};
 	}
 
@@ -22306,6 +22367,36 @@
 		var action = arguments[1];
 
 		return state;
+	}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = initializeCells;
+	function initializeCells() {
+		var WIDTH = 70;
+		var HEIGHT = 50;
+		var initialarrayofcells = [];
+		for (var i = 0; i < WIDTH * HEIGHT; i++) {
+			initialarrayofcells.push({ index: i, alive: generateDeaDOrAlive() });
+		}
+
+		return { WIDTH: WIDTH, HEIGHT: HEIGHT, array: initialarrayofcells };
+	}
+	function generateDeaDOrAlive() {
+		var randomnumber = Math.random();
+
+		if (randomnumber < 0.5) {
+			return 'D';
+		} else {
+			return 'A';
+		}
 	}
 
 /***/ })

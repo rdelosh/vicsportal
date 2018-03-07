@@ -57,11 +57,13 @@ class ListOfCells extends React.Component{
 						</button>
 						<button onClick={()=>{
 								this.props.clearGame()
+								this.setState({generations:0})
 						}}>CLEAR GAME</button>
 
 						<button onClick={()=>{
 								this.props.clearGame()
 								this.props.newBoard()
+								this.setState({generations:0})
 						}}>Generate New Board</button>
 						<p className="generations" style={{display:"inline-block"}}>Generations:{this.state.generations}</p>
 					</div>

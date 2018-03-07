@@ -22172,6 +22172,7 @@
 							'button',
 							{ onClick: function onClick() {
 									_this3.props.clearGame();
+									_this3.setState({ generations: 0 });
 								} },
 							'CLEAR GAME'
 						),
@@ -22180,6 +22181,7 @@
 							{ onClick: function onClick() {
 									_this3.props.clearGame();
 									_this3.props.newBoard();
+									_this3.setState({ generations: 0 });
 								} },
 							'Generate New Board'
 						),
@@ -22286,7 +22288,8 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: this.determineClassName(), style: { display: 'inline-block',
-							margin: 0
+							margin: 0,
+							cursor: "pointer"
 						},
 						onClick: function onClick() {
 							console.log(_this2.props.index);
