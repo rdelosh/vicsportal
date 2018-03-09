@@ -22015,52 +22015,41 @@
 		function Gamemap(props) {
 			_classCallCheck(this, Gamemap);
 
-			var _this = _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
+			return _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
 
-			_this.state = {
-				walls: null
-			};
-			_this.walls = [];
-			return _this;
+			// this.state={
+			// 	walls:null
+			// }
+			// this.walls=[]	
 		}
+		// addWall(index){
+		// 	this.walls.push(index+",")
+		// 	this.setState(
+		// 		{walls:this.walls})
+		// 	// this.walls.push(index)
+		// 	console.log(this.state.walls)
+
+		// }
+
 
 		_createClass(Gamemap, [{
-			key: 'addWall',
-			value: function addWall(index) {
-				this.walls.push(index + ",");
-				this.setState({ walls: this.walls });
-				// this.walls.push(index)
-				console.log(this.state.walls);
-			}
-		}, {
 			key: 'render',
 			value: function render() {
-				var _this2 = this;
-
 				return _react2.default.createElement(
 					'div',
 					{ style: {
 							minWidth: "1200px"
 						} },
-					_react2.default.createElement(
-						'p',
-						null,
-						this.state.walls
-					),
 					this.props.gamemap.map(function (tile, index) {
 						if (index % 70 === 0) {
 							return _react2.default.createElement(
 								'span',
 								null,
 								_react2.default.createElement('br', null),
-								_react2.default.createElement(_tile2.default, { index: index, tile: tile, addWall: function addWall(index) {
-										_this2.addWall(index);
-									} })
+								_react2.default.createElement(_tile2.default, { index: index, tile: tile })
 							);
 						}
-						return _react2.default.createElement(_tile2.default, { index: index, tile: tile, addWall: function addWall(index) {
-								_this2.addWall(index);
-							} });
+						return _react2.default.createElement(_tile2.default, { index: index, tile: tile });
 					})
 				);
 			}
@@ -22132,8 +22121,6 @@
 		}, {
 			key: "render",
 			value: function render() {
-				var _this2 = this;
-
 				return _react2.default.createElement("div", { style: {
 
 						border: "1px solid black",
@@ -22144,8 +22131,8 @@
 					}, width: "13px", height: "13px", className: this.props.tile.type,
 					onClick: function onClick() {
 
-						_this2.props.addWall(_this2.props.index);
-						_this2.props.tile.type = "WALL";
+						// this.props.addWall(this.props.index)
+						// this.props.tile.type="WALL"
 						// console.log(this.props.addWall(this.props.index))
 						// console.log(this.props.tile.type)
 					} })

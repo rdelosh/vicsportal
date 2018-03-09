@@ -30,8 +30,8 @@ class Tile extends React.Component{
 				} width="13px" height="13px" className={this.props.tile.type}
 				onClick={()=>{
 
-					this.props.addWall(this.props.index)
-					this.props.tile.type="WALL"
+					// this.props.addWall(this.props.index)
+					// this.props.tile.type="WALL"
 					// console.log(this.props.addWall(this.props.index))
 					// console.log(this.props.tile.type)
 				}}></div>

@@ -7,25 +7,25 @@ class Gamemap extends React.Component{
 	constructor(props){
 		super(props)
 		
-		this.state={
-			walls:null
-		}
-		this.walls=[]	
+		// this.state={
+		// 	walls:null
+		// }
+		// this.walls=[]	
 	}
-	addWall(index){
-		this.walls.push(index+",")
-		this.setState(
-			{walls:this.walls})
-		// this.walls.push(index)
-		console.log(this.state.walls)
+	// addWall(index){
+	// 	this.walls.push(index+",")
+	// 	this.setState(
+	// 		{walls:this.walls})
+	// 	// this.walls.push(index)
+	// 	console.log(this.state.walls)
 		
-	}
+	// }
 	render(){
 		return(
 			<div style={{
 				minWidth:"1200px"
 			}}>
-				<p>{this.state.walls}</p>
+				
 
 					
 					{
@@ -34,7 +34,7 @@ class Gamemap extends React.Component{
 							return (
 								<span>
 									<br />	
-									<Tile index={index} tile={tile} addWall={(index)=>{this.addWall(index)}}/>
+									<Tile index={index} tile={tile} />
 								</span>
 								
 								)
@@ -42,7 +42,7 @@ class Gamemap extends React.Component{
 						return (
 
 			
-								<Tile index={index} tile={tile} addWall={(index)=>{this.addWall(index)}}/>
+								<Tile index={index} tile={tile} />
 							
 							)
 					})
