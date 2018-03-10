@@ -20935,10 +20935,43 @@
 	});
 
 	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _initialmap2.default)();
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
 		var action = arguments[1];
 
 
+		switch (action.type) {
+			case 'MOVE':
+				var newtiles = Object.assign([], state.tiles);
+				var newlocs = Object.assign({}, state.locs);
+				var WIDTH = Object.assign(state.WIDTH);
+				var HEIGHT = Object.assign(state.HEIGHT);
+				console.log(state);
+				switch (action.payload) {
+					case 'left':
+						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
+						newtiles[state.locs.playerlocation - 1] = { type: 'PLAYER' };
+						newlocs.playerlocation = state.locs.playerlocation - 1;
+						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+					case 'right':
+						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
+						newtiles[state.locs.playerlocation + 1] = { type: 'PLAYER' };
+						newlocs.playerlocation = state.locs.playerlocation + 1;
+						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+
+					case 'up':
+
+						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
+						newtiles[state.locs.playerlocation - state.WIDTH] = { type: 'PLAYER' };
+						newlocs.playerlocation = state.locs.playerlocation - state.WIDTH;
+						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+					case 'down':
+						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
+						newtiles[state.locs.playerlocation + state.WIDTH] = { type: 'PLAYER' };
+						newlocs.playerlocation = state.locs.playerlocation + state.WIDTH;
+						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+
+				}
+		}
 		return state;
 	};
 
@@ -20948,6 +20981,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var starter = (0, _initialmap2.default)();
+
 /***/ }),
 /* 183 */
 /***/ (function(module, exports) {
@@ -20955,24 +20990,63 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	exports.default = initialMap;
 	function initialMap() {
-	  var WIDTH = 70;
-	  var HEIGHT = 50;
-	  var tiles = [];
-	  for (var i = 0; i < WIDTH * HEIGHT; i++) {
-	    tiles.push({ type: 'FLOOR' });
-	  }
+	    var WIDTH = 70;
+	    var HEIGHT = 50;
+	    var playerloc = 0;
+	    var bossloc = 0;
 
-	  var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
+	    var tiles = [];
+	    for (var i = 0; i < WIDTH * HEIGHT; i++) {
+	        tiles.push({ type: 'FLOOR' });
+	    }
 
-	  walls.map(function (wall) {
-	    tiles[wall] = { type: 'WALL' };
-	  });
+	    var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
 
-	  return tiles;
+	    var locs = null;
+	    walls.map(function (wall, index) {
+	        tiles[wall] = { type: 'WALL' };
+
+	        if (index === walls.length - 1) {
+	            locs = addPlayerAndBoss(tiles, WIDTH, HEIGHT);
+	            tiles[locs.playerlocation] = { type: 'PLAYER' };
+	            tiles[locs.bosslocation] = { type: 'BOSS' };
+	        }
+	    });
+
+	    return { tiles: tiles, locs: locs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+	}
+
+	function generateRandomLocation(WIDTH, HEIGHT) {
+	    return Math.floor(Math.random() * (WIDTH * HEIGHT - 1 - 0) + 0);
+	}
+	function addPlayerAndBoss(mytiles, WIDTH, HEIGHT) {
+	    var increaseIndex = true; //if true add+++++, if false subtract-----
+	    var quantity = 2000;
+	    var tiles = mytiles;
+
+	    var randomplayerlocation = generateRandomLocation(WIDTH, HEIGHT);
+
+	    var randombosslocation = generateRandomLocation(WIDTH, HEIGHT);
+
+	    //console.log(tiles)
+	    if (randombosslocation + quantity < tiles.length) {
+	        console.log("bossloc: " + (randombosslocation + quantity));
+	        console.log(tiles[randombosslocation + quantity]);
+	        if (tiles[randombosslocation + quantity].type === 'FLOOR') {
+	            console.log(randombosslocation + quantity);
+	            randombosslocation = randombosslocation + quantity;
+	        } else {
+	            increaseIndex ? quantity = quantity + 30 : quantity = quantity - 30;
+	        }
+	    } else {
+	        increaseIndex = !increaseIndex;
+	    }
+
+	    return { playerlocation: randomplayerlocation, bosslocation: randombosslocation };
 	}
 
 /***/ }),
@@ -22001,6 +22075,8 @@
 
 	var _tile2 = _interopRequireDefault(_tile);
 
+	var _index = __webpack_require__(205);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22015,12 +22091,19 @@
 		function Gamemap(props) {
 			_classCallCheck(this, Gamemap);
 
-			return _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
-
 			// this.state={
 			// 	walls:null
 			// }
 			// this.walls=[]	
+			var _this = _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
+
+			window.focus();
+			document.addEventListener('keyup', function (event) {
+				_this.moveCommand(event);
+				console.log(event.key);
+			});
+
+			return _this;
 		}
 		// addWall(index){
 		// 	this.walls.push(index+",")
@@ -22033,6 +22116,19 @@
 
 
 		_createClass(Gamemap, [{
+			key: 'moveCommand',
+			value: function moveCommand(event) {
+				if (event.key === 'ArrowLeft') {
+					this.props.move('left');
+				} else if (event.key === 'ArrowRight') {
+					this.props.move('right');
+				} else if (event.key === 'ArrowUp') {
+					this.props.move('up');
+				} else if (event.key === 'ArrowDown') {
+					this.props.move('down');
+				}
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -22040,7 +22136,7 @@
 					{ style: {
 							minWidth: "1200px"
 						} },
-					this.props.gamemap.map(function (tile, index) {
+					this.props.gamemap.tiles.map(function (tile, index) {
 						if (index % 70 === 0) {
 							return _react2.default.createElement(
 								'span',
@@ -22061,16 +22157,13 @@
 	function mapStateToProps(state) {
 		return {
 			gamemap: state.gamemap
+
 		};
 	}
-	// function mapDispatchToProps(dispatch){
-	// 	return{
-	// 		bindActionCreators({},dispatch)
-	// 	}
-	// }
-	exports.default = (0, _reactRedux.connect)(mapStateToProps
-	// ,mapDispatchToProps
-	)(Gamemap);
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ move: _index.move }, dispatch);
+	}
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
 /***/ }),
 /* 204 */
@@ -22121,6 +22214,8 @@
 		}, {
 			key: "render",
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement("div", { style: {
 
 						border: "1px solid black",
@@ -22133,7 +22228,7 @@
 
 						// this.props.addWall(this.props.index)
 						// this.props.tile.type="WALL"
-						// console.log(this.props.addWall(this.props.index))
+						console.log(_this2.props.index);
 						// console.log(this.props.tile.type)
 					} })
 
@@ -22151,6 +22246,24 @@
 	}(_react2.default.Component);
 
 	exports.default = Tile;
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.move = move;
+	function move(direction) {
+		return {
+			type: 'MOVE',
+			payload: direction
+
+		};
+	}
 
 /***/ })
 /******/ ]);
