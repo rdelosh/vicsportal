@@ -15,7 +15,8 @@ class Gamemap extends React.Component{
 		window.focus()
 		document.addEventListener('keyup',(event)=>{
 			this.moveCommand(event)
-			console.log(event.key)
+			
+			// console.log(event.key)
 		})
 		
 	}
