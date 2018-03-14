@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Tile from './tile';
 import {move} from '../actions/index';
+import {updateHP} from '../actions/index';
+
 
 class Gamemap extends React.Component{
 	constructor(props){
@@ -14,9 +16,9 @@ class Gamemap extends React.Component{
 		// this.walls=[]	
 		window.focus()
 		document.addEventListener('keyup',(event)=>{
+			this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
 			this.moveCommand(event)
 			
-			// console.log(event.key)
 		})
 		
 	}
@@ -28,6 +30,11 @@ class Gamemap extends React.Component{
 	// 	console.log(this.state.walls)
 		
 	// }
+	componentWillUpdate(){
+		if(this.props.hp<=0){
+			console.log('GAME OVER')
+		}
+	}
 	moveCommand(event){
 		if(event.key==='ArrowLeft'){
 			this.props.move('left')
@@ -50,7 +57,7 @@ class Gamemap extends React.Component{
 			}}>
 				
 					
-					
+					<p>HP: {this.props.hp}</p>
 					{
 					this.props.gamemap.tiles.map((tile,index)=>{
 						if(index%70===0){
@@ -79,13 +86,14 @@ class Gamemap extends React.Component{
 
 function mapStateToProps(state){
 	return {
-		gamemap:state.gamemap
+		gamemap:state.gamemap,
+		hp:state.hp
 
 	}
 
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({move:move},dispatch)
+	return bindActionCreators({move:move,updateHP:updateHP},dispatch)
 	
 }
 export default connect(mapStateToProps

@@ -20917,10 +20917,16 @@
 
 	var _reducer_gamemap2 = _interopRequireDefault(_reducer_gamemap);
 
+	var _reducer_hp = __webpack_require__(206);
+
+	var _reducer_hp2 = _interopRequireDefault(_reducer_hp);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-		gamemap: _reducer_gamemap2.default
+		gamemap: _reducer_gamemap2.default,
+		hp: _reducer_hp2.default
+
 	});
 	exports.default = rootReducer;
 
@@ -22112,9 +22118,8 @@
 
 			window.focus();
 			document.addEventListener('keyup', function (event) {
+				_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap });
 				_this.moveCommand(event);
-
-				// console.log(event.key)
 			});
 
 			return _this;
@@ -22130,6 +22135,13 @@
 
 
 		_createClass(Gamemap, [{
+			key: 'componentWillUpdate',
+			value: function componentWillUpdate() {
+				if (this.props.hp <= 0) {
+					console.log('GAME OVER');
+				}
+			}
+		}, {
 			key: 'moveCommand',
 			value: function moveCommand(event) {
 				if (event.key === 'ArrowLeft') {
@@ -22150,6 +22162,12 @@
 					{ style: {
 							minWidth: "1200px"
 						} },
+					_react2.default.createElement(
+						'p',
+						null,
+						'HP: ',
+						this.props.hp
+					),
 					this.props.gamemap.tiles.map(function (tile, index) {
 						if (index % 70 === 0) {
 							return _react2.default.createElement(
@@ -22170,12 +22188,13 @@
 
 	function mapStateToProps(state) {
 		return {
-			gamemap: state.gamemap
+			gamemap: state.gamemap,
+			hp: state.hp
 
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ move: _index.move }, dispatch);
+		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP }, dispatch);
 	}
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
@@ -22271,6 +22290,7 @@
 		value: true
 	});
 	exports.move = move;
+	exports.updateHP = updateHP;
 	function move(direction) {
 		return {
 			type: 'MOVE',
@@ -22278,6 +22298,53 @@
 
 		};
 	}
+	function updateHP(update) {
+		return {
+			type: 'UPDATEHP',
+			payload: { movedirection: update.movedirection, gamemap: update.gamemap }
+		};
+	}
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case 'UPDATEHP':
+				//testing moving to the left
+				console.log(action);
+				switch (action.payload.movedirection) {
+					case 'ArrowLeft':
+						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation - 1].type === 'BOSS') {
+							return state - 5;
+						}
+					case 'ArrowRight':
+						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation + 1].type === 'BOSS') {
+							return state - 5;
+						}
+					case 'ArrowUp':
+						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation - action.payload.gamemap.WIDTH].type === 'BOSS') {
+							return state - 5;
+						}
+					case 'ArrowDown':
+						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation + action.payload.gamemap.WIDTH].type === 'BOSS') {
+							return state - 5;
+						}
+				}
+
+		}
+		return state;
+	};
 
 /***/ })
 /******/ ]);
