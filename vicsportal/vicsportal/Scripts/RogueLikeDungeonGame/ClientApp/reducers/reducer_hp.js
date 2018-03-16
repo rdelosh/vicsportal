@@ -3,23 +3,33 @@ export default function(state =100, action){
 		case 'UPDATEHP':
 			//testing moving to the left
 			console.log(action)
+			let playerlocation =action.payload.gamemap.locs.playerlocation;
+			let tiles = action.payload.gamemap.tiles
+			let WIDTH = action.payload.gamemap.WIDTH
 			switch(action.payload.movedirection){
 				case 'ArrowLeft':
-					if(action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation-1].type==='BOSS'){
+					
+					if(tiles[playerlocation-1].type==='BOSS'){
 						return state-5;
-					}				
+					}
+					break;
 				case 'ArrowRight':
-					if(action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation+1].type==='BOSS'){
+
+					if(tiles[playerlocation+1].type==='BOSS'){
 						return state-5;
 					}
+					break;
 				case 'ArrowUp':
-					if(action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation-action.payload.gamemap.WIDTH].type==='BOSS'){
+					if(tiles[playerlocation-WIDTH].type==='BOSS'){
 						return state-5;
 					}
+					break;
 				case 'ArrowDown':
-					if(action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation+action.payload.gamemap.WIDTH].type==='BOSS'){
+
+					if(tiles[playerlocation+WIDTH].type==='BOSS'){
 						return state-5;
 					}
+					break;
 			}
 
 			

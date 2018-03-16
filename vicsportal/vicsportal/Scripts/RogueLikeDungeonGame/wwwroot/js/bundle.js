@@ -67,9 +67,9 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _reactRedux = __webpack_require__(184);
+	var _reactRedux = __webpack_require__(185);
 
-	var _app = __webpack_require__(202);
+	var _app = __webpack_require__(203);
 
 	var _app2 = _interopRequireDefault(_app);
 
@@ -20917,7 +20917,7 @@
 
 	var _reducer_gamemap2 = _interopRequireDefault(_reducer_gamemap);
 
-	var _reducer_hp = __webpack_require__(206);
+	var _reducer_hp = __webpack_require__(184);
 
 	var _reducer_hp2 = _interopRequireDefault(_reducer_hp);
 
@@ -21025,6 +21025,8 @@
 
 	    var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
 
+	    var enemies = [{ enemylocation: 2641, hp: 40 }, { enemylocation: 2515, hp: 40 }, { enemylocation: 1396, hp: 40 }, { enemylocation: 410, hp: 40 }];
+
 	    var locs = null;
 	    walls.map(function (wall, index) {
 	        tiles[wall] = { type: 'WALL' };
@@ -21034,6 +21036,11 @@
 	            tiles[locs.playerlocation] = { type: 'PLAYER' };
 	            tiles[locs.bosslocation] = { type: 'BOSS' };
 	        }
+	    });
+
+	    enemies.map(function (enemy, index) {
+	        tiles[enemy.enemylocation] = { type: 'ENEMY', hp: enemy.hp };
+	        locs.enemilocs = enemy;
 	    });
 
 	    return { tiles: tiles, locs: locs, WIDTH: WIDTH, HEIGHT: HEIGHT };
@@ -21070,6 +21077,57 @@
 
 /***/ }),
 /* 184 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case 'UPDATEHP':
+				//testing moving to the left
+				console.log(action);
+				var playerlocation = action.payload.gamemap.locs.playerlocation;
+				var tiles = action.payload.gamemap.tiles;
+				var WIDTH = action.payload.gamemap.WIDTH;
+				switch (action.payload.movedirection) {
+					case 'ArrowLeft':
+
+						if (tiles[playerlocation - 1].type === 'BOSS') {
+							return state - 5;
+						}
+						break;
+					case 'ArrowRight':
+
+						if (tiles[playerlocation + 1].type === 'BOSS') {
+							return state - 5;
+						}
+						break;
+					case 'ArrowUp':
+						if (tiles[playerlocation - WIDTH].type === 'BOSS') {
+							return state - 5;
+						}
+						break;
+					case 'ArrowDown':
+
+						if (tiles[playerlocation + WIDTH].type === 'BOSS') {
+							return state - 5;
+						}
+						break;
+				}
+
+		}
+		return state;
+	};
+
+/***/ }),
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21077,11 +21135,11 @@
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 
-	var _Provider = __webpack_require__(185);
+	var _Provider = __webpack_require__(186);
 
 	var _Provider2 = _interopRequireDefault(_Provider);
 
-	var _connect = __webpack_require__(187);
+	var _connect = __webpack_require__(188);
 
 	var _connect2 = _interopRequireDefault(_connect);
 
@@ -21093,7 +21151,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -21105,7 +21163,7 @@
 
 	var _react = __webpack_require__(2);
 
-	var _storeShape = __webpack_require__(186);
+	var _storeShape = __webpack_require__(187);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
@@ -21193,7 +21251,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21209,7 +21267,7 @@
 	});
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -21231,27 +21289,27 @@
 
 	var _react = __webpack_require__(2);
 
-	var _storeShape = __webpack_require__(186);
+	var _storeShape = __webpack_require__(187);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
-	var _shallowEqual = __webpack_require__(188);
+	var _shallowEqual = __webpack_require__(189);
 
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-	var _wrapActionCreators = __webpack_require__(189);
+	var _wrapActionCreators = __webpack_require__(190);
 
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 
-	var _isPlainObject = __webpack_require__(190);
+	var _isPlainObject = __webpack_require__(191);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _hoistNonReactStatics = __webpack_require__(200);
+	var _hoistNonReactStatics = __webpack_require__(201);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
-	var _invariant = __webpack_require__(201);
+	var _invariant = __webpack_require__(202);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -21561,7 +21619,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21592,7 +21650,7 @@
 	}
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21609,14 +21667,14 @@
 	}
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var baseGetTag = __webpack_require__(191),
-	    getPrototype = __webpack_require__(197),
-	    isObjectLike = __webpack_require__(199);
+	var baseGetTag = __webpack_require__(192),
+	    getPrototype = __webpack_require__(198),
+	    isObjectLike = __webpack_require__(200);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -21677,14 +21735,14 @@
 	module.exports = isPlainObject;
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(192),
-	    getRawTag = __webpack_require__(195),
-	    objectToString = __webpack_require__(196);
+	var _Symbol = __webpack_require__(193),
+	    getRawTag = __webpack_require__(196),
+	    objectToString = __webpack_require__(197);
 
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -21710,12 +21768,12 @@
 	module.exports = baseGetTag;
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var root = __webpack_require__(193);
+	var root = __webpack_require__(194);
 
 	/** Built-in value references. */
 	var _Symbol = root.Symbol;
@@ -21723,14 +21781,14 @@
 	module.exports = _Symbol;
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var freeGlobal = __webpack_require__(194);
+	var freeGlobal = __webpack_require__(195);
 
 	/** Detect free variable `self`. */
 	var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -21741,7 +21799,7 @@
 	module.exports = root;
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -21755,12 +21813,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(192);
+	var _Symbol = __webpack_require__(193);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -21808,7 +21866,7 @@
 	module.exports = getRawTag;
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21837,12 +21895,12 @@
 	module.exports = objectToString;
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var overArg = __webpack_require__(198);
+	var overArg = __webpack_require__(199);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -21850,7 +21908,7 @@
 	module.exports = getPrototype;
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21872,7 +21930,7 @@
 	module.exports = overArg;
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21910,7 +21968,7 @@
 	module.exports = isObjectLike;
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports) {
 
 	/**
@@ -21964,7 +22022,7 @@
 	};
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22018,7 +22076,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22033,7 +22091,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Gamemap = __webpack_require__(203);
+	var _Gamemap = __webpack_require__(204);
 
 	var _Gamemap2 = _interopRequireDefault(_Gamemap);
 
@@ -22071,7 +22129,7 @@
 	exports.default = RogueLikeDungeonGame;
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22086,15 +22144,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(184);
+	var _reactRedux = __webpack_require__(185);
 
 	var _redux = __webpack_require__(160);
 
-	var _tile = __webpack_require__(204);
+	var _tile = __webpack_require__(205);
 
 	var _tile2 = _interopRequireDefault(_tile);
 
-	var _index = __webpack_require__(205);
+	var _index = __webpack_require__(206);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22199,7 +22257,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22281,7 +22339,7 @@
 	exports.default = Tile;
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -22304,47 +22362,6 @@
 			payload: { movedirection: update.movedirection, gamemap: update.gamemap }
 		};
 	}
-
-/***/ }),
-/* 206 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100;
-		var action = arguments[1];
-
-		switch (action.type) {
-			case 'UPDATEHP':
-				//testing moving to the left
-				console.log(action);
-				switch (action.payload.movedirection) {
-					case 'ArrowLeft':
-						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation - 1].type === 'BOSS') {
-							return state - 5;
-						}
-					case 'ArrowRight':
-						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation + 1].type === 'BOSS') {
-							return state - 5;
-						}
-					case 'ArrowUp':
-						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation - action.payload.gamemap.WIDTH].type === 'BOSS') {
-							return state - 5;
-						}
-					case 'ArrowDown':
-						if (action.payload.gamemap.tiles[action.payload.gamemap.locs.playerlocation + action.payload.gamemap.WIDTH].type === 'BOSS') {
-							return state - 5;
-						}
-				}
-
-		}
-		return state;
-	};
 
 /***/ })
 /******/ ]);
