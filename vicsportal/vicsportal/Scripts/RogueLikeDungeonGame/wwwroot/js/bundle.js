@@ -21055,6 +21055,7 @@
 	    var tiles = mytiles;
 
 	    var randomplayerlocation = generateRandomLocation(WIDTH, HEIGHT);
+	    // let randomplayerlocation = 1673
 
 	    var randombosslocation = generateRandomLocation(WIDTH, HEIGHT);
 
@@ -22293,14 +22294,38 @@
 
 			_this.tilewidth = "12px";
 			_this.tileheight = "12px";
-			// this.currentwalls=null
-			return _this;
+			_this.state = {
+				tile: _this.props.tile
+				// this.currentwalls=null
+			};return _this;
 		}
 
 		_createClass(Tile, [{
 			key: "determineX",
 			value: function determineX() {
 				if (this.props.index) return this.props.index * 30;
+			}
+		}, {
+			key: "componentWillReceiveProps",
+			value: function componentWillReceiveProps(nextProps) {
+				this.setState({
+					tile: nextProps.tile
+				});
+			}
+		}, {
+			key: "componentDidUpdate",
+			value: function componentDidUpdate() {
+				console.log(this.props.index);
+			}
+		}, {
+			key: "shouldComponentUpdate",
+			value: function shouldComponentUpdate(nextProps, nextState) {
+				return nextProps.tile !== this.state.tile;
+				// if(this.props.index===1673){
+				// console.log(nextProps.tile)
+				// console.log(this.state.tile)	
+				// }
+				// return true
 			}
 		}, {
 			key: "render",

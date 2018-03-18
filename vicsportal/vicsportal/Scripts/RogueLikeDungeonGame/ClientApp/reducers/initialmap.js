@@ -50,6 +50,7 @@ function addPlayerAndBoss(mytiles,WIDTH,HEIGHT){
 	let tiles = mytiles
 
     let randomplayerlocation = generateRandomLocation(WIDTH,HEIGHT);
+    // let randomplayerlocation = 1673
     
     let randombosslocation = generateRandomLocation(WIDTH,HEIGHT);
 

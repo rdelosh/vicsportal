@@ -8,13 +8,32 @@ class Tile extends React.Component{
 		super(props)
 		this.tilewidth="12px"
 		this.tileheight="12px"
+		this.state={
+			tile:this.props.tile
+		}
 		// this.currentwalls=null
 	}
 	determineX(){
 		if(this.props.index)
 		return this.props.index*30
 	}
-	
+	componentWillReceiveProps(nextProps){
+		this.setState({
+			tile:nextProps.tile
+		})
+	}
+	componentDidUpdate(){
+		console.log(this.props.index)
+	}
+	shouldComponentUpdate(nextProps,nextState){
+		return nextProps.tile !==this.state.tile
+		// if(this.props.index===1673){
+		// console.log(nextProps.tile)
+		// console.log(this.state.tile)	
+		// }
+		// return true
+		
+	}
 	render(){
 		return (
 				<div style={
