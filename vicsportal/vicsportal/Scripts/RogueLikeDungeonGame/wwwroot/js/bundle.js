@@ -20917,15 +20917,25 @@
 
 	var _reducer_gamemap2 = _interopRequireDefault(_reducer_gamemap);
 
-	var _reducer_hp = __webpack_require__(184);
+	var _reducer_player = __webpack_require__(207);
 
-	var _reducer_hp2 = _interopRequireDefault(_reducer_hp);
+	var _reducer_player2 = _interopRequireDefault(_reducer_player);
+
+	var _reducer_enemies = __webpack_require__(208);
+
+	var _reducer_enemies2 = _interopRequireDefault(_reducer_enemies);
+
+	var _reducer_boss = __webpack_require__(211);
+
+	var _reducer_boss2 = _interopRequireDefault(_reducer_boss);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
 		gamemap: _reducer_gamemap2.default,
-		hp: _reducer_hp2.default
+		player: _reducer_player2.default,
+		enemies: _reducer_enemies2.default,
+		boss: _reducer_boss2.default
 
 	});
 	exports.default = rootReducer;
@@ -20996,11 +21006,7 @@
 
 	var _initialmap = __webpack_require__(183);
 
-	var _initialmap2 = _interopRequireDefault(_initialmap);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var starter = (0, _initialmap2.default)();
+	var starter = _initialmap.initialConfig;
 
 /***/ }),
 /* 183 */
@@ -21011,7 +21017,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.default = initialMap;
+	var initialConfig = initialMap();
 	function initialMap() {
 	    var WIDTH = 70;
 	    var HEIGHT = 50;
@@ -21039,11 +21045,18 @@
 	    });
 
 	    enemies.map(function (enemy, index) {
-	        tiles[enemy.enemylocation] = { type: 'ENEMY', hp: enemy.hp };
+	        tiles[enemy.enemylocation] = { type: 'ENEMY' };
 	        locs.enemilocs = enemy;
 	    });
 
-	    return { tiles: tiles, locs: locs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+	    return { tiles: tiles,
+	        locs: locs,
+	        WIDTH: WIDTH,
+	        HEIGHT: HEIGHT,
+	        enemies: enemies,
+	        boss: { hp: 80, location: locs.bosslocation },
+	        player: { hp: 100, location: locs.playerlocation }
+	    };
 	}
 
 	function generateRandomLocation(WIDTH, HEIGHT) {
@@ -21076,58 +21089,10 @@
 	    return { playerlocation: randomplayerlocation, bosslocation: randombosslocation };
 	}
 
-/***/ }),
-/* 184 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100;
-		var action = arguments[1];
-
-		switch (action.type) {
-			case 'UPDATEHP':
-				//testing moving to the left
-				console.log(action);
-				var playerlocation = action.payload.gamemap.locs.playerlocation;
-				var tiles = action.payload.gamemap.tiles;
-				var WIDTH = action.payload.gamemap.WIDTH;
-				switch (action.payload.movedirection) {
-					case 'ArrowLeft':
-
-						if (tiles[playerlocation - 1].type === 'BOSS') {
-							return state - 5;
-						}
-						break;
-					case 'ArrowRight':
-
-						if (tiles[playerlocation + 1].type === 'BOSS') {
-							return state - 5;
-						}
-						break;
-					case 'ArrowUp':
-						if (tiles[playerlocation - WIDTH].type === 'BOSS') {
-							return state - 5;
-						}
-						break;
-					case 'ArrowDown':
-
-						if (tiles[playerlocation + WIDTH].type === 'BOSS') {
-							return state - 5;
-						}
-						break;
-				}
-
-		}
-		return state;
-	};
+	exports.initialConfig = initialConfig;
 
 /***/ }),
+/* 184 */,
 /* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22155,6 +22120,8 @@
 
 	var _index = __webpack_require__(206);
 
+	var _helperfunctions = __webpack_require__(209);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22176,7 +22143,9 @@
 			var _this = _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
 
 			window.focus();
-			document.addEventListener('keyup', function (event) {
+			document.addEventListener('keydown', function (event) {
+				// if(detectCollision())
+				console.log(event.key);
 				_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap });
 				_this.moveCommand(event);
 			});
@@ -22196,7 +22165,7 @@
 		_createClass(Gamemap, [{
 			key: 'componentWillUpdate',
 			value: function componentWillUpdate() {
-				if (this.props.hp <= 0) {
+				if (this.props.player.hp <= 0) {
 					console.log('GAME OVER');
 				}
 			}
@@ -22225,7 +22194,7 @@
 						'p',
 						null,
 						'HP: ',
-						this.props.hp
+						this.props.player.hp
 					),
 					this.props.gamemap.tiles.map(function (tile, index) {
 						if (index % 70 === 0) {
@@ -22248,7 +22217,8 @@
 	function mapStateToProps(state) {
 		return {
 			gamemap: state.gamemap,
-			hp: state.hp
+			player: state.player,
+			enemies: state.enemies
 
 		};
 	}
@@ -22382,11 +22352,139 @@
 		};
 	}
 	function updateHP(update) {
+		// console.log("update hp from actio")
 		return {
+
 			type: 'UPDATEHP',
 			payload: { movedirection: update.movedirection, gamemap: update.gamemap }
 		};
 	}
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
+		var action = arguments[1];
+
+		// console.log(state)
+		switch (action.type) {
+			case 'UPDATEHP':
+				//testing moving to the left
+				console.log(action);
+				var playerlocation = action.payload.gamemap.locs.playerlocation;
+				var tiles = action.payload.gamemap.tiles;
+				var WIDTH = action.payload.gamemap.WIDTH;
+				console.log(action);
+				switch (action.payload.movedirection) {
+					case 'ArrowLeft':
+						console.log(state);
+						if (tiles[playerlocation - 1].type === 'BOSS' || tiles[playerlocation - 1].type === 'ENEMY') {
+							return { hp: state.hp - 5, location: playerlocation };
+						}
+						break;
+					case 'ArrowRight':
+
+						if (tiles[playerlocation + 1].type === 'BOSS' || tiles[playerlocation + 1].type === 'ENEMY') {
+							return { hp: state.hp - 5, location: playerlocation };
+						}
+						break;
+					case 'ArrowUp':
+						if (tiles[playerlocation - WIDTH].type === 'BOSS' || tiles[playerlocation - WIDTH].type === 'ENEMY') {
+							return { hp: state.hp - 5, location: playerlocation };
+						}
+						break;
+					case 'ArrowDown':
+
+						if (tiles[playerlocation + WIDTH].type === 'BOSS' || tiles[playerlocation + WIDTH].type === 'ENEMY') {
+							return { hp: state.hp - 5, location: playerlocation };
+						}
+						break;
+				}
+
+		}
+		return state;
+	};
+
+	var _initialmap = __webpack_require__(183);
+
+	var starter = _initialmap.initialConfig.player;
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case 'KILLENEMY':
+				console.log(state);
+				break;
+
+		}
+		return state;
+	};
+
+	var _initialmap = __webpack_require__(183);
+
+	var starter = _initialmap.initialConfig.enemies;
+	// console.log(starter)
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	function detectCollision(tiles, player, direction) {
+
+		// if()
+
+
+		return true;
+	}
+
+	exports.detectCollision = detectCollision;
+
+/***/ }),
+/* 210 */,
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function () {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
+	  var action = arguments[1];
+
+	  return state;
+	};
+
+	var _initialmap = __webpack_require__(183);
+
+	var starter = _initialmap.initialConfig.boss;
 
 /***/ })
 /******/ ]);

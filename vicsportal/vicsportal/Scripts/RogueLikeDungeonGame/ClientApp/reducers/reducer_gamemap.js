@@ -1,7 +1,7 @@
-import initialMap from './initialmap';
+import {initialConfig} from './initialmap';
 
 
-let starter = initialMap()
+let starter = initialConfig
 
 export default function(state = starter, action){
 

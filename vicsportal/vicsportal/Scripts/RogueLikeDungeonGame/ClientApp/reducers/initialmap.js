@@ -1,4 +1,5 @@
-export default function initialMap(){
+const initialConfig = initialMap()
+function initialMap(){
 	let WIDTH=70
 	let HEIGHT=50
 	let playerloc = 0;
@@ -30,7 +31,7 @@ export default function initialMap(){
     })
 
     enemies.map((enemy,index)=>{
-    	tiles[enemy.enemylocation]={type:'ENEMY',hp:enemy.hp}
+    	tiles[enemy.enemylocation]={type:'ENEMY'}
     	locs.enemilocs=enemy
     })
 
@@ -38,7 +39,14 @@ export default function initialMap(){
 
     
 
-    return {tiles:tiles,locs:locs,WIDTH:WIDTH,HEIGHT:HEIGHT};
+    return {tiles:tiles,
+    		locs:locs,
+    		WIDTH:WIDTH,
+    		HEIGHT:HEIGHT,
+    		enemies:enemies,
+    		boss:{hp:80,location:locs.bosslocation},
+    		player:{hp:100, location:locs.playerlocation}
+    		};
 }
 
 function generateRandomLocation(WIDTH,HEIGHT){
@@ -71,3 +79,5 @@ function addPlayerAndBoss(mytiles,WIDTH,HEIGHT){
 
 	return {playerlocation:randomplayerlocation,bosslocation:randombosslocation}	
 }
+
+export {initialConfig}
