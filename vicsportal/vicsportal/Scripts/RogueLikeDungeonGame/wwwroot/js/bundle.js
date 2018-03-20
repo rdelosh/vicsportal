@@ -22113,24 +22113,17 @@
 		function Gamemap(props) {
 			_classCallCheck(this, Gamemap);
 
-			// this.state={
-			// 	walls:null
-			// }
-			// this.walls=[]	
 			var _this = _possibleConstructorReturn(this, (Gamemap.__proto__ || Object.getPrototypeOf(Gamemap)).call(this, props));
 
 			window.focus();
 			document.addEventListener('keydown', function (event) {
-				// console.log(this.player)
-				var collidedenemy = (0, _helperfunctions.detectEnemyCollision)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH);
 
+				var collidedenemy = (0, _helperfunctions.detectEnemyCollision)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH);
 				if (collidedenemy != null) {
-					// console.log("getCollidedEnemyHP:"+getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy))
-					if ((0, _helperfunctions.getCollidedEnemyHP)(_this.props.boss, _this.props.enemies, collidedenemy) <= 0) {
+
+					if ((0, _helperfunctions.getCollidedEnemyHP)(_this.props.boss, _this.props.enemies, collidedenemy) <= 0 && _this.props.gamemap.tiles[collidedenemy].type != 'WALL') {
 						_this.props.killEnemy(collidedenemy);
 					}
-					// console.log(this.props.enemies)
-
 
 					_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap, collidedenemy: collidedenemy });
 				} else {
@@ -22138,28 +22131,10 @@
 					_this.props.move((0, _helperfunctions.moveHelper)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH));
 				}
 				console.log("collided enemy: " + collidedenemy);
-				// if(collidedenemy!=null){
-				// 	update hp for player
-				// 	update hp for collidedenemy
-				// }
-
-
-				// console.log(event.key)
-				// this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
-				// this.moveCommand(event)
 			});
 
 			return _this;
 		}
-		// addWall(index){
-		// 	this.walls.push(index+",")
-		// 	this.setState(
-		// 		{walls:this.walls})
-		// 	// this.walls.push(index)
-		// 	console.log(this.state.walls)
-
-		// }
-
 
 		_createClass(Gamemap, [{
 			key: 'componentWillUpdate',

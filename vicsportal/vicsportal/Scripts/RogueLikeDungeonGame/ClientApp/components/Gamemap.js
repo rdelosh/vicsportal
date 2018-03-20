@@ -13,53 +13,29 @@ import {getCollidedEnemyHP} from '../sharedfunctions/helperfunctions' //getColli
 class Gamemap extends React.Component{
 	constructor(props){
 		super(props)
-		
-		// this.state={
-		// 	walls:null
-		// }
-		// this.walls=[]	
+	
 		window.focus()
 		document.addEventListener('keydown',(event)=>{
-			// console.log(this.player)
+			
 			let collidedenemy = detectEnemyCollision(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH)
-
 			if(collidedenemy!=null){
-				// console.log("getCollidedEnemyHP:"+getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy))
-				if(getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy)<=0){
+				
+				if(getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy)<=0&&this.props.gamemap.tiles[collidedenemy].type!='WALL'){
 					this.props.killEnemy(collidedenemy)
 				}
-				// console.log(this.props.enemies)
-
-
-
+				
 				this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap,collidedenemy:collidedenemy})
 			}else{
 				console.log("else MOVE!!")
 				this.props.move(moveHelper(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH))
 			}
 			console.log("collided enemy: "+ collidedenemy)
-			// if(collidedenemy!=null){
-			// 	update hp for player
-			// 	update hp for collidedenemy
-			// }
-				
 
-			
-			// console.log(event.key)
-			// this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
-			// this.moveCommand(event)
 			
 		})
 		
 	}
-	// addWall(index){
-	// 	this.walls.push(index+",")
-	// 	this.setState(
-	// 		{walls:this.walls})
-	// 	// this.walls.push(index)
-	// 	console.log(this.state.walls)
-		
-	// }
+	
 	componentWillUpdate(){
 		if(this.props.player.hp<=0){
 			console.log('GAME OVER')
