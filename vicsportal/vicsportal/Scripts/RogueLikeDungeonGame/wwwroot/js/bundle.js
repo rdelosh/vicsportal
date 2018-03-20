@@ -20955,23 +20955,50 @@
 		var action = arguments[1];
 
 		var newtiles = Object.assign([], state.tiles);
-		var newlocs = Object.assign({}, state.locs);
 		var WIDTH = Object.assign(state.WIDTH);
 		var HEIGHT = Object.assign(state.HEIGHT);
+		var visiblemap = Object.assign([], state.visiblemap);
 
 		switch (action.type) {
 			case 'MOVE':
-
-				// console.log(state)
+				var newplayerlocation = action.payload.newplayerlocation;
 				newtiles[action.payload.previousplayerlocation] = { type: 'FLOOR' };
 				newtiles[action.payload.newplayerlocation] = { type: 'PLAYER' };
-				return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT
+
+				var visibletiles = [];
+				for (var i = -3; i <= 3; i++) {
+					for (var j = 0; j <= 3; j++) {
+						if (j === 0) {
+							visibletiles.push(newplayerlocation + i);
+						} else {
+							visibletiles.push(newplayerlocation + j * state.WIDTH + i);
+							visibletiles.push(newplayerlocation - j * state.WIDTH + i);
+						}
+						if (3 - Math.abs(i) === j) {
+							break;
+						}
+					}
+				}
+
+				var _visiblemap = Object.assign([], newtiles);
+				newtiles.map(function (tile, index) {
+					if (visibletiles.includes(index)) {
+						// console.log(index)
+					} else {
+
+						_visiblemap[index] = { type: 'DARK' };
+					}
+				});
+
+				// console.log(state)
+
+				return { visiblemap: _visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT
 					// console.log(action.payload)
 
 				};case 'KILL':
-				console.log("KILL LOCATION: " + action.payload);
+				// console.log("KILL LOCATION: "+action.payload)
 				newtiles[action.payload] = { type: 'FLOOR' };
-				return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+				return { visiblemap: _visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT };
 		}
 		return state;
 	};
@@ -21003,7 +21030,12 @@
 
 	    var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
 
-	    var enemies = [{ enemylocation: 2641, hp: 40 }, { enemylocation: 2515, hp: 40 }, { enemylocation: 1396, hp: 40 }, { enemylocation: 410, hp: 40 }];
+	    var occupiedtiles = Object.assign([], walls);
+
+	    // let enemies = [{enemylocation:2641,hp:40},
+	    // 			   {enemylocation:2515,hp:40},
+	    // 			   {enemylocation:1396,hp:40},
+	    // 			   {enemylocation:410,hp:40}]
 
 	    var locs = null;
 	    walls.map(function (wall, index) {
@@ -21011,14 +21043,72 @@
 
 	        if (index === walls.length - 1) {
 	            locs = addPlayerAndBoss(tiles, WIDTH, HEIGHT);
+	            occupiedtiles.push(locs.playerlocation);
+	            occupiedtiles.push(locs.bosslocation);
 	            tiles[locs.playerlocation] = { type: 'PLAYER' };
 	            tiles[locs.bosslocation] = { type: 'BOSS' };
 	        }
 	    });
 
+	    var enemies = [];
+	    var tempenemylocation = 0;
+	    for (var _i = 0; _i < 40; _i++) {
+	        tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
+	        if (!occupiedtiles.includes(tempenemylocation)) {
+	            enemies.push({ enemylocation: tempenemylocation, hp: 40 });
+	            occupiedtiles.push(tempenemylocation);
+	        }
+	    }
+	    var potions = [];
+	    var temppotionlocation = 0;
+	    for (var _i2 = 0; _i2 < 30; _i2++) {
+	        tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
+	        if (!occupiedtiles.includes(tempenemylocation)) {
+	            potions.push(tempenemylocation);
+	            occupiedtiles.push(tempenemylocation);
+	        }
+	    }
+
 	    enemies.map(function (enemy, index) {
+
 	        tiles[enemy.enemylocation] = { type: 'ENEMY' };
 	        locs.enemilocs = enemy;
+	    });
+
+	    potions.map(function (potionlocation, index) {
+	        tiles[potionlocation] = { type: 'POTION' };
+	    });
+
+	    console.log(locs.playerlocation);
+
+	    var visibletiles = [];
+	    for (var _i3 = -3; _i3 <= 3; _i3++) {
+	        for (var j = 0; j <= 3; j++) {
+
+	            if (j === 0) {
+	                visibletiles.push(locs.playerlocation + _i3);
+	            } else {
+	                visibletiles.push(locs.playerlocation + j * WIDTH + _i3);
+	                visibletiles.push(locs.playerlocation - j * WIDTH + _i3);
+	            }
+	            if (3 - Math.abs(_i3) === j) {
+	                break;
+	            }
+	        }
+	    }
+
+	    var visiblemap = Object.assign([], tiles);
+
+	    tiles.map(function (tile, index) {
+	        if (visibletiles.includes(index)) {
+	            console.log(index);
+	        } else {
+
+	            visiblemap[index] = { type: 'DARK' };
+	        }
+	        // if(index===tiles.length-1){
+	        // 	console.log(visiblemap)		
+	        // }
 	    });
 
 	    return { tiles: tiles,
@@ -21027,6 +21117,7 @@
 	        HEIGHT: HEIGHT,
 	        enemies: enemies,
 	        boss: { hp: 80, location: locs.bosslocation },
+	        visiblemap: visiblemap,
 	        player: { hp: 100, location: locs.playerlocation }
 	    };
 	}
@@ -21034,6 +21125,7 @@
 	function generateRandomLocation(WIDTH, HEIGHT) {
 	    return Math.floor(Math.random() * (WIDTH * HEIGHT - 1 - 0) + 0);
 	}
+
 	function addPlayerAndBoss(mytiles, WIDTH, HEIGHT) {
 	    var increaseIndex = true; //if true add+++++, if false subtract-----
 	    var quantity = 2000;
@@ -22120,17 +22212,20 @@
 
 				var collidedenemy = (0, _helperfunctions.detectEnemyCollision)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH);
 				if (collidedenemy != null) {
-
 					if ((0, _helperfunctions.getCollidedEnemyHP)(_this.props.boss, _this.props.enemies, collidedenemy) <= 0 && _this.props.gamemap.tiles[collidedenemy].type != 'WALL') {
+						console.log(_this.props.gamemap.tiles[collidedenemy].type);
+						if (_this.props.gamemap.tiles[collidedenemy].type == 'POTION') {
+							_this.props.heal();
+						}
 						_this.props.killEnemy(collidedenemy);
 					}
-
 					_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap, collidedenemy: collidedenemy });
 				} else {
-					console.log("else MOVE!!");
+					// console.log("else MOVE!!")
 					_this.props.move((0, _helperfunctions.moveHelper)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH));
 				}
-				console.log("collided enemy: " + collidedenemy);
+				// console.log("collided enemy: "+ collidedenemy)
+
 			});
 
 			return _this;
@@ -22170,7 +22265,7 @@
 						'HP: ',
 						this.props.player.hp
 					),
-					this.props.gamemap.tiles.map(function (tile, index) {
+					this.props.gamemap.visiblemap.map(function (tile, index) {
 						if (index % 70 === 0) {
 							return _react2.default.createElement(
 								'span',
@@ -22198,7 +22293,7 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy }, dispatch);
+		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy, heal: _index.heal }, dispatch);
 	}
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
@@ -22260,7 +22355,7 @@
 		}, {
 			key: "componentDidUpdate",
 			value: function componentDidUpdate() {
-				console.log(this.props.index);
+				// console.log(this.props.index)
 			}
 		}, {
 			key: "shouldComponentUpdate",
@@ -22320,6 +22415,7 @@
 	exports.move = move;
 	exports.updateHP = updateHP;
 	exports.killEnemy = killEnemy;
+	exports.heal = heal;
 	function move(newlocations) {
 		return {
 			type: 'MOVE',
@@ -22329,7 +22425,7 @@
 		};
 	}
 	function updateHP(update) {
-		// console.log("update hp from actio")
+
 		return {
 
 			type: 'UPDATEHP',
@@ -22340,6 +22436,12 @@
 		return {
 			type: 'KILL',
 			payload: location
+		};
+	}
+	function heal() {
+		return {
+			type: 'HEAL',
+			payload: null
 		};
 	}
 
@@ -22370,7 +22472,7 @@
 				var tiles = action.payload.gamemap.tiles;
 				var WIDTH = action.payload.gamemap.WIDTH;
 
-				console.log(action);
+				// console.log(action)
 				switch (action.payload.movedirection) {
 					case 'ArrowLeft':
 
@@ -22397,6 +22499,9 @@
 						}
 						break;
 				}
+				break;
+			case 'HEAL':
+				return { hp: 100, location: state.location };
 
 		}
 		return state;
@@ -22426,7 +22531,7 @@
 
 				state.map(function (enemy, index) {
 					if (enemy.enemylocation === action.payload.collidedenemy) {
-						console.log(newstate[index]);
+						// console.log(newstate[index])
 						newstate[index].hp = newstate[index].hp - 5;
 					}
 				});
@@ -22460,7 +22565,9 @@
 	function detectEnemyCollision(tiles, player, direction, WIDTH) {
 		//returns null if player does not collide with enemy,
 		// returns enemylocation if player collides with an eenemy
+		console.log("playerlocation:" + player.location);
 		switch (direction) {
+
 			case 'ArrowLeft':
 				if (player.location - 1 < 0 || tiles[player.location - 1].type != 'FLOOR') {
 					return player.location - 1;
@@ -22468,19 +22575,21 @@
 				return null;
 				break;
 			case 'ArrowRight':
-				if (player.location + 1 < 0 || tiles[player.location + 1].type != 'FLOOR') {
+				if (player.location + 1 >= 3500 || tiles[player.location + 1].type != 'FLOOR') {
 					return player.location + 1;
 				}
 				return null;
 				break;
 			case 'ArrowUp':
+				console.log(player.location - WIDTH);
 				if (player.location - WIDTH < 0 || tiles[player.location - WIDTH].type != 'FLOOR') {
 					return player.location - WIDTH;
 				}
 				return null;
 				break;
 			case 'ArrowDown':
-				if (player.location + WIDTH < 0 || tiles[player.location + WIDTH].type != 'FLOOR') {
+				console.log(tiles[player.location + WIDTH].type);
+				if (player.location + WIDTH >= 3500 || tiles[player.location + WIDTH].type != 'FLOOR') {
 					return player.location + WIDTH;
 				}
 				return null;
@@ -22568,7 +22677,7 @@
 	var _initialmap = __webpack_require__(183);
 
 	var starter = _initialmap.initialConfig.boss;
-	console.log(starter);
+	// console.log(starter)
 
 /***/ })
 /******/ ]);

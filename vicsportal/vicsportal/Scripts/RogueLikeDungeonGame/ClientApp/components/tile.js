@@ -23,7 +23,7 @@ class Tile extends React.Component{
 		})
 	}
 	componentDidUpdate(){
-		console.log(this.props.index)
+		// console.log(this.props.index)
 	}
 	shouldComponentUpdate(nextProps,nextState){
 		return nextProps.tile !==this.state.tile

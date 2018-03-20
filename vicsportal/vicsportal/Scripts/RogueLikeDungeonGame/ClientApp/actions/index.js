@@ -7,7 +7,7 @@ export function move(newlocations){
 	}
 }
 export function updateHP(update){
-	// console.log("update hp from actio")
+	
 	return{
 
 		type:'UPDATEHP',
@@ -18,5 +18,11 @@ export function killEnemy(location){
 	return{
 		type: 'KILL',
 		payload:location
+	}
+}
+export function heal(){
+	return{
+		type:'HEAL',
+		payload:null
 	}
 }

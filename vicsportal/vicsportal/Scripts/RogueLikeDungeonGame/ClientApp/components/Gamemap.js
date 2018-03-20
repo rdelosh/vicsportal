@@ -5,6 +5,7 @@ import Tile from './tile';
 import {move} from '../actions/index';
 import {updateHP} from '../actions/index';
 import {killEnemy} from '../actions/index';
+import {heal} from '../actions/index';
 import {detectEnemyCollision} from '../sharedfunctions/helperfunctions'//detectCollision(tiles,player,direction){
 import {moveHelper} from '../sharedfunctions/helperfunctions' //moveHelper(tiles,player,direction,WIDTH){
 import {getCollidedEnemyHP} from '../sharedfunctions/helperfunctions' //getCollidedEnemyHP(boss,enemies,collidedEnemyLocation){
@@ -19,17 +20,20 @@ class Gamemap extends React.Component{
 			
 			let collidedenemy = detectEnemyCollision(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH)
 			if(collidedenemy!=null){
-				
 				if(getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy)<=0&&this.props.gamemap.tiles[collidedenemy].type!='WALL'){
+					console.log(this.props.gamemap.tiles[collidedenemy].type)
+					if(this.props.gamemap.tiles[collidedenemy].type=='POTION'){
+						this.props.heal()
+					}
 					this.props.killEnemy(collidedenemy)
+
 				}
-				
 				this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap,collidedenemy:collidedenemy})
 			}else{
-				console.log("else MOVE!!")
+				// console.log("else MOVE!!")
 				this.props.move(moveHelper(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH))
 			}
-			console.log("collided enemy: "+ collidedenemy)
+			// console.log("collided enemy: "+ collidedenemy)
 
 			
 		})
@@ -65,7 +69,7 @@ class Gamemap extends React.Component{
 					
 					<p>HP: {this.props.player.hp}</p>
 					{
-					this.props.gamemap.tiles.map((tile,index)=>{
+					this.props.gamemap.visiblemap.map((tile,index)=>{
 						if(index%70===0){
 							return (
 								<span>
@@ -101,7 +105,7 @@ function mapStateToProps(state){
 
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy},dispatch)
+	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy,heal:heal},dispatch)
 	
 }
 export default connect(mapStateToProps

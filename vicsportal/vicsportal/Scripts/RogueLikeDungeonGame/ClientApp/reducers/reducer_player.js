@@ -16,7 +16,7 @@ export default function(state =starter, action){
 			let tiles = action.payload.gamemap.tiles
 			let WIDTH = action.payload.gamemap.WIDTH
 
-			console.log(action)
+			// console.log(action)
 			switch(action.payload.movedirection){
 				case 'ArrowLeft':
 					
@@ -43,6 +43,9 @@ export default function(state =starter, action){
 					}
 					break;
 			}
+			break;
+		case 'HEAL':
+			return {hp:100,location:state.location}
 
 			
 	}

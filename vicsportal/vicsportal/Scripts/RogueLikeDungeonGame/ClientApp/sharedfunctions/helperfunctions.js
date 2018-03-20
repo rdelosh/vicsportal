@@ -1,7 +1,9 @@
 function detectEnemyCollision(tiles,player,direction,WIDTH){
 	//returns null if player does not collide with enemy,
 	// returns enemylocation if player collides with an eenemy
+	console.log("playerlocation:"+player.location)
 	switch(direction){
+
 		case 'ArrowLeft':
 			if(player.location-1<0||tiles[player.location-1].type!='FLOOR'){
 				return player.location-1
@@ -9,19 +11,21 @@ function detectEnemyCollision(tiles,player,direction,WIDTH){
 			return null
 			break;
 		case 'ArrowRight':
-			if(player.location+1<0||tiles[player.location+1].type!='FLOOR'){
+			if(player.location+1>=3500||tiles[player.location+1].type!='FLOOR'){
 				return player.location+1
 			}
 			return null
 			break;
 		case 'ArrowUp':
+			console.log(player.location-WIDTH)
 			if(player.location-WIDTH<0||tiles[player.location-WIDTH].type!='FLOOR'){
 				return player.location-WIDTH
 			}
 			return null
 			break;
 		case 'ArrowDown':
-			if(player.location+WIDTH<0||tiles[player.location+WIDTH].type!='FLOOR'){
+			console.log(tiles[player.location+WIDTH].type)
+			if(player.location+WIDTH>=3500||tiles[player.location+WIDTH].type!='FLOOR'){
 				return player.location+WIDTH
 			}
 			return null

@@ -8,7 +8,7 @@ export default function(state =starter, action){
 
 			state.map((enemy,index)=>{
 				if(enemy.enemylocation===action.payload.collidedenemy){
-					console.log(newstate[index])
+					// console.log(newstate[index])
 					newstate[index].hp=newstate[index].hp-5
 
 				}

@@ -1,7 +1,7 @@
 import {initialConfig} from './initialmap'
 
 const starter =  initialConfig.boss
-console.log(starter)
+// console.log(starter)
 export default function(state=starter, action){
 	switch(action.type){
 		case 'UPDATEHP':
