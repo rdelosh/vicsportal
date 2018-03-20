@@ -51,7 +51,7 @@ class Tile extends React.Component{
 
 					// this.props.addWall(this.props.index)
 					// this.props.tile.type="WALL"
-					console.log(this.props.index)
+					console.log({index:this.props.index,type:this.props.tile.type})
 					// console.log(this.props.tile.type)
 				}}></div>
 

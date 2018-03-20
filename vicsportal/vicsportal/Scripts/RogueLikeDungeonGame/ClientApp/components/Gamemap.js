@@ -4,7 +4,10 @@ import {bindActionCreators} from 'redux';
 import Tile from './tile';
 import {move} from '../actions/index';
 import {updateHP} from '../actions/index';
-import {detectCollision} from '../sharedfunctions/helperfunctions'
+import {killEnemy} from '../actions/index';
+import {detectEnemyCollision} from '../sharedfunctions/helperfunctions'//detectCollision(tiles,player,direction){
+import {moveHelper} from '../sharedfunctions/helperfunctions' //moveHelper(tiles,player,direction,WIDTH){
+import {getCollidedEnemyHP} from '../sharedfunctions/helperfunctions' //getCollidedEnemyHP(boss,enemies,collidedEnemyLocation){
 
 
 class Gamemap extends React.Component{
@@ -17,10 +20,34 @@ class Gamemap extends React.Component{
 		// this.walls=[]	
 		window.focus()
 		document.addEventListener('keydown',(event)=>{
-			// if(detectCollision())
-			console.log(event.key)
-			this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
-			this.moveCommand(event)
+			// console.log(this.player)
+			let collidedenemy = detectEnemyCollision(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH)
+
+			if(collidedenemy!=null){
+				// console.log("getCollidedEnemyHP:"+getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy))
+				if(getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy)<=0){
+					this.props.killEnemy(collidedenemy)
+				}
+				// console.log(this.props.enemies)
+
+
+
+				this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap,collidedenemy:collidedenemy})
+			}else{
+				console.log("else MOVE!!")
+				this.props.move(moveHelper(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH))
+			}
+			console.log("collided enemy: "+ collidedenemy)
+			// if(collidedenemy!=null){
+			// 	update hp for player
+			// 	update hp for collidedenemy
+			// }
+				
+
+			
+			// console.log(event.key)
+			// this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
+			// this.moveCommand(event)
 			
 		})
 		
@@ -91,13 +118,14 @@ function mapStateToProps(state){
 	return {
 		gamemap:state.gamemap,
 		player:state.player,
-		enemies:state.enemies
+		enemies:state.enemies,
+		boss:state.boss
 
 	}
 
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({move:move,updateHP:updateHP},dispatch)
+	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy},dispatch)
 	
 }
 export default connect(mapStateToProps

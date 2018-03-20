@@ -20954,52 +20954,24 @@
 		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
 		var action = arguments[1];
 
+		var newtiles = Object.assign([], state.tiles);
+		var newlocs = Object.assign({}, state.locs);
+		var WIDTH = Object.assign(state.WIDTH);
+		var HEIGHT = Object.assign(state.HEIGHT);
 
 		switch (action.type) {
 			case 'MOVE':
-				var newtiles = Object.assign([], state.tiles);
-				var newlocs = Object.assign({}, state.locs);
-				var WIDTH = Object.assign(state.WIDTH);
-				var HEIGHT = Object.assign(state.HEIGHT);
+
 				// console.log(state)
-				switch (action.payload) {
-					case 'left':
-						if (state.locs.playerlocation - 1 < 0 || state.tiles[state.locs.playerlocation - 1].type !== 'FLOOR') {
-							return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-						}
-						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
-						newtiles[state.locs.playerlocation - 1] = { type: 'PLAYER' };
-						newlocs.playerlocation = state.locs.playerlocation - 1;
-						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-					case 'right':
-						if (state.locs.playerlocation + 1 > state.WIDTH * state.HEIGHT - 1 || state.tiles[state.locs.playerlocation + 1].type !== 'FLOOR') {
-							return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-						}
-						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
-						newtiles[state.locs.playerlocation + 1] = { type: 'PLAYER' };
-						newlocs.playerlocation = state.locs.playerlocation + 1;
-						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
+				newtiles[action.payload.previousplayerlocation] = { type: 'FLOOR' };
+				newtiles[action.payload.newplayerlocation] = { type: 'PLAYER' };
+				return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT
+					// console.log(action.payload)
 
-					case 'up':
-						// console.log(state.playerlocation)
-						// console.log(state.WIDTH)
-						if (state.locs.playerlocation - state.WIDTH < 0 || state.tiles[state.locs.playerlocation - state.WIDTH].type !== 'FLOOR') {
-							return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-						}
-						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
-						newtiles[state.locs.playerlocation - state.WIDTH] = { type: 'PLAYER' };
-						newlocs.playerlocation = state.locs.playerlocation - state.WIDTH;
-						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-					case 'down':
-						if (state.locs.playerlocation + state.WIDTH > state.WIDTH * state.HEIGHT - 1 || state.tiles[state.locs.playerlocation + state.WIDTH].type !== 'FLOOR') {
-							return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-						}
-						newtiles[state.locs.playerlocation] = { type: 'FLOOR' };
-						newtiles[state.locs.playerlocation + state.WIDTH] = { type: 'PLAYER' };
-						newlocs.playerlocation = state.locs.playerlocation + state.WIDTH;
-						return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
-
-				}
+				};case 'KILL':
+				console.log("KILL LOCATION: " + action.payload);
+				newtiles[action.payload] = { type: 'FLOOR' };
+				return { tiles: newtiles, locs: newlocs, WIDTH: WIDTH, HEIGHT: HEIGHT };
 		}
 		return state;
 	};
@@ -22128,7 +22100,12 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //detectCollision(tiles,player,direction){
+	//moveHelper(tiles,player,direction,WIDTH){
+
+
+	//getCollidedEnemyHP(boss,enemies,collidedEnemyLocation){
+
 
 	var Gamemap = function (_React$Component) {
 		_inherits(Gamemap, _React$Component);
@@ -22144,10 +22121,32 @@
 
 			window.focus();
 			document.addEventListener('keydown', function (event) {
-				// if(detectCollision())
-				console.log(event.key);
-				_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap });
-				_this.moveCommand(event);
+				// console.log(this.player)
+				var collidedenemy = (0, _helperfunctions.detectEnemyCollision)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH);
+
+				if (collidedenemy != null) {
+					// console.log("getCollidedEnemyHP:"+getCollidedEnemyHP(this.props.boss,this.props.enemies,collidedenemy))
+					if ((0, _helperfunctions.getCollidedEnemyHP)(_this.props.boss, _this.props.enemies, collidedenemy) <= 0) {
+						_this.props.killEnemy(collidedenemy);
+					}
+					// console.log(this.props.enemies)
+
+
+					_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap, collidedenemy: collidedenemy });
+				} else {
+					console.log("else MOVE!!");
+					_this.props.move((0, _helperfunctions.moveHelper)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH));
+				}
+				console.log("collided enemy: " + collidedenemy);
+				// if(collidedenemy!=null){
+				// 	update hp for player
+				// 	update hp for collidedenemy
+				// }
+
+
+				// console.log(event.key)
+				// this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap})
+				// this.moveCommand(event)
 			});
 
 			return _this;
@@ -22218,12 +22217,13 @@
 		return {
 			gamemap: state.gamemap,
 			player: state.player,
-			enemies: state.enemies
+			enemies: state.enemies,
+			boss: state.boss
 
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP }, dispatch);
+		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy }, dispatch);
 	}
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
@@ -22314,7 +22314,7 @@
 
 						// this.props.addWall(this.props.index)
 						// this.props.tile.type="WALL"
-						console.log(_this2.props.index);
+						console.log({ index: _this2.props.index, type: _this2.props.tile.type });
 						// console.log(this.props.tile.type)
 					} })
 
@@ -22344,10 +22344,12 @@
 	});
 	exports.move = move;
 	exports.updateHP = updateHP;
-	function move(direction) {
+	exports.killEnemy = killEnemy;
+	function move(newlocations) {
 		return {
 			type: 'MOVE',
-			payload: direction
+			payload: { previousplayerlocation: newlocations.previousplayerlocation,
+				newplayerlocation: newlocations.newplayerlocation }
 
 		};
 	}
@@ -22356,7 +22358,13 @@
 		return {
 
 			type: 'UPDATEHP',
-			payload: { movedirection: update.movedirection, gamemap: update.gamemap }
+			payload: { movedirection: update.movedirection, gamemap: update.gamemap, collidedenemy: update.collidedenemy }
+		};
+	}
+	function killEnemy(location) {
+		return {
+			type: 'KILL',
+			payload: location
 		};
 	}
 
@@ -22376,16 +22384,22 @@
 
 		// console.log(state)
 		switch (action.type) {
+			case 'MOVE':
+				return { hp: state.hp, location: action.payload.newplayerlocation };
+				break;
 			case 'UPDATEHP':
 				//testing moving to the left
-				console.log(action);
-				var playerlocation = action.payload.gamemap.locs.playerlocation;
+				// console.log(action)
+				// console.log
+				var playerlocation = state.location;
 				var tiles = action.payload.gamemap.tiles;
 				var WIDTH = action.payload.gamemap.WIDTH;
+
 				console.log(action);
 				switch (action.payload.movedirection) {
 					case 'ArrowLeft':
-						console.log(state);
+
+						//console.log(tiles)
 						if (tiles[playerlocation - 1].type === 'BOSS' || tiles[playerlocation - 1].type === 'ENEMY') {
 							return { hp: state.hp - 5, location: playerlocation };
 						}
@@ -22432,11 +22446,25 @@
 		var action = arguments[1];
 
 		switch (action.type) {
-			case 'KILLENEMY':
-				console.log(state);
+			case 'UPDATEHP':
+				var newstate = Object.assign([], state);
+
+				state.map(function (enemy, index) {
+					if (enemy.enemylocation === action.payload.collidedenemy) {
+						console.log(newstate[index]);
+						newstate[index].hp = newstate[index].hp - 5;
+					}
+				});
+				return newstate;
 				break;
 
+			// 	case 'KILLENEMY':
+			// 			console.log(state)
+			// 			break;	
+
+
 		}
+
 		return state;
 	};
 
@@ -22449,20 +22477,87 @@
 /* 209 */
 /***/ (function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	function detectCollision(tiles, player, direction) {
+	function detectEnemyCollision(tiles, player, direction, WIDTH) {
+		//returns null if player does not collide with enemy,
+		// returns enemylocation if player collides with an eenemy
+		switch (direction) {
+			case 'ArrowLeft':
+				if (player.location - 1 < 0 || tiles[player.location - 1].type != 'FLOOR') {
+					return player.location - 1;
+				}
+				return null;
+				break;
+			case 'ArrowRight':
+				if (player.location + 1 < 0 || tiles[player.location + 1].type != 'FLOOR') {
+					return player.location + 1;
+				}
+				return null;
+				break;
+			case 'ArrowUp':
+				if (player.location - WIDTH < 0 || tiles[player.location - WIDTH].type != 'FLOOR') {
+					return player.location - WIDTH;
+				}
+				return null;
+				break;
+			case 'ArrowDown':
+				if (player.location + WIDTH < 0 || tiles[player.location + WIDTH].type != 'FLOOR') {
+					return player.location + WIDTH;
+				}
+				return null;
+				break;
 
-		// if()
+		}
 
+		return null;
+	}
+	function moveHelper(tiles, player, direction, WIDTH) {
+		var previousplayerlocation = player.location;
+		var newplayerlocation = previousplayerlocation;
+		switch (direction) {
+			case 'ArrowLeft':
+				previousplayerlocation = player.location;
+				newplayerlocation = player.location - 1;
+				break;
+			case 'ArrowRight':
+				previousplayerlocation = player.location;
+				newplayerlocation = player.location + 1;
+				break;
+			case 'ArrowUp':
+				previousplayerlocation = player.location;
+				newplayerlocation = player.location - WIDTH;
+				break;
+			case 'ArrowDown':
+				previousplayerlocation = player.location;
+				newplayerlocation = player.location + WIDTH;
+				break;
 
-		return true;
+		}
+
+		return { previousplayerlocation: previousplayerlocation,
+			newplayerlocation: newplayerlocation };
 	}
 
-	exports.detectCollision = detectCollision;
+	function getCollidedEnemyHP(boss, enemies, collidedEnemyLocation) {
+		var hp = 0;
+		if (collidedEnemyLocation == boss.location) {
+			hp = boss.hp;
+		}
+		enemies.map(function (enemy, index) {
+			if (enemy.enemylocation == collidedEnemyLocation) {
+				hp = enemy.hp;
+			}
+		});
+		return hp;
+	}
+
+	exports.detectEnemyCollision = detectEnemyCollision;
+	exports.moveHelper = moveHelper;
+	exports.getCollidedEnemyHP = getCollidedEnemyHP;
 
 /***/ }),
 /* 210 */,
@@ -22472,19 +22567,33 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
-	  var action = arguments[1];
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
+		var action = arguments[1];
 
-	  return state;
+		switch (action.type) {
+			case 'UPDATEHP':
+
+				if (action.payload.collidedenemy === state.location) {
+					console.log(state);
+					console.log("from bozz reducer: " + action.payload.collidedenemy);
+					console.log("from bozz reducer: " + state.location);
+					return { hp: state.hp - 5, location: state.location };
+				}
+				break;
+		}
+		// console.log("boZZZ loc: "+state.location)
+
+		return state;
 	};
 
 	var _initialmap = __webpack_require__(183);
 
 	var starter = _initialmap.initialConfig.boss;
+	console.log(starter);
 
 /***/ })
 /******/ ]);

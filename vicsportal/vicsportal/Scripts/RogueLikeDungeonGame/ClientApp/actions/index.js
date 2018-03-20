@@ -1,7 +1,8 @@
-export function move(direction){
+export function move(newlocations){
 	return {
 		type: 'MOVE',
-		payload:direction
+		payload:{previousplayerlocation:newlocations.previousplayerlocation,
+				 newplayerlocation:newlocations.newplayerlocation}
 
 	}
 }
@@ -10,6 +11,12 @@ export function updateHP(update){
 	return{
 
 		type:'UPDATEHP',
-		payload:{movedirection:update.movedirection,gamemap:update.gamemap}
+		payload:{movedirection:update.movedirection,gamemap:update.gamemap,collidedenemy:update.collidedenemy}
+	}
+}
+export function killEnemy(location){
+	return{
+		type: 'KILL',
+		payload:location
 	}
 }
