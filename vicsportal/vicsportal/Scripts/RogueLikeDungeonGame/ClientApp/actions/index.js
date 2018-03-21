@@ -26,3 +26,9 @@ export function heal(){
 		payload:null
 	}
 }
+export function toggleLights(currentplayerlocation){
+	return{
+		type:'TOGGLELIGHTS',
+		payload:currentplayerlocation
+	}
+}

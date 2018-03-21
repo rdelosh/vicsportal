@@ -20960,45 +20960,38 @@
 		var visiblemap = Object.assign([], state.visiblemap);
 
 		switch (action.type) {
+			case 'TOGGLELIGHTS':
+
+				var newlightstate = !state.lightsON;
+				var currentplayerlocation = action.payload;
+				if (newlightstate) {
+					// console.log(true)
+					visiblemap = newtiles;
+				} else {
+					visiblemap = generateVisibleMap(newtiles, currentplayerlocation, state.WIDTH);
+				}
+				return { visiblemap: visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT, lightsON: newlightstate };
+
 			case 'MOVE':
 				var newplayerlocation = action.payload.newplayerlocation;
 				newtiles[action.payload.previousplayerlocation] = { type: 'FLOOR' };
 				newtiles[action.payload.newplayerlocation] = { type: 'PLAYER' };
 
-				var visibletiles = [];
-				for (var i = -3; i <= 3; i++) {
-					for (var j = 0; j <= 3; j++) {
-						if (j === 0) {
-							visibletiles.push(newplayerlocation + i);
-						} else {
-							visibletiles.push(newplayerlocation + j * state.WIDTH + i);
-							visibletiles.push(newplayerlocation - j * state.WIDTH + i);
-						}
-						if (3 - Math.abs(i) === j) {
-							break;
-						}
-					}
+				if (state.lightsON) {
+					visiblemap = newtiles;
+				} else {
+					visiblemap = generateVisibleMap(newtiles, newplayerlocation, state.WIDTH);
 				}
-
-				var _visiblemap = Object.assign([], newtiles);
-				newtiles.map(function (tile, index) {
-					if (visibletiles.includes(index)) {
-						// console.log(index)
-					} else {
-
-						_visiblemap[index] = { type: 'DARK' };
-					}
-				});
 
 				// console.log(state)
 
-				return { visiblemap: _visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT
+				return { visiblemap: visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT, lightsON: state.lightsON
 					// console.log(action.payload)
 
 				};case 'KILL':
 				// console.log("KILL LOCATION: "+action.payload)
 				newtiles[action.payload] = { type: 'FLOOR' };
-				return { visiblemap: _visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT };
+				return { visiblemap: visiblemap, tiles: newtiles, WIDTH: WIDTH, HEIGHT: HEIGHT, lightsON: state.lightsON };
 		}
 		return state;
 	};
@@ -21006,6 +20999,35 @@
 	var _initialmap = __webpack_require__(183);
 
 	var starter = _initialmap.initialConfig;
+
+	function generateVisibleMap(newtiles, newplayerlocation, WIDTH) {
+		var visibletiles = [];
+		for (var i = -3; i <= 3; i++) {
+			for (var j = 0; j <= 3; j++) {
+				if (j === 0) {
+					visibletiles.push(newplayerlocation + i);
+				} else {
+					visibletiles.push(newplayerlocation + j * WIDTH + i);
+					visibletiles.push(newplayerlocation - j * WIDTH + i);
+				}
+				if (3 - Math.abs(i) === j) {
+					break;
+				}
+			}
+		}
+
+		var visiblemap = Object.assign([], newtiles);
+		newtiles.map(function (tile, index) {
+			if (visibletiles.includes(index)) {
+				// console.log(index)
+			} else {
+
+				visiblemap[index] = { type: 'DARK' };
+			}
+		});
+
+		return visiblemap;
+	}
 
 /***/ }),
 /* 183 */
@@ -21079,7 +21101,7 @@
 	        tiles[potionlocation] = { type: 'POTION' };
 	    });
 
-	    console.log(locs.playerlocation);
+	    // console.log(locs.playerlocation)
 
 	    var visibletiles = [];
 	    for (var _i3 = -3; _i3 <= 3; _i3++) {
@@ -21101,14 +21123,11 @@
 
 	    tiles.map(function (tile, index) {
 	        if (visibletiles.includes(index)) {
-	            console.log(index);
+	            // console.log(index)
 	        } else {
 
 	            visiblemap[index] = { type: 'DARK' };
 	        }
-	        // if(index===tiles.length-1){
-	        // 	console.log(visiblemap)		
-	        // }
 	    });
 
 	    return { tiles: tiles,
@@ -21118,7 +21137,8 @@
 	        enemies: enemies,
 	        boss: { hp: 80, location: locs.bosslocation },
 	        visiblemap: visiblemap,
-	        player: { hp: 100, location: locs.playerlocation }
+	        player: { hp: 100, location: locs.playerlocation },
+	        lightsON: false
 	    };
 	}
 
@@ -22254,6 +22274,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					{ style: {
@@ -22264,6 +22286,13 @@
 						null,
 						'HP: ',
 						this.props.player.hp
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: function onClick() {
+								_this2.props.toggleLights(_this2.props.player.location);
+							} },
+						'ToggleLights'
 					),
 					this.props.gamemap.visiblemap.map(function (tile, index) {
 						if (index % 70 === 0) {
@@ -22293,7 +22322,7 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy, heal: _index.heal }, dispatch);
+		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy, heal: _index.heal, toggleLights: _index.toggleLights }, dispatch);
 	}
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
@@ -22360,6 +22389,7 @@
 		}, {
 			key: "shouldComponentUpdate",
 			value: function shouldComponentUpdate(nextProps, nextState) {
+				// console.log(nextProps.tile ==this.state.tile)
 				return nextProps.tile !== this.state.tile;
 				// if(this.props.index===1673){
 				// console.log(nextProps.tile)
@@ -22416,6 +22446,7 @@
 	exports.updateHP = updateHP;
 	exports.killEnemy = killEnemy;
 	exports.heal = heal;
+	exports.toggleLights = toggleLights;
 	function move(newlocations) {
 		return {
 			type: 'MOVE',
@@ -22442,6 +22473,12 @@
 		return {
 			type: 'HEAL',
 			payload: null
+		};
+	}
+	function toggleLights(currentplayerlocation) {
+		return {
+			type: 'TOGGLELIGHTS',
+			payload: currentplayerlocation
 		};
 	}
 

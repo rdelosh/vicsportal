@@ -26,6 +26,7 @@ class Tile extends React.Component{
 		// console.log(this.props.index)
 	}
 	shouldComponentUpdate(nextProps,nextState){
+		// console.log(nextProps.tile ==this.state.tile)
 		return nextProps.tile !==this.state.tile
 		// if(this.props.index===1673){
 		// console.log(nextProps.tile)

@@ -6,6 +6,7 @@ import {move} from '../actions/index';
 import {updateHP} from '../actions/index';
 import {killEnemy} from '../actions/index';
 import {heal} from '../actions/index';
+import {toggleLights} from '../actions/index';
 import {detectEnemyCollision} from '../sharedfunctions/helperfunctions'//detectCollision(tiles,player,direction){
 import {moveHelper} from '../sharedfunctions/helperfunctions' //moveHelper(tiles,player,direction,WIDTH){
 import {getCollidedEnemyHP} from '../sharedfunctions/helperfunctions' //getCollidedEnemyHP(boss,enemies,collidedEnemyLocation){
@@ -68,6 +69,10 @@ class Gamemap extends React.Component{
 				
 					
 					<p>HP: {this.props.player.hp}</p>
+					
+					<button onClick={()=>{
+						this.props.toggleLights(this.props.player.location)
+					}}>ToggleLights</button>
 					{
 					this.props.gamemap.visiblemap.map((tile,index)=>{
 						if(index%70===0){
@@ -105,7 +110,7 @@ function mapStateToProps(state){
 
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy,heal:heal},dispatch)
+	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy,heal:heal, toggleLights:toggleLights},dispatch)
 	
 }
 export default connect(mapStateToProps

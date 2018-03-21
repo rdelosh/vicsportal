@@ -70,7 +70,7 @@ function initialMap(){
     })
 
 
-    console.log(locs.playerlocation)
+    // console.log(locs.playerlocation)
 
     let visibletiles = []
     for(let i =-3;i<=3;i++){
@@ -97,15 +97,12 @@ function initialMap(){
 
     tiles.map((tile,index)=>{
     	if(visibletiles.includes(index)){
-    		console.log(index)
+    		// console.log(index)
     	}else{
 
     		visiblemap[index] = {type:'DARK'}	
     		
     	}
-    	// if(index===tiles.length-1){
-    	// 	console.log(visiblemap)		
-    	// }
     	
     })
     
@@ -123,7 +120,8 @@ function initialMap(){
     		enemies:enemies,
     		boss:{hp:80,location:locs.bosslocation},
     		visiblemap:visiblemap,
-    		player:{hp:100, location:locs.playerlocation}
+    		player:{hp:100, location:locs.playerlocation},
+    		lightsON:false
     		};
 }
 
