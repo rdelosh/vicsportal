@@ -6,21 +6,20 @@ export default function(state =starter, action){
 		case 'UPDATEHP':
 		let newstate = Object.assign([],state)
 
+		
+
 			state.map((enemy,index)=>{
 				if(enemy.enemylocation===action.payload.collidedenemy){
 					// console.log(newstate[index])
-					newstate[index].hp=newstate[index].hp-5
+					newstate[index].hp=newstate[index].hp-action.payload.player.weapondamage
 
 				}
 			})
 			return newstate
 			break;
 
-	// 	case 'KILLENEMY':
-	// 			console.log(state)
-	// 			break;	
-		
-		
+
+
 	}
 
 	return state

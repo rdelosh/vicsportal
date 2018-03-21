@@ -11,7 +11,7 @@ export function updateHP(update){
 	return{
 
 		type:'UPDATEHP',
-		payload:{movedirection:update.movedirection,gamemap:update.gamemap,collidedenemy:update.collidedenemy}
+		payload:{movedirection:update.movedirection,gamemap:update.gamemap,collidedenemy:update.collidedenemy,player:update.player}
 	}
 }
 export function killEnemy(location){
@@ -30,5 +30,11 @@ export function toggleLights(currentplayerlocation){
 	return{
 		type:'TOGGLELIGHTS',
 		payload:currentplayerlocation
+	}
+}
+export function pickUpWeapon(){
+	return{
+		type:'PICKUPWEAPON',
+		payload:null
 	}
 }

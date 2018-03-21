@@ -21036,141 +21036,148 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	var initialConfig = initialMap();
 	function initialMap() {
-	    var WIDTH = 70;
-	    var HEIGHT = 50;
-	    var playerloc = 0;
-	    var bossloc = 0;
+	  var WIDTH = 70;
+	  var HEIGHT = 50;
+	  var playerloc = 0;
+	  var bossloc = 0;
 
-	    var tiles = [];
-	    for (var i = 0; i < WIDTH * HEIGHT; i++) {
-	        tiles.push({ type: 'FLOOR' });
+	  var tiles = [];
+	  for (var i = 0; i < WIDTH * HEIGHT; i++) {
+	    tiles.push({ type: 'FLOOR' });
+	  }
+
+	  var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
+
+	  var occupiedtiles = Object.assign([], walls);
+
+	  var locs = null;
+	  walls.map(function (wall, index) {
+	    tiles[wall] = { type: 'WALL' };
+
+	    if (index === walls.length - 1) {
+	      locs = addPlayerAndBoss(tiles, WIDTH, HEIGHT);
+	      occupiedtiles.push(locs.playerlocation);
+	      occupiedtiles.push(locs.bosslocation);
+	      tiles[locs.playerlocation] = { type: 'PLAYER' };
+	      tiles[locs.bosslocation] = { type: 'BOSS' };
 	    }
+	  });
 
-	    var walls = [3435, 3365, 3295, 3225, 3155, 3085, 3015, 2945, 2875, 2805, 3229, 3230, 3231, 3232, 3233, 3234, 3235, 3236, 2456, 2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466, 2536, 2606, 2676, 2746, 2816, 2886, 2956, 3026, 3096, 3166, 3452, 3382, 3312, 3242, 3172, 3102, 3032, 2892, 2962, 2822, 2752, 2682, 2612, 2542, 2472, 2402, 2332, 2100, 2101, 2103, 2104, 2102, 2105, 2106, 2107, 2108, 2178, 2248, 2318, 2388, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1775, 1776, 1846, 1847, 1917, 1918, 1988, 1989, 2059, 2060, 2130, 2131, 2201, 2202, 2272, 2273, 2343, 2344, 2414, 2415, 2485, 2486, 2556, 2557, 2627, 2628, 2698, 2699, 2769, 2770, 2840, 2841, 2911, 2912, 2282, 2283, 2213, 2214, 2144, 2145, 2075, 2076, 2006, 2007, 1937, 1938, 1868, 1869, 1799, 1800, 1730, 1731, 1661, 1662, 1592, 1593, 1523, 1524, 1454, 1455, 1385, 1386, 1316, 1317, 1247, 1248, 1178, 1179, 1109, 1110, 1040, 1041, 971, 972, 1660, 1590, 1520, 1450, 1380, 1310, 1240, 1170, 1100, 1030, 1029, 1028, 1027, 1025, 1026, 1024, 1018, 1017, 1016, 1015, 1014, 1013, 1011, 1009, 1007, 1008, 1010, 1012, 1006, 1005, 1004, 1003, 1002, 447, 517, 587, 657, 727, 797, 867, 937, 27, 97, 167, 1001, 999, 1000, 998, 997, 996, 995, 994, 993, 1062, 992, 1061, 1060, 1130, 1129, 1199, 922, 852, 851, 781, 780, 640, 710];
-
-	    var occupiedtiles = Object.assign([], walls);
-
-	    // let enemies = [{enemylocation:2641,hp:40},
-	    // 			   {enemylocation:2515,hp:40},
-	    // 			   {enemylocation:1396,hp:40},
-	    // 			   {enemylocation:410,hp:40}]
-
-	    var locs = null;
-	    walls.map(function (wall, index) {
-	        tiles[wall] = { type: 'WALL' };
-
-	        if (index === walls.length - 1) {
-	            locs = addPlayerAndBoss(tiles, WIDTH, HEIGHT);
-	            occupiedtiles.push(locs.playerlocation);
-	            occupiedtiles.push(locs.bosslocation);
-	            tiles[locs.playerlocation] = { type: 'PLAYER' };
-	            tiles[locs.bosslocation] = { type: 'BOSS' };
-	        }
-	    });
-
-	    var enemies = [];
-	    var tempenemylocation = 0;
-	    for (var _i = 0; _i < 40; _i++) {
-	        tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
-	        if (!occupiedtiles.includes(tempenemylocation)) {
-	            enemies.push({ enemylocation: tempenemylocation, hp: 40 });
-	            occupiedtiles.push(tempenemylocation);
-	        }
+	  var enemies = [];
+	  var tempenemylocation = 0;
+	  for (var _i = 0; _i < 40; _i++) {
+	    tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
+	    if (!occupiedtiles.includes(tempenemylocation)) {
+	      enemies.push({ enemylocation: tempenemylocation, hp: 40 });
+	      occupiedtiles.push(tempenemylocation);
 	    }
-	    var potions = [];
-	    var temppotionlocation = 0;
-	    for (var _i2 = 0; _i2 < 30; _i2++) {
-	        tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
-	        if (!occupiedtiles.includes(tempenemylocation)) {
-	            potions.push(tempenemylocation);
-	            occupiedtiles.push(tempenemylocation);
-	        }
+	  }
+	  var potions = [];
+	  var temppotionlocation = 0;
+	  for (var _i2 = 0; _i2 < 30; _i2++) {
+	    tempenemylocation = generateRandomLocation(WIDTH, HEIGHT);
+	    if (!occupiedtiles.includes(tempenemylocation)) {
+	      potions.push(tempenemylocation);
+	      occupiedtiles.push(tempenemylocation);
 	    }
-
-	    enemies.map(function (enemy, index) {
-
-	        tiles[enemy.enemylocation] = { type: 'ENEMY' };
-	        locs.enemilocs = enemy;
-	    });
-
-	    potions.map(function (potionlocation, index) {
-	        tiles[potionlocation] = { type: 'POTION' };
-	    });
-
-	    // console.log(locs.playerlocation)
-
-	    var visibletiles = [];
-	    for (var _i3 = -3; _i3 <= 3; _i3++) {
-	        for (var j = 0; j <= 3; j++) {
-
-	            if (j === 0) {
-	                visibletiles.push(locs.playerlocation + _i3);
-	            } else {
-	                visibletiles.push(locs.playerlocation + j * WIDTH + _i3);
-	                visibletiles.push(locs.playerlocation - j * WIDTH + _i3);
-	            }
-	            if (3 - Math.abs(_i3) === j) {
-	                break;
-	            }
-	        }
+	  }
+	  var weapons = [];
+	  var tempweaponlocation = 0;
+	  for (var _i3 = 0; _i3 < 10; _i3++) {
+	    tempweaponlocation = generateRandomLocation(WIDTH, HEIGHT);
+	    if (!occupiedtiles.includes(tempweaponlocation)) {
+	      weapons.push(tempweaponlocation);
+	      occupiedtiles.push(tempweaponlocation);
 	    }
+	  }
 
-	    var visiblemap = Object.assign([], tiles);
+	  enemies.map(function (enemy, index) {
 
-	    tiles.map(function (tile, index) {
-	        if (visibletiles.includes(index)) {
-	            // console.log(index)
-	        } else {
+	    tiles[enemy.enemylocation] = { type: 'ENEMY' };
+	    locs.enemilocs = enemy;
+	  });
 
-	            visiblemap[index] = { type: 'DARK' };
-	        }
-	    });
+	  potions.map(function (potionlocation, index) {
+	    tiles[potionlocation] = { type: 'POTION' };
+	  });
+	  weapons.map(function (weaponlocation) {
+	    tiles[weaponlocation] = { type: 'WEAPON' };
+	  });
 
-	    return { tiles: tiles,
-	        locs: locs,
-	        WIDTH: WIDTH,
-	        HEIGHT: HEIGHT,
-	        enemies: enemies,
-	        boss: { hp: 80, location: locs.bosslocation },
-	        visiblemap: visiblemap,
-	        player: { hp: 100, location: locs.playerlocation },
-	        lightsON: false
-	    };
+	  // console.log(locs.playerlocation)
+
+	  var visibletiles = [];
+	  for (var _i4 = -3; _i4 <= 3; _i4++) {
+	    for (var j = 0; j <= 3; j++) {
+
+	      if (j === 0) {
+	        visibletiles.push(locs.playerlocation + _i4);
+	      } else {
+	        visibletiles.push(locs.playerlocation + j * WIDTH + _i4);
+	        visibletiles.push(locs.playerlocation - j * WIDTH + _i4);
+	      }
+	      if (3 - Math.abs(_i4) === j) {
+	        break;
+	      }
+	    }
+	  }
+
+	  var visiblemap = Object.assign([], tiles);
+
+	  tiles.map(function (tile, index) {
+	    if (visibletiles.includes(index)) {
+	      // console.log(index)
+	    } else {
+
+	      visiblemap[index] = { type: 'DARK' };
+	    }
+	  });
+
+	  return { tiles: tiles,
+	    locs: locs,
+	    WIDTH: WIDTH,
+	    HEIGHT: HEIGHT,
+	    enemies: enemies,
+	    boss: { hp: 80, location: locs.bosslocation },
+	    visiblemap: visiblemap,
+	    player: { hp: 100, location: locs.playerlocation, weapondamage: 5, maxhp: 100, level: 1, exp: 0 },
+	    lightsON: false
+	  };
 	}
 
 	function generateRandomLocation(WIDTH, HEIGHT) {
-	    return Math.floor(Math.random() * (WIDTH * HEIGHT - 1 - 0) + 0);
+	  return Math.floor(Math.random() * (WIDTH * HEIGHT - 1 - 0) + 0);
 	}
 
 	function addPlayerAndBoss(mytiles, WIDTH, HEIGHT) {
-	    var increaseIndex = true; //if true add+++++, if false subtract-----
-	    var quantity = 2000;
-	    var tiles = mytiles;
+	  var increaseIndex = true; //if true add+++++, if false subtract-----
+	  var quantity = 2000;
+	  var tiles = mytiles;
 
-	    var randomplayerlocation = generateRandomLocation(WIDTH, HEIGHT);
-	    // let randomplayerlocation = 1673
+	  var randomplayerlocation = generateRandomLocation(WIDTH, HEIGHT);
+	  // let randomplayerlocation = 1673
 
-	    var randombosslocation = generateRandomLocation(WIDTH, HEIGHT);
+	  var randombosslocation = generateRandomLocation(WIDTH, HEIGHT);
 
-	    //console.log(tiles)
-	    if (randombosslocation + quantity < tiles.length) {
-	        console.log("bossloc: " + (randombosslocation + quantity));
-	        console.log(tiles[randombosslocation + quantity]);
-	        if (tiles[randombosslocation + quantity].type === 'FLOOR') {
-	            console.log(randombosslocation + quantity);
-	            randombosslocation = randombosslocation + quantity;
-	        } else {
-	            increaseIndex ? quantity = quantity + 30 : quantity = quantity - 30;
-	        }
+	  //console.log(tiles)
+	  if (randombosslocation + quantity < tiles.length) {
+	    console.log("bossloc: " + (randombosslocation + quantity));
+	    console.log(tiles[randombosslocation + quantity]);
+	    if (tiles[randombosslocation + quantity].type === 'FLOOR') {
+	      console.log(randombosslocation + quantity);
+	      randombosslocation = randombosslocation + quantity;
 	    } else {
-	        increaseIndex = !increaseIndex;
+	      increaseIndex ? quantity = quantity + 30 : quantity = quantity - 30;
 	    }
+	  } else {
+	    increaseIndex = !increaseIndex;
+	  }
 
-	    return { playerlocation: randomplayerlocation, bosslocation: randombosslocation };
+	  return { playerlocation: randomplayerlocation, bosslocation: randombosslocation };
 	}
 
 	exports.initialConfig = initialConfig;
@@ -22237,9 +22244,13 @@
 						if (_this.props.gamemap.tiles[collidedenemy].type == 'POTION') {
 							_this.props.heal();
 						}
+						if (_this.props.gamemap.tiles[collidedenemy].type = 'WEAPON') {
+							_this.props.pickUpWeapon();
+						}
+
 						_this.props.killEnemy(collidedenemy);
 					}
-					_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap, collidedenemy: collidedenemy });
+					_this.props.updateHP({ movedirection: event.key, gamemap: _this.props.gamemap, collidedenemy: collidedenemy, player: _this.props.player });
 				} else {
 					// console.log("else MOVE!!")
 					_this.props.move((0, _helperfunctions.moveHelper)(_this.props.gamemap.tiles, _this.props.player, event.key, _this.props.gamemap.WIDTH));
@@ -22285,7 +22296,15 @@
 						'p',
 						null,
 						'HP: ',
-						this.props.player.hp
+						this.props.player.hp,
+						'/',
+						this.props.player.maxhp,
+						' Experience:',
+						this.props.player.exp,
+						'Level: ',
+						this.props.player.level,
+						' Weapon Damage: ',
+						this.props.player.weapondamage
 					),
 					_react2.default.createElement(
 						'button',
@@ -22322,7 +22341,8 @@
 		};
 	}
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy, heal: _index.heal, toggleLights: _index.toggleLights }, dispatch);
+		return (0, _redux.bindActionCreators)({ move: _index.move, updateHP: _index.updateHP, killEnemy: _index.killEnemy, heal: _index.heal,
+			pickUpWeapon: _index.pickUpWeapon, toggleLights: _index.toggleLights }, dispatch);
 	}
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Gamemap);
 
@@ -22447,6 +22467,7 @@
 	exports.killEnemy = killEnemy;
 	exports.heal = heal;
 	exports.toggleLights = toggleLights;
+	exports.pickUpWeapon = pickUpWeapon;
 	function move(newlocations) {
 		return {
 			type: 'MOVE',
@@ -22460,7 +22481,7 @@
 		return {
 
 			type: 'UPDATEHP',
-			payload: { movedirection: update.movedirection, gamemap: update.gamemap, collidedenemy: update.collidedenemy }
+			payload: { movedirection: update.movedirection, gamemap: update.gamemap, collidedenemy: update.collidedenemy, player: update.player }
 		};
 	}
 	function killEnemy(location) {
@@ -22481,6 +22502,12 @@
 			payload: currentplayerlocation
 		};
 	}
+	function pickUpWeapon() {
+		return {
+			type: 'PICKUPWEAPON',
+			payload: null
+		};
+	}
 
 /***/ }),
 /* 207 */
@@ -22496,10 +22523,15 @@
 		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : starter;
 		var action = arguments[1];
 
-		// console.log(state)
+		console.log(state);
 		switch (action.type) {
+			case 'PICKUPWEAPON':
+				console.log("PICKUPWEAPON");
+				return { hp: state.hp, location: state.location,
+					weapondamage: state.weapondamage + 5, maxhp: state.maxhp, level: state.level, exp: state.exp };
 			case 'MOVE':
-				return { hp: state.hp, location: action.payload.newplayerlocation };
+				return { hp: state.hp, location: action.payload.newplayerlocation,
+					weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
 				break;
 			case 'UPDATEHP':
 				//testing moving to the left
@@ -22515,30 +22547,48 @@
 
 						//console.log(tiles)
 						if (tiles[playerlocation - 1].type === 'BOSS' || tiles[playerlocation - 1].type === 'ENEMY') {
-							return { hp: state.hp - 5, location: playerlocation };
+							return { hp: state.hp - 5, location: playerlocation,
+								weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
 						}
 						break;
 					case 'ArrowRight':
 
 						if (tiles[playerlocation + 1].type === 'BOSS' || tiles[playerlocation + 1].type === 'ENEMY') {
-							return { hp: state.hp - 5, location: playerlocation };
+							return { hp: state.hp - 5, location: playerlocation,
+								weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
 						}
 						break;
 					case 'ArrowUp':
 						if (tiles[playerlocation - WIDTH].type === 'BOSS' || tiles[playerlocation - WIDTH].type === 'ENEMY') {
-							return { hp: state.hp - 5, location: playerlocation };
+							return { hp: state.hp - 5, location: playerlocation,
+								weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
 						}
 						break;
 					case 'ArrowDown':
 
 						if (tiles[playerlocation + WIDTH].type === 'BOSS' || tiles[playerlocation + WIDTH].type === 'ENEMY') {
-							return { hp: state.hp - 5, location: playerlocation };
+							return { hp: state.hp - 5, location: playerlocation,
+								weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
 						}
 						break;
 				}
 				break;
 			case 'HEAL':
-				return { hp: 100, location: state.location };
+				return { hp: state.maxhp, location: state.location, weapondamage: state.weapondamage, maxhp: state.maxhp, level: state.level, exp: state.exp };
+				break;
+			case 'KILL':
+				var newlevel = state.level;
+				var newweapondamage = state.weapondamage;
+				var newmaxhp = state.maxhp;
+				var newhp = state.hp;
+				var newexp = state.exp + 15;
+				if (newexp >= 100) {
+					newlevel = newlevel + 1;
+					newexp = newexp - 100;
+					newweapondamage = newweapondamage + 5;
+					newmaxhp = newmaxhp + 20;
+				}
+				return { hp: newhp, location: state.location, weapondamage: newweapondamage, maxhp: newmaxhp, level: newlevel, exp: newexp };
 
 		}
 		return state;
@@ -22569,16 +22619,11 @@
 				state.map(function (enemy, index) {
 					if (enemy.enemylocation === action.payload.collidedenemy) {
 						// console.log(newstate[index])
-						newstate[index].hp = newstate[index].hp - 5;
+						newstate[index].hp = newstate[index].hp - action.payload.player.weapondamage;
 					}
 				});
 				return newstate;
 				break;
-
-			// 	case 'KILLENEMY':
-			// 			console.log(state)
-			// 			break;	
-
 
 		}
 

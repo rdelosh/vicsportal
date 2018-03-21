@@ -16,12 +16,6 @@ function initialMap(){
 	let occupiedtiles = Object.assign([],walls)
 
 
-
-    // let enemies = [{enemylocation:2641,hp:40},
-    // 			   {enemylocation:2515,hp:40},
-    // 			   {enemylocation:1396,hp:40},
-    // 			   {enemylocation:410,hp:40}]
-
     let locs=null;
     walls.map((wall,index)=>{
     	tiles[wall]={type:'WALL'}
@@ -57,7 +51,16 @@ function initialMap(){
 			occupiedtiles.push(tempenemylocation)
 		}
 		
-	}	
+	}
+	let weapons = []
+	let tempweaponlocation=0;
+	for(let i=0;i<10;i++){
+		tempweaponlocation=generateRandomLocation(WIDTH,HEIGHT)
+		if(!(occupiedtiles.includes(tempweaponlocation))){
+			weapons.push(tempweaponlocation)
+			occupiedtiles.push(tempweaponlocation)
+		}
+	}
 
     enemies.map((enemy,index)=>{
 
@@ -67,6 +70,9 @@ function initialMap(){
 
     potions.map((potionlocation,index)=>{
     	tiles[potionlocation]={type:'POTION'}
+    })
+    weapons.map(weaponlocation=>{
+    	tiles[weaponlocation]={type:'WEAPON'}
     })
 
 
@@ -105,13 +111,6 @@ function initialMap(){
     	}
     	
     })
-    
-
-
-    
-    
-
-    
 
     return {tiles:tiles,
     		locs:locs,
@@ -120,7 +119,7 @@ function initialMap(){
     		enemies:enemies,
     		boss:{hp:80,location:locs.bosslocation},
     		visiblemap:visiblemap,
-    		player:{hp:100, location:locs.playerlocation},
+    		player:{hp:100, location:locs.playerlocation,weapondamage:5, maxhp:100,level:1,exp:0},
     		lightsON:false
     		};
 }

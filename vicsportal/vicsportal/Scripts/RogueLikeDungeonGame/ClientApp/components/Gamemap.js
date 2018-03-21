@@ -7,6 +7,7 @@ import {updateHP} from '../actions/index';
 import {killEnemy} from '../actions/index';
 import {heal} from '../actions/index';
 import {toggleLights} from '../actions/index';
+import {pickUpWeapon} from '../actions/index';
 import {detectEnemyCollision} from '../sharedfunctions/helperfunctions'//detectCollision(tiles,player,direction){
 import {moveHelper} from '../sharedfunctions/helperfunctions' //moveHelper(tiles,player,direction,WIDTH){
 import {getCollidedEnemyHP} from '../sharedfunctions/helperfunctions' //getCollidedEnemyHP(boss,enemies,collidedEnemyLocation){
@@ -26,10 +27,14 @@ class Gamemap extends React.Component{
 					if(this.props.gamemap.tiles[collidedenemy].type=='POTION'){
 						this.props.heal()
 					}
+					if(this.props.gamemap.tiles[collidedenemy].type='WEAPON'){
+						this.props.pickUpWeapon()
+					}
+
 					this.props.killEnemy(collidedenemy)
 
 				}
-				this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap,collidedenemy:collidedenemy})
+				this.props.updateHP({movedirection:event.key,gamemap:this.props.gamemap,collidedenemy:collidedenemy,player:this.props.player})
 			}else{
 				// console.log("else MOVE!!")
 				this.props.move(moveHelper(this.props.gamemap.tiles,this.props.player,event.key,this.props.gamemap.WIDTH))
@@ -68,8 +73,11 @@ class Gamemap extends React.Component{
 			}}>
 				
 					
-					<p>HP: {this.props.player.hp}</p>
+					<p>HP: {this.props.player.hp}/{this.props.player.maxhp} Experience:{this.props.player.exp} 
+						  Level: {this.props.player.level} Weapon Damage: {this.props.player.weapondamage}
+					</p>
 					
+
 					<button onClick={()=>{
 						this.props.toggleLights(this.props.player.location)
 					}}>ToggleLights</button>
@@ -110,7 +118,8 @@ function mapStateToProps(state){
 
 }
 function mapDispatchToProps(dispatch){
-	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy,heal:heal, toggleLights:toggleLights},dispatch)
+	return bindActionCreators({move:move,updateHP:updateHP,killEnemy:killEnemy,heal:heal,
+								pickUpWeapon:pickUpWeapon, toggleLights:toggleLights},dispatch)
 	
 }
 export default connect(mapStateToProps
