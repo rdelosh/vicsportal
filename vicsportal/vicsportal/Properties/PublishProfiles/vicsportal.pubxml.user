@@ -86,10 +86,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>03/06/2018 03:03:07</publishTime>
+      <publishTime>03/20/2018 21:37:46</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>03/06/2018 03:03:07</publishTime>
+      <publishTime>03/20/2018 21:37:46</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 13:07:42</publishTime>
@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/vicsportal.dll">
-      <publishTime>03/06/2018 02:49:30</publishTime>
+      <publishTime>03/20/2018 21:33:23</publishTime>
     </File>
     <File Include="bin/vicsportal.pdb">
-      <publishTime>03/06/2018 02:49:30</publishTime>
+      <publishTime>03/20/2018 21:33:23</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>09/10/2013 17:28:38</publishTime>
@@ -293,7 +293,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/18/2017 20:32:34</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>03/06/2018 03:03:05</publishTime>
+      <publishTime>03/20/2018 21:37:44</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>08/18/2017 20:32:13</publishTime>
@@ -349,6 +349,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/respond.min.js">
       <publishTime>08/18/2017 20:32:20</publishTime>
     </File>
+    <File Include="Scripts/RogueLikeDungeonGame/wwwroot/js/bundle.js">
+      <publishTime>03/20/2018 21:30:44</publishTime>
+    </File>
     <File Include="Scripts/_references.js">
       <publishTime>08/18/2017 20:32:20</publishTime>
     </File>
@@ -356,10 +359,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/05/2018 23:34:49</publishTime>
     </File>
     <File Include="Views/freecodecamp/FreeCodeCampMenu.cshtml">
-      <publishTime>03/05/2018 23:34:49</publishTime>
+      <publishTime>03/20/2018 21:37:09</publishTime>
     </File>
     <File Include="Views/freecodecamp/GameOfLife.cshtml">
-      <publishTime>03/05/2018 23:34:49</publishTime>
+      <publishTime>03/20/2018 21:12:37</publishTime>
     </File>
     <File Include="Views/freecodecamp/JavascriptCalculator.cshtml">
       <publishTime>10/17/2017 11:35:39</publishTime>
@@ -377,7 +380,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/15/2017 08:54:41</publishTime>
     </File>
     <File Include="Views/freecodecamp/RecipeBox.cshtml">
-      <publishTime>03/05/2018 23:34:49</publishTime>
+      <publishTime>03/20/2018 21:36:16</publishTime>
+    </File>
+    <File Include="Views/freecodecamp/RogueLikeDungeonGame.cshtml">
+      <publishTime>03/20/2018 21:32:18</publishTime>
     </File>
     <File Include="Views/freecodecamp/SimonGame.cshtml">
       <publishTime>10/15/2017 08:03:51</publishTime>
@@ -395,7 +401,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/19/2017 08:39:23</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/08/2018 00:49:54</publishTime>
+      <publishTime>03/20/2018 21:34:44</publishTime>
     </File>
     <File Include="Views/privateroomMVC/privateroomMVC.cshtml">
       <publishTime>08/24/2017 14:12:55</publishTime>

@@ -269,6 +269,7 @@
     <Content Include="Scripts\RecipeBox\wwwroot\js\bundle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\RogueLikeDungeonGame\wwwroot\js\bundle.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -298,6 +299,7 @@
     <Content Include="Views\freecodecamp\CamperLeaderboard.cshtml" />
     <Content Include="Views\freecodecamp\RecipeBox.cshtml" />
     <Content Include="Views\freecodecamp\GameOfLife.cshtml" />
+    <Content Include="Views\freecodecamp\RogueLikeDungeonGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

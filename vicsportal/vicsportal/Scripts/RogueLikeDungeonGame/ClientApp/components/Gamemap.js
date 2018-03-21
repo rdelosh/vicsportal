@@ -67,20 +67,25 @@ class Gamemap extends React.Component{
 
 	
 	render(){
-		return(
+        return (
+        	<div>
+            <div>
+                <p>HP: {this.props.player.hp}/{this.props.player.maxhp} Experience:{this.props.player.exp}
+                    Level: {this.props.player.level} Weapon Damage: {this.props.player.weapondamage}
+                </p>
+
+
+                <button onClick={() => {
+                    this.props.toggleLights(this.props.player.location)
+                }}>ToggleLights</button>
+            </div>
+                
 			<div style={{
-				minWidth:"1200px"
+                    minWidth: "1200px"
 			}}>
 				
 					
-					<p>HP: {this.props.player.hp}/{this.props.player.maxhp} Experience:{this.props.player.exp} 
-						  Level: {this.props.player.level} Weapon Damage: {this.props.player.weapondamage}
-					</p>
 					
-
-					<button onClick={()=>{
-						this.props.toggleLights(this.props.player.location)
-					}}>ToggleLights</button>
 					{
 					this.props.gamemap.visiblemap.map((tile,index)=>{
 						if(index%70===0){
@@ -92,15 +97,12 @@ class Gamemap extends React.Component{
 								
 								)
 						}
-						return (
-
-			
-								<Tile index={index} tile={tile} />
-							
-							)
+						return <Tile index={index} tile={tile} />
 					})
 				}
 				
+			</div>
+
 			</div>
 			)
 	}

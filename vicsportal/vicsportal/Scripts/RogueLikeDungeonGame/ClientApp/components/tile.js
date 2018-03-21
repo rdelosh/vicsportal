@@ -39,11 +39,12 @@ class Tile extends React.Component{
 		return (
 				<div style={
 					{
-						
+                        margin: "0",
 						border:"1px solid black",
 						display:"inline-block",
 						width:"13px",
-						height:"13px",
+                        height: "13px",
+                        overflow:"auto"
 						
 						
 					}

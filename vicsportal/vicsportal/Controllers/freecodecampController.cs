@@ -72,5 +72,9 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+        public ActionResult RogueLikeDungeonGame()
+        {
+            return View();
+        }
     }
 }
