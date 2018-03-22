@@ -15,8 +15,9 @@ var myInterval = setInterval(function(){
 	clearInterval(myInterval)
 	console.log(mydata)
 	mydata.map(function(data){
+
 		dates.push(new Date(data[0]))
-		// console.log(dates)
+		
 		gdps.push(data[1])
 	})
 	
@@ -117,24 +118,7 @@ var myInterval = setInterval(function(){
 			})
 			.duration(3000)
 			.ease(d3.easeBounceOut)
-
-
-
-
-		
 	}
-
-
-
-
-
-
-
-
-
-
-
-	
 },1000)
 
 
