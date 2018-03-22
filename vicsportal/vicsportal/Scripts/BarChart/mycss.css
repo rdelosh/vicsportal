@@ -1,3 +1,9 @@
 svg{
-	background-color: orange;
+	background-color: #fff;
+	border: 2px solid black;
+}
+.title{
+	font-size: 35px;
+	fill:#0080ff;
+	/*transform: translate(300,40)*/
 }
