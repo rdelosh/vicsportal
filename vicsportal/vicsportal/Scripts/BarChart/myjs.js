@@ -103,6 +103,7 @@ var myInterval = setInterval(function(){
 					.classed('title',true)
 					.text('Gross Domestic Product')
 					.attr('transform','translate(250,40)')
+					.style('font-size','40px')
 
 					
 
