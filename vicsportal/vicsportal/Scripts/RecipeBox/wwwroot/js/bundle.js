@@ -61,17 +61,17 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _listofrecipes = __webpack_require__(164);
+	var _listofrecipes = __webpack_require__(160);
 
 	var _listofrecipes2 = _interopRequireDefault(_listofrecipes);
 
-	var _redux = __webpack_require__(171);
+	var _redux = __webpack_require__(168);
 
-	var _reducers = __webpack_require__(204);
+	var _reducers = __webpack_require__(202);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _reactRedux = __webpack_require__(165);
+	var _reactRedux = __webpack_require__(162);
 
 	var _app = __webpack_require__(206);
 
@@ -19847,7 +19847,82 @@
 	module.exports = __webpack_require__(4);
 
 /***/ }),
-/* 160 */,
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _recipeitem = __webpack_require__(161);
+
+	var _recipeitem2 = _interopRequireDefault(_recipeitem);
+
+	var _reactRedux = __webpack_require__(162);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// import { showModal } from '../actions/index';
+	// import { bindActionCreators } from 'redux';
+
+
+	var ListofRecipes = function (_React$Component) {
+		_inherits(ListofRecipes, _React$Component);
+
+		function ListofRecipes() {
+			_classCallCheck(this, ListofRecipes);
+
+			return _possibleConstructorReturn(this, (ListofRecipes.__proto__ || Object.getPrototypeOf(ListofRecipes)).apply(this, arguments));
+		}
+
+		_createClass(ListofRecipes, [{
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				return _react2.default.createElement(
+					'div',
+					null,
+					this.props.recipes.map(function (recipe, index) {
+						console.log(_this2.props.recipes);
+						return _react2.default.createElement(_recipeitem2.default, { key: index, index: index, recipe: recipe.title, ingredient: recipe.ingredient
+						});
+					})
+				);
+			}
+		}]);
+
+		return ListofRecipes;
+	}(_react2.default.Component);
+
+	function mapStateToProps(state) {
+		return {
+			recipes: state.recipes
+		};
+	}
+
+	// function mapDispatchToProps(dispatch){
+	// 	return bindActionCreators({showModal: showModal}, dispatch)
+	// }
+
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(ListofRecipes);
+
+/***/ }),
 /* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19863,11 +19938,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRedux = __webpack_require__(165);
+	var _reactRedux = __webpack_require__(162);
 
-	var _redux = __webpack_require__(171);
+	var _redux = __webpack_require__(168);
 
-	var _index = __webpack_require__(207);
+	var _index = __webpack_require__(201);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19963,207 +20038,14 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(159);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _addrecipeform = __webpack_require__(209);
-
-	var _addrecipeform2 = _interopRequireDefault(_addrecipeform);
-
-	var _edit_recipeform = __webpack_require__(210);
-
-	var _edit_recipeform2 = _interopRequireDefault(_edit_recipeform);
-
-	var _reactRedux = __webpack_require__(165);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Modal = function (_React$Component) {
-		_inherits(Modal, _React$Component);
-
-		function Modal(props) {
-			_classCallCheck(this, Modal);
-
-			var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
-
-			_this.modalstate = false;
-			_this.context = null;
-
-			return _this;
-		}
-
-		_createClass(Modal, [{
-			key: 'componentWillReceiveProps',
-			value: function componentWillReceiveProps(nextProps) {
-				this.selectedRecipe = nextProps.selectedRecipe;
-				this.modalstate = nextProps.modalstate.modalstate;
-				this.closemodal = nextProps.closemodal;
-				this.editRecipe = nextProps.editRecipe;
-				this.context = nextProps.modalstate.context;
-				this.addRecipe = nextProps.addRecipe;
-				this.deleteRecipe = nextProps.deleteRecipe;
-
-				if (this.modalstate) {
-					this.modalTarget = document.createElement('div');
-					this.modalTarget.className = 'modal';
-					document.body.appendChild(this.modalTarget);
-					this._render();
-				} else {
-					this.componentWillUnmount();
-				}
-			}
-		}, {
-			key: 'componentWillUpdate',
-			value: function componentWillUpdate() {
-
-				this._render();
-			}
-		}, {
-			key: 'componentWillUnmount',
-			value: function componentWillUnmount() {
-				_reactDom2.default.unmountComponentAtNode(this.modalTarget);
-				document.body.removeChild(this.modalTarget);
-			}
-		}, {
-			key: '_render',
-			value: function _render() {
-
-				if (this.modalstate) {
-
-					_reactDom2.default.render(_react2.default.createElement(
-						'div',
-						{ className: 'modalcontainer' },
-						this.props.children,
-						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, { addRecipe: this.addRecipe }),
-						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { deleteRecipe: this.deleteRecipe, editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
-						_react2.default.createElement(
-							'button',
-							{ onClick: this.closemodal },
-							'close modal'
-						)
-					), this.modalTarget);
-				}
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement('noscript', null);
-			}
-		}]);
-
-		return Modal;
-	}(_react2.default.Component);
-
-	exports.default = Modal;
-
-/***/ }),
-/* 163 */,
-/* 164 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _recipeitem = __webpack_require__(161);
-
-	var _recipeitem2 = _interopRequireDefault(_recipeitem);
-
-	var _reactRedux = __webpack_require__(165);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import { showModal } from '../actions/index';
-	// import { bindActionCreators } from 'redux';
-
-
-	var ListofRecipes = function (_React$Component) {
-		_inherits(ListofRecipes, _React$Component);
-
-		function ListofRecipes() {
-			_classCallCheck(this, ListofRecipes);
-
-			return _possibleConstructorReturn(this, (ListofRecipes.__proto__ || Object.getPrototypeOf(ListofRecipes)).apply(this, arguments));
-		}
-
-		_createClass(ListofRecipes, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
-
-				return _react2.default.createElement(
-					'div',
-					null,
-					this.props.recipes.map(function (recipe, index) {
-						console.log(_this2.props.recipes);
-						return _react2.default.createElement(_recipeitem2.default, { key: index, index: index, recipe: recipe.title, ingredient: recipe.ingredient
-						});
-					})
-				);
-			}
-		}]);
-
-		return ListofRecipes;
-	}(_react2.default.Component);
-
-	function mapStateToProps(state) {
-		return {
-			recipes: state.recipes
-		};
-	}
-
-	// function mapDispatchToProps(dispatch){
-	// 	return bindActionCreators({showModal: showModal}, dispatch)
-	// }
-
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(ListofRecipes);
-
-/***/ }),
-/* 165 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 
-	var _Provider = __webpack_require__(166);
+	var _Provider = __webpack_require__(163);
 
 	var _Provider2 = _interopRequireDefault(_Provider);
 
-	var _connect = __webpack_require__(168);
+	var _connect = __webpack_require__(165);
 
 	var _connect2 = _interopRequireDefault(_connect);
 
@@ -20175,7 +20057,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ }),
-/* 166 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20187,7 +20069,7 @@
 
 	var _react = __webpack_require__(2);
 
-	var _storeShape = __webpack_require__(167);
+	var _storeShape = __webpack_require__(164);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
@@ -20275,7 +20157,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 167 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20291,7 +20173,7 @@
 	});
 
 /***/ }),
-/* 168 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20313,27 +20195,27 @@
 
 	var _react = __webpack_require__(2);
 
-	var _storeShape = __webpack_require__(167);
+	var _storeShape = __webpack_require__(164);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
-	var _shallowEqual = __webpack_require__(169);
+	var _shallowEqual = __webpack_require__(166);
 
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-	var _wrapActionCreators = __webpack_require__(170);
+	var _wrapActionCreators = __webpack_require__(167);
 
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 
-	var _isPlainObject = __webpack_require__(192);
+	var _isPlainObject = __webpack_require__(189);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _hoistNonReactStatics = __webpack_require__(202);
+	var _hoistNonReactStatics = __webpack_require__(199);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
-	var _invariant = __webpack_require__(203);
+	var _invariant = __webpack_require__(200);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -20643,7 +20525,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 169 */
+/* 166 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -20674,7 +20556,7 @@
 	}
 
 /***/ }),
-/* 170 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20682,7 +20564,7 @@
 	exports.__esModule = true;
 	exports["default"] = wrapActionCreators;
 
-	var _redux = __webpack_require__(171);
+	var _redux = __webpack_require__(168);
 
 	function wrapActionCreators(actionCreators) {
 	  return function (dispatch) {
@@ -20691,7 +20573,7 @@
 	}
 
 /***/ }),
-/* 171 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20699,27 +20581,27 @@
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	var _createStore = __webpack_require__(172);
+	var _createStore = __webpack_require__(169);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _combineReducers = __webpack_require__(187);
+	var _combineReducers = __webpack_require__(184);
 
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-	var _bindActionCreators = __webpack_require__(189);
+	var _bindActionCreators = __webpack_require__(186);
 
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-	var _applyMiddleware = __webpack_require__(190);
+	var _applyMiddleware = __webpack_require__(187);
 
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-	var _compose = __webpack_require__(191);
+	var _compose = __webpack_require__(188);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _warning = __webpack_require__(188);
+	var _warning = __webpack_require__(185);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -20745,7 +20627,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 172 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20756,11 +20638,11 @@
 	exports.ActionTypes = undefined;
 	exports['default'] = createStore;
 
-	var _isPlainObject = __webpack_require__(173);
+	var _isPlainObject = __webpack_require__(170);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _symbolObservable = __webpack_require__(183);
+	var _symbolObservable = __webpack_require__(180);
 
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -21015,14 +20897,14 @@
 	}
 
 /***/ }),
-/* 173 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var baseGetTag = __webpack_require__(174),
-	    getPrototype = __webpack_require__(180),
-	    isObjectLike = __webpack_require__(182);
+	var baseGetTag = __webpack_require__(171),
+	    getPrototype = __webpack_require__(177),
+	    isObjectLike = __webpack_require__(179);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -21083,14 +20965,14 @@
 	module.exports = isPlainObject;
 
 /***/ }),
-/* 174 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(175),
-	    getRawTag = __webpack_require__(178),
-	    objectToString = __webpack_require__(179);
+	var _Symbol = __webpack_require__(172),
+	    getRawTag = __webpack_require__(175),
+	    objectToString = __webpack_require__(176);
 
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -21116,12 +20998,12 @@
 	module.exports = baseGetTag;
 
 /***/ }),
-/* 175 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var root = __webpack_require__(176);
+	var root = __webpack_require__(173);
 
 	/** Built-in value references. */
 	var _Symbol = root.Symbol;
@@ -21129,14 +21011,14 @@
 	module.exports = _Symbol;
 
 /***/ }),
-/* 176 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var freeGlobal = __webpack_require__(177);
+	var freeGlobal = __webpack_require__(174);
 
 	/** Detect free variable `self`. */
 	var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -21147,7 +21029,7 @@
 	module.exports = root;
 
 /***/ }),
-/* 177 */
+/* 174 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -21161,12 +21043,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 178 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(175);
+	var _Symbol = __webpack_require__(172);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -21214,7 +21096,7 @@
 	module.exports = getRawTag;
 
 /***/ }),
-/* 179 */
+/* 176 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21243,12 +21125,12 @@
 	module.exports = objectToString;
 
 /***/ }),
-/* 180 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var overArg = __webpack_require__(181);
+	var overArg = __webpack_require__(178);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -21256,7 +21138,7 @@
 	module.exports = getPrototype;
 
 /***/ }),
-/* 181 */
+/* 178 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21278,7 +21160,7 @@
 	module.exports = overArg;
 
 /***/ }),
-/* 182 */
+/* 179 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21316,15 +21198,15 @@
 	module.exports = isObjectLike;
 
 /***/ }),
-/* 183 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(184);
+	module.exports = __webpack_require__(181);
 
 /***/ }),
-/* 184 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
@@ -21333,7 +21215,7 @@
 	  value: true
 	});
 
-	var _ponyfill = __webpack_require__(186);
+	var _ponyfill = __webpack_require__(183);
 
 	var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -21357,10 +21239,10 @@
 
 	var result = (0, _ponyfill2['default'])(root);
 	exports['default'] = result;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(185)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(182)(module)))
 
 /***/ }),
-/* 185 */
+/* 182 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21377,7 +21259,7 @@
 	};
 
 /***/ }),
-/* 186 */
+/* 183 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21405,7 +21287,7 @@
 	};
 
 /***/ }),
-/* 187 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -21413,13 +21295,13 @@
 	exports.__esModule = true;
 	exports['default'] = combineReducers;
 
-	var _createStore = __webpack_require__(172);
+	var _createStore = __webpack_require__(169);
 
-	var _isPlainObject = __webpack_require__(173);
+	var _isPlainObject = __webpack_require__(170);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _warning = __webpack_require__(188);
+	var _warning = __webpack_require__(185);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -21556,7 +21438,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 188 */
+/* 185 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21586,7 +21468,7 @@
 	}
 
 /***/ }),
-/* 189 */
+/* 186 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21644,7 +21526,7 @@
 	}
 
 /***/ }),
-/* 190 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21663,7 +21545,7 @@
 
 	exports['default'] = applyMiddleware;
 
-	var _compose = __webpack_require__(191);
+	var _compose = __webpack_require__(188);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -21717,7 +21599,7 @@
 	}
 
 /***/ }),
-/* 191 */
+/* 188 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21758,14 +21640,14 @@
 	}
 
 /***/ }),
-/* 192 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var baseGetTag = __webpack_require__(193),
-	    getPrototype = __webpack_require__(199),
-	    isObjectLike = __webpack_require__(201);
+	var baseGetTag = __webpack_require__(190),
+	    getPrototype = __webpack_require__(196),
+	    isObjectLike = __webpack_require__(198);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -21826,14 +21708,14 @@
 	module.exports = isPlainObject;
 
 /***/ }),
-/* 193 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(194),
-	    getRawTag = __webpack_require__(197),
-	    objectToString = __webpack_require__(198);
+	var _Symbol = __webpack_require__(191),
+	    getRawTag = __webpack_require__(194),
+	    objectToString = __webpack_require__(195);
 
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -21859,12 +21741,12 @@
 	module.exports = baseGetTag;
 
 /***/ }),
-/* 194 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var root = __webpack_require__(195);
+	var root = __webpack_require__(192);
 
 	/** Built-in value references. */
 	var _Symbol = root.Symbol;
@@ -21872,14 +21754,14 @@
 	module.exports = _Symbol;
 
 /***/ }),
-/* 195 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var freeGlobal = __webpack_require__(196);
+	var freeGlobal = __webpack_require__(193);
 
 	/** Detect free variable `self`. */
 	var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -21890,7 +21772,7 @@
 	module.exports = root;
 
 /***/ }),
-/* 196 */
+/* 193 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -21904,12 +21786,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 197 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(194);
+	var _Symbol = __webpack_require__(191);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -21957,7 +21839,7 @@
 	module.exports = getRawTag;
 
 /***/ }),
-/* 198 */
+/* 195 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -21986,12 +21868,12 @@
 	module.exports = objectToString;
 
 /***/ }),
-/* 199 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var overArg = __webpack_require__(200);
+	var overArg = __webpack_require__(197);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -21999,7 +21881,7 @@
 	module.exports = getPrototype;
 
 /***/ }),
-/* 200 */
+/* 197 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -22021,7 +21903,7 @@
 	module.exports = overArg;
 
 /***/ }),
-/* 201 */
+/* 198 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -22059,7 +21941,7 @@
 	module.exports = isObjectLike;
 
 /***/ }),
-/* 202 */
+/* 199 */
 /***/ (function(module, exports) {
 
 	/**
@@ -22113,7 +21995,7 @@
 	};
 
 /***/ }),
-/* 203 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22167,7 +22049,52 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 204 */
+/* 201 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.showModal = showModal;
+	exports.editRecipe = editRecipe;
+	exports.selectRecipe = selectRecipe;
+	exports.addRecipe = addRecipe;
+	exports.deleteRecipe = deleteRecipe;
+	function showModal(modalstate, context) {
+		return {
+			type: 'MODALSTATE',
+			payload: { modalstate: modalstate, context: context // context.type = ADDRECIPEFORM or EDITRECIPEFORM, context.data = {recipetitle, ingredients}
+			} };
+	}
+	function editRecipe(changedRecipe) {
+		return {
+			type: 'EDITRECIPES',
+			payload: { index: changedRecipe.index, title: changedRecipe.title, ingredient: changedRecipe.ingredient }
+		};
+	}
+	function selectRecipe(Recipe) {
+		return {
+			type: 'SELECTEDRECIPE',
+			payload: { index: Recipe.index, title: Recipe.title, ingredient: Recipe.ingredient }
+		};
+	}
+	function addRecipe(Recipe) {
+		return {
+			type: 'ADDRECIPE',
+			payload: { title: Recipe.title, ingredient: Recipe.ingredient }
+		};
+	}
+	function deleteRecipe(index) {
+		return {
+			type: 'DELETERECIPE',
+			payload: index
+		};
+	}
+
+/***/ }),
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22176,17 +22103,17 @@
 		value: true
 	});
 
-	var _redux = __webpack_require__(171);
+	var _redux = __webpack_require__(168);
 
-	var _reducer_recipes = __webpack_require__(205);
+	var _reducer_recipes = __webpack_require__(203);
 
 	var _reducer_recipes2 = _interopRequireDefault(_reducer_recipes);
 
-	var _reducer_modalstate = __webpack_require__(208);
+	var _reducer_modalstate = __webpack_require__(204);
 
 	var _reducer_modalstate2 = _interopRequireDefault(_reducer_modalstate);
 
-	var _reducer_selectedRecipe = __webpack_require__(212);
+	var _reducer_selectedRecipe = __webpack_require__(205);
 
 	var _reducer_selectedRecipe2 = _interopRequireDefault(_reducer_selectedRecipe);
 
@@ -22201,7 +22128,7 @@
 	exports.default = rootReducer;
 
 /***/ }),
-/* 205 */
+/* 203 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -22284,6 +22211,53 @@
 	};
 
 /***/ }),
+/* 204 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+		var action = arguments[1];
+
+
+		switch (action.type) {
+			case 'MODALSTATE':
+				return action.payload;
+		}
+
+		return state;
+	};
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+		var action = arguments[1];
+
+
+		switch (action.type) {
+			case 'SELECTEDRECIPE':
+				// console.log(action);		
+				return action.payload;
+		}
+
+		return state;
+	};
+
+/***/ }),
 /* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22303,19 +22277,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _listofrecipes = __webpack_require__(164);
+	var _listofrecipes = __webpack_require__(160);
 
 	var _listofrecipes2 = _interopRequireDefault(_listofrecipes);
 
-	var _modal = __webpack_require__(162);
+	var _modal = __webpack_require__(207);
 
 	var _modal2 = _interopRequireDefault(_modal);
 
-	var _reactRedux = __webpack_require__(165);
+	var _reactRedux = __webpack_require__(162);
 
-	var _redux = __webpack_require__(171);
+	var _redux = __webpack_require__(168);
 
-	var _index = __webpack_require__(207);
+	var _index = __webpack_require__(201);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22381,74 +22355,122 @@
 
 /***/ }),
 /* 207 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.showModal = showModal;
-	exports.editRecipe = editRecipe;
-	exports.selectRecipe = selectRecipe;
-	exports.addRecipe = addRecipe;
-	exports.deleteRecipe = deleteRecipe;
-	function showModal(modalstate, context) {
-		return {
-			type: 'MODALSTATE',
-			payload: { modalstate: modalstate, context: context // context.type = ADDRECIPEFORM or EDITRECIPEFORM, context.data = {recipetitle, ingredients}
-			} };
-	}
-	function editRecipe(changedRecipe) {
-		return {
-			type: 'EDITRECIPES',
-			payload: { index: changedRecipe.index, title: changedRecipe.title, ingredient: changedRecipe.ingredient }
-		};
-	}
-	function selectRecipe(Recipe) {
-		return {
-			type: 'SELECTEDRECIPE',
-			payload: { index: Recipe.index, title: Recipe.title, ingredient: Recipe.ingredient }
-		};
-	}
-	function addRecipe(Recipe) {
-		return {
-			type: 'ADDRECIPE',
-			payload: { title: Recipe.title, ingredient: Recipe.ingredient }
-		};
-	}
-	function deleteRecipe(index) {
-		return {
-			type: 'DELETERECIPE',
-			payload: index
-		};
-	}
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _addrecipeform = __webpack_require__(208);
+
+	var _addrecipeform2 = _interopRequireDefault(_addrecipeform);
+
+	var _edit_recipeform = __webpack_require__(209);
+
+	var _edit_recipeform2 = _interopRequireDefault(_edit_recipeform);
+
+	var _reactRedux = __webpack_require__(162);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Modal = function (_React$Component) {
+		_inherits(Modal, _React$Component);
+
+		function Modal(props) {
+			_classCallCheck(this, Modal);
+
+			var _this = _possibleConstructorReturn(this, (Modal.__proto__ || Object.getPrototypeOf(Modal)).call(this, props));
+
+			_this.modalstate = false;
+			_this.context = null;
+
+			return _this;
+		}
+
+		_createClass(Modal, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				this.selectedRecipe = nextProps.selectedRecipe;
+				this.modalstate = nextProps.modalstate.modalstate;
+				this.closemodal = nextProps.closemodal;
+				this.editRecipe = nextProps.editRecipe;
+				this.context = nextProps.modalstate.context;
+				this.addRecipe = nextProps.addRecipe;
+				this.deleteRecipe = nextProps.deleteRecipe;
+
+				if (this.modalstate) {
+					this.modalTarget = document.createElement('div');
+					this.modalTarget.className = 'modal';
+					document.body.appendChild(this.modalTarget);
+					this._render();
+				} else {
+					this.componentWillUnmount();
+				}
+			}
+		}, {
+			key: 'componentWillUpdate',
+			value: function componentWillUpdate() {
+
+				this._render();
+			}
+		}, {
+			key: 'componentWillUnmount',
+			value: function componentWillUnmount() {
+				_reactDom2.default.unmountComponentAtNode(this.modalTarget);
+				document.body.removeChild(this.modalTarget);
+			}
+		}, {
+			key: '_render',
+			value: function _render() {
+
+				if (this.modalstate) {
+
+					_reactDom2.default.render(_react2.default.createElement(
+						'div',
+						{ className: 'modalcontainer' },
+						this.props.children,
+						this.context === 'CONTEXT_ADDRECIPE' && _react2.default.createElement(_addrecipeform2.default, { addRecipe: this.addRecipe }),
+						this.context === 'EDIT_RECIPE' && _react2.default.createElement(_edit_recipeform2.default, { deleteRecipe: this.deleteRecipe, editRecipe: this.editRecipe, selectedRecipe: this.selectedRecipe }),
+						_react2.default.createElement(
+							'button',
+							{ onClick: this.closemodal },
+							'close modal'
+						)
+					), this.modalTarget);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement('noscript', null);
+			}
+		}]);
+
+		return Modal;
+	}(_react2.default.Component);
+
+	exports.default = Modal;
 
 /***/ }),
 /* 208 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-
-
-		switch (action.type) {
-			case 'MODALSTATE':
-				return action.payload;
-		}
-
-		return state;
-	};
-
-/***/ }),
-/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22532,7 +22554,7 @@
 	exports.default = addrecipeform;
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22628,31 +22650,6 @@
 	}(_react2.default.Component);
 
 	exports.default = editrecipeform;
-
-/***/ }),
-/* 211 */,
-/* 212 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-
-
-		switch (action.type) {
-			case 'SELECTEDRECIPE':
-				// console.log(action);		
-				return action.payload;
-		}
-
-		return state;
-	};
 
 /***/ })
 /******/ ]);

@@ -19,13 +19,7 @@ class RecipeBox extends React.Component{
 	render(){
 		return(
 			<div id="mymodal">
-			{
 
-
-
-			
-			
-			}
 				<Modal  deleteRecipe={this.props.deleteRecipe} addRecipe={this.props.addRecipe} editRecipe={this.props.editRecipe} selectedRecipe={this.props.selectedRecipe} modalstate={this.props.modalstate} closemodal={()=>{this.closemodal()}} >
 
 				</Modal>
