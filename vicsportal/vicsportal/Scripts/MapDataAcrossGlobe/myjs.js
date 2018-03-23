@@ -9,8 +9,8 @@ d3.queue()
 	.defer(d3.json,"https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json")
 	.await(ready)
 
-	var projection = d3.geoMercator().translate([1200,600])
-							.scale(200)
+	var projection = d3.geoMercator().translate([900,600])
+							.scale(300)
 
 	var path=d3.geoPath().projection(projection)
 
@@ -45,6 +45,7 @@ function ready(error,data,meteors){
 		
 		var circles = d3.select('.vizgraph').append('g').selectAll('.meteor').data(meteors)
 					.enter().append('circle')
+					.classed('meteor',true)
 					.attr('cx',function(d){
 						if(d.geometry===null){
 							return 1
@@ -66,13 +67,13 @@ function ready(error,data,meteors){
 						var mass = d.properties.mass
 						// d.properties.mass>0? return 5 : return 10
 						if(mass<1000){
-							return 1
+							return 3
 						}
 						if(mass>10000&&mass<100000){
-							return 2
+							return 4
 						}
 						else if(mass>100000&&mass<1000000){
-							return 5
+							return 6
 
 						}else if(mass>1000000&&mass<10000000){
 							return 15
