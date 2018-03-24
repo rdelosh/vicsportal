@@ -1,0 +1,15 @@
+svg{
+	background-color: #3399ff;
+	
+	margin:0;
+	padding:0;
+}
+.country{
+	fill:#ffcc00;
+	stroke:black;
+	stroke-width:2;
+}
+.meteor{
+	fill:#990000;
+}
+

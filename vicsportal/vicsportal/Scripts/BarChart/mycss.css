@@ -7,3 +7,23 @@ svg{
 	fill:#0080ff;
 	/*transform: translate(300,40)*/
 }
+.githubsourcecode {
+    margin:0;
+    
+    border: 5px solid black;
+    text-decoration: none;
+    background-color: #99ccff;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 25px;
+    
+    opacity: 0.8
+}
+
+    .githubsourcecode:hover {
+        color: #fff;
+        opacity: 1;
+        text-decoration: none;
+        box-shadow: 5px 10px #888888:
+    }
+           
