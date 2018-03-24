@@ -225,6 +225,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Microsoft.WebSockets.dll" />
+    <Content Include="Scripts\BarChart\mycss.css" />
+    <Content Include="Scripts\BarChart\myjs.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -258,18 +260,31 @@
     <Content Include="Scripts\Camper Leaderboard\index.html" />
     <Content Include="Scripts\Camper Leaderboard\package.json" />
     <Content Include="Scripts\Camper Leaderboard\.babelrc" />
+    <Content Include="Scripts\ForceDirectedGraph\flags\README.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Camper Leaderboard\webpack.config.js" />
     <Content Include="Scripts\Camper Leaderboard\wwwroot\js\bundle.js" />
+    <Content Include="Scripts\ForceDirectedGraph\flags\blank.gif" />
+    <Content Include="Scripts\ForceDirectedGraph\flags\flags.css" />
+    <Content Include="Scripts\ForceDirectedGraph\flags\flags.min.css" />
+    <Content Include="Scripts\ForceDirectedGraph\flags\flags.png" />
+    <Content Include="Scripts\ForceDirectedGraph\mycss.css" />
+    <Content Include="Scripts\ForceDirectedGraph\myjs.js" />
     <Content Include="Scripts\GameOfLife\wwwroot\js\bundle.js" />
+    <Content Include="Scripts\HeatMap\mycss.css" />
+    <Content Include="Scripts\HeatMap\myjs.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\MapDataAcrossGlobe\mycss.css" />
+    <Content Include="Scripts\MapDataAcrossGlobe\myjs.js" />
     <Content Include="Scripts\MarkDownPreviewer\wwwroot\js\bundle.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\RecipeBox\wwwroot\js\bundle.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\RogueLikeDungeonGame\wwwroot\js\bundle.js" />
+    <Content Include="Scripts\ScatterPlot\mycss.css" />
+    <Content Include="Scripts\ScatterPlot\myjs.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -300,6 +315,12 @@
     <Content Include="Views\freecodecamp\RecipeBox.cshtml" />
     <Content Include="Views\freecodecamp\GameOfLife.cshtml" />
     <Content Include="Views\freecodecamp\RogueLikeDungeonGame.cshtml" />
+    <Content Include="Views\freecodecamp\BarChart.cshtml" />
+    <Content Include="Views\freecodecamp\ForceDirectedGraph.cshtml" />
+    <Content Include="Views\freecodecamp\HeatMap.cshtml" />
+    <Content Include="Scripts\MapDataAcrossGlobe\world.topojson" />
+    <Content Include="Views\freecodecamp\MapDataAcrossGlobe.cshtml" />
+    <Content Include="Views\freecodecamp\ScatterPlot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -76,5 +76,29 @@ namespace vicsportal.Controllers
         {
             return View();
         }
+        public ActionResult BarChart()
+        {
+            return View();
+        }
+        public ActionResult ForceDirectedGraph()
+        {
+            return View();
+        }
+        public ActionResult HeatMap()
+        {
+            return View();
+        }
+        public ActionResult ScatterPlot()
+        {
+            return View();
+        }
+        public ActionResult MapDataAcrossGlobe()
+        {
+            return View();
+        }
+
+
+
+
     }
 }

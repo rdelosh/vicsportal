@@ -27,6 +27,7 @@ function ready(error,data,meteors){
 
 	var tooltip = d3.select('body')
 					.append('div')
+						.classed('tooltip',true)
 						.style('position','absolute')
 						.style('background','#fff')
 						.style('margin', '0 35px 100px')
@@ -86,6 +87,7 @@ function ready(error,data,meteors){
 					.style('opacity',0.5)
 					.on('mouseover',function(d){
 						tooltip.transition().duration(200)
+
 								.style('opacity',.9)
 						tooltip.html(function(){
 							return "name: " + d.properties.name + "<br />"+
